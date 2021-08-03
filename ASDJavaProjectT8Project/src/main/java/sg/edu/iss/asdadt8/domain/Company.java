@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-
+@Entity
 public class Company {
 	
 	@Id
@@ -20,35 +21,30 @@ public class Company {
 	
 	private float starRating;
 	
-	@OneToMany(mappedBy="company", cascade = CascadeType.ALL)
-	private List<ViewedJobs> viewedJobs = new ArrayList<>();
-	
 	@OneToOne (mappedBy="company", cascade = CascadeType.ALL)
 	private Review review;
 	
 	@OneToMany (mappedBy="company", cascade = CascadeType.ALL)
-	private Job job;
+	private List<Job> job = new ArrayList<>();
 
 	public Company() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Company(long id, String name, float starRating, List<ViewedJobs> viewedJobs, Review review, Job job) {
+	public Company(long id, String name, float starRating, Review review, List<Job> job) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.starRating = starRating;
-		this.viewedJobs = viewedJobs;
 		this.review = review;
 		this.job = job;
 	}
 
-	public Company(String name, float starRating, List<ViewedJobs> viewedJobs, Review review, Job job) {
+	public Company(String name, float starRating, Review review, List<Job> job) {
 		super();
 		this.name = name;
 		this.starRating = starRating;
-		this.viewedJobs = viewedJobs;
 		this.review = review;
 		this.job = job;
 	}
@@ -77,13 +73,6 @@ public class Company {
 		this.starRating = starRating;
 	}
 
-	public List<ViewedJobs> getViewedJobs() {
-		return viewedJobs;
-	}
-
-	public void setViewedJobs(List<ViewedJobs> viewedJobs) {
-		this.viewedJobs = viewedJobs;
-	}
 
 	public Review getReview() {
 		return review;
@@ -93,11 +82,11 @@ public class Company {
 		this.review = review;
 	}
 
-	public Job getJob() {
+	public List<Job> getJob() {
 		return job;
 	}
 
-	public void setJob(Job job) {
+	public void setJob(List<Job> job) {
 		this.job = job;
 	}
 	

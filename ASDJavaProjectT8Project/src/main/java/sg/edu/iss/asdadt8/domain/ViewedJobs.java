@@ -2,13 +2,14 @@ package sg.edu.iss.asdadt8.domain;
 
 import java.time.LocalDate;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 import org.springframework.format.annotation.DateTimeFormat;
-
+@Entity
 public class ViewedJobs {
 	
 	@Id
