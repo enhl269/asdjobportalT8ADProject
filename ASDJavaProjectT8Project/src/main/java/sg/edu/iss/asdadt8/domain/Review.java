@@ -1,10 +1,14 @@
 package sg.edu.iss.asdadt8.domain;
 
+import java.time.LocalDate;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+
+import org.springframework.format.annotation.DateTimeFormat;
 @Entity
 public class Review {
 	
@@ -17,6 +21,9 @@ public class Review {
 	private String reviewDescription;
 	
 	private String reviewStatus;
+	
+	@DateTimeFormat (pattern="yyyy-MM-dd")
+	private LocalDate reviewDate;
 	
 	@OneToOne
 	private Company company;
@@ -32,7 +39,7 @@ public class Review {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Review(long id, float reviewstars, String reviewDescription, String reviewStatus, Company company,
+	public Review(long id, float reviewstars, String reviewDescription, String reviewStatus, Company company, LocalDate reviewDate,
 			Applicant applicant) {
 		super();
 		this.id = id;
@@ -41,9 +48,10 @@ public class Review {
 		this.reviewStatus = reviewStatus;
 		this.company = company;
 		this.applicant = applicant;
+		this.reviewDate=reviewDate;
 	}
 
-	public Review(float reviewstars, String reviewDescription, String reviewStatus, Company company,
+	public Review(float reviewstars, String reviewDescription, String reviewStatus, Company company,LocalDate reviewDate,
 			Applicant applicant) {
 		super();
 		this.reviewstars = reviewstars;
@@ -51,6 +59,7 @@ public class Review {
 		this.reviewStatus = reviewStatus;
 		this.company = company;
 		this.applicant = applicant;
+		this.reviewDate=reviewDate;
 	}
 
 	public long getId() {
@@ -101,8 +110,12 @@ public class Review {
 		this.applicant = applicant;
 	}
 	
-	
-	
-	
+	public LocalDate getReviewDate() {
+		return reviewDate;
+	}
+
+	public void setReviewDate(LocalDate reviewDate) {
+		this.reviewDate = reviewDate;
+	}
 
 }
