@@ -21,8 +21,8 @@ public class Company {
 	
 	private float starRating;
 	
-	@OneToOne (mappedBy="company", cascade = CascadeType.ALL)
-	private Review review;
+	@OneToMany (mappedBy="company", cascade = CascadeType.ALL)
+	private List<Review> reviews = new ArrayList<>();
 	
 	@OneToMany (mappedBy="company", cascade = CascadeType.ALL)
 	private List<Job> job = new ArrayList<>();
@@ -32,20 +32,20 @@ public class Company {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Company(long id, String name, float starRating, Review review, List<Job> job) {
+	public Company(long id, String name, float starRating, List<Review> reviews, List<Job> job) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.starRating = starRating;
-		this.review = review;
+		this.reviews = reviews;
 		this.job = job;
 	}
 
-	public Company(String name, float starRating, Review review, List<Job> job) {
+	public Company(String name, float starRating, List<Review> reviews, List<Job> job) {
 		super();
 		this.name = name;
 		this.starRating = starRating;
-		this.review = review;
+		this.reviews = reviews;
 		this.job = job;
 	}
 
@@ -74,12 +74,12 @@ public class Company {
 	}
 
 
-	public Review getReview() {
-		return review;
+	public List<Review> getReview() {
+		return reviews;
 	}
 
-	public void setReview(Review review) {
-		this.review = review;
+	public void setReview(List<Review> reviews) {
+		this.reviews = reviews;
 	}
 
 	public List<Job> getJob() {
