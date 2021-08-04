@@ -22,6 +22,9 @@ public class Review {
 	private Company company;
 	
 	@OneToOne
+	private Job job;
+	
+	@OneToOne
 	private Applicant applicant;
 
 	public Review() {

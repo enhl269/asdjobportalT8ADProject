@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 @Entity
 public class Job {
 	
@@ -38,6 +39,9 @@ public class Job {
 	
 	@OneToMany(mappedBy="job", cascade = CascadeType.ALL)
 	private List<BookmarkedJobs> bookmarkedJobs = new ArrayList<>();
+	
+	@OneToOne (mappedBy="job", cascade = CascadeType.ALL)
+	private Review review;
 
 	public Job() {
 		super();
@@ -45,7 +49,7 @@ public class Job {
 	}
 
 	public Job(long id, String jobDescription, int autismLevel, float jobStarRating, String jobPositionURL,
-			List<String> tags, Company company, List<ViewedJobs> viewedJobs, List<BookmarkedJobs> bookmarkedJobs) {
+			List<String> tags, Company company, List<ViewedJobs> viewedJobs, List<BookmarkedJobs> bookmarkedJobs,Review review) {
 		super();
 		this.id = id;
 		this.jobDescription = jobDescription;
@@ -56,10 +60,11 @@ public class Job {
 		this.company = company;
 		this.viewedJobs = viewedJobs;
 		this.bookmarkedJobs = bookmarkedJobs;
+		this.review = review;
 	}
 
 	public Job(String jobDescription, int autismLevel, float jobStarRating, String jobPositionURL, List<String> tags,
-			Company company, List<ViewedJobs> viewedJobs, List<BookmarkedJobs> bookmarkedJobs) {
+			Company company, List<ViewedJobs> viewedJobs, List<BookmarkedJobs> bookmarkedJobs,Review review) {
 		super();
 		this.jobDescription = jobDescription;
 		this.autismLevel = autismLevel;
@@ -69,6 +74,7 @@ public class Job {
 		this.company = company;
 		this.viewedJobs = viewedJobs;
 		this.bookmarkedJobs = bookmarkedJobs;
+		this.review = review;
 	}
 
 	public long getId() {
@@ -141,6 +147,13 @@ public class Job {
 
 	public void setBookmarkedJobs(List<BookmarkedJobs> bookmarkedJobs) {
 		this.bookmarkedJobs = bookmarkedJobs;
+	}
+	public Review getReview() {
+		return review;
+	}
+
+	public void setReview(Review review) {
+		this.review = review;
 	}
 	
 	
