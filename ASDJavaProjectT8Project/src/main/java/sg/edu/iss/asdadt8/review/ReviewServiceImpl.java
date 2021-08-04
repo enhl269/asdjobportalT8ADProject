@@ -9,5 +9,14 @@ public class ReviewServiceImpl {
 	
 	@Autowired
 	ReviewRepository rrepo;
+	
+	@Autowired
+	ApplicantRepository arepo;
+	
+	@Autowired
+	CompanyRepository crepo;
+	
+	@Autowired
+	JobRepository jrepo;	
 
 }
