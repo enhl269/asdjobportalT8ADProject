@@ -40,7 +40,7 @@ public class Job {
 	@OneToMany(mappedBy="job", cascade = CascadeType.ALL)
 	private List<BookmarkedJobs> bookmarkedJobs = new ArrayList<>();
 	
-	@OneToOne (mappedBy="job", cascade = CascadeType.ALL)
+	@OneToOne 
 	private Review review;
 
 	public Job() {
@@ -63,12 +63,17 @@ public class Job {
 		this.review = review;
 	}
 	
-	public Job(String jobDescription, int autismLevel, float jobStarRating, String jobPositionURL) {
+
+	public Job(String jobDescription, int autismLevel, float jobStarRating, String jobPositionURL, List<String> tags,
+			Company company, Review review) {
 		super();
 		this.jobDescription = jobDescription;
 		this.autismLevel = autismLevel;
 		this.jobStarRating = jobStarRating;
 		this.jobPositionURL = jobPositionURL;
+		this.tags = tags;
+		this.company = company;
+		this.review = review;
 	}
 
 	public Job(String jobDescription, int autismLevel, float jobStarRating, String jobPositionURL, List<String> tags,

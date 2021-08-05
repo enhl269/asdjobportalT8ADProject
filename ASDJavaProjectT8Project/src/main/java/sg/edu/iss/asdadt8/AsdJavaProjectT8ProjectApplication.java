@@ -1,6 +1,8 @@
 package sg.edu.iss.asdadt8;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -22,6 +24,7 @@ import sg.edu.iss.asdadt8.review.ReviewRepository;
 @SpringBootApplication
 public class AsdJavaProjectT8ProjectApplication {
 
+
 	@Autowired
 	CompanyRepository crepo;
 	
@@ -33,7 +36,6 @@ public class AsdJavaProjectT8ProjectApplication {
 	
 	@Autowired
 	ApplicantRepository arepo;
-	
 	
 	public static void main(String[] args) {
 		SpringApplication.run(AsdJavaProjectT8ProjectApplication.class, args);
@@ -53,17 +55,18 @@ public class AsdJavaProjectT8ProjectApplication {
 				user.setContactNumber("86325472");
 				user.setRoles(Role.APPLICANT.toString());
 				user.setAvatarImageUrl("/blahblah");
+
+				Company c = new Company("ABC Company", 4.2f); //job
+				
+				Review r = new Review(4f, "best place to work", "status", c, null,user);
+				
+				Job j = new Job("best job forever", 2, 3.5f, "/jobsback1",null, c,r);
 				
 				arepo.save(user);
-				
-				Company c = new Company("ABC Company", 4.2f, null, null);
 				crepo.save(c);
-				
-				Job j = new Job("best job forever", 2, 3.5f, "/jobsback1",null,c,null,null,null);
+				rrepo.save(r);
 				jrepo.save(j);
 				
-				Review r = new Review(4f, "best place to work", null, c, date,user);
-				rrepo.save(r);
 			};
 	}
 

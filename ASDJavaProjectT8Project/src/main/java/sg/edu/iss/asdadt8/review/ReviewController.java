@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import sg.edu.iss.asdadt8.domain.Company;
 import sg.edu.iss.asdadt8.domain.Review;
 
 
@@ -24,6 +25,27 @@ public class ReviewController {
 	@Autowired
 	ReviewService rservice;
 	
+	@Autowired
+	ReviewRepository rrepo;
+	
+	@Autowired
+	CompanyRepository crepo;
+	
+	
+	@GetMapping("/list")
+	public List<Review> allReview() {
+        return rrepo.findAll();
+    }
+	
+	@GetMapping("/company/{name}")
+	public List<Company> allCompanies(@PathVariable("name") String companyName) {
+        return crepo.findByCompanyName(companyName);
+    }
+
+	@GetMapping("/company/review/{name}")
+	public List<Review> allCompaniesReviews(@PathVariable("name") String companyName) {
+        return crepo.findByCompanyReview(companyName);
+    }
 	
 	@GetMapping("hello")
     public List<Review> getallReview() {
