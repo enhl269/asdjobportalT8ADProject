@@ -50,6 +50,17 @@ public class Applicant extends User {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	public Applicant(String resumeURl, String userStatus, String chatstatus, LocalDate dob, String gender,
+			String selfIntroduction) {
+		super();
+		this.resumeURl = resumeURl;
+		this.userStatus = userStatus;
+		this.chatstatus = chatstatus;
+		this.dob = dob;
+		this.gender = gender;
+		this.selfIntroduction = selfIntroduction;
+	}
 
 	public Applicant(String resumeURl, String userStatus, String chatstatus, LocalDate dob, String gender,
 			String selfIntroduction, List<ViewedJobs> viewedJobs, List<SocialGroup> socialGroups,

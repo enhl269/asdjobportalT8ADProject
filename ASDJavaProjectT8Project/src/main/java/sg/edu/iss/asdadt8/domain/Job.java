@@ -62,6 +62,14 @@ public class Job {
 		this.bookmarkedJobs = bookmarkedJobs;
 		this.review = review;
 	}
+	
+	public Job(String jobDescription, int autismLevel, float jobStarRating, String jobPositionURL) {
+		super();
+		this.jobDescription = jobDescription;
+		this.autismLevel = autismLevel;
+		this.jobStarRating = jobStarRating;
+		this.jobPositionURL = jobPositionURL;
+	}
 
 	public Job(String jobDescription, int autismLevel, float jobStarRating, String jobPositionURL, List<String> tags,
 			Company company, List<ViewedJobs> viewedJobs, List<BookmarkedJobs> bookmarkedJobs,Review review) {

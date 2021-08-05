@@ -31,6 +31,11 @@ public class Company {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	public Company(String name, float starRating) {
+		super();
+		this.name = name;
+		this.starRating = starRating;
+	}
 
 	public Company(long id, String name, float starRating, List<Review> reviews, List<Job> job) {
 		super();

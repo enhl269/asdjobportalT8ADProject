@@ -29,6 +29,11 @@ public class BookmarkedJobs {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	public BookmarkedJobs(LocalDate bookmarkDate) {
+		super();
+		this.bookmarkDate = bookmarkDate;
+	}
 
 	public BookmarkedJobs(long id, Job job, Applicant applicant, LocalDate bookmarkDate) {
 		super();

@@ -34,6 +34,13 @@ public class Resume {
 		this.experience = experience;
 		this.applicant = applicant;
 	}
+	
+	public Resume(String skillSet, String education, String experience) {
+		super();
+		this.skillSet = skillSet;
+		this.education = education;
+		this.experience = experience;
+	}
 
 	public Resume(String skillSet, String education, String experience, Applicant applicant) {
 		super();
