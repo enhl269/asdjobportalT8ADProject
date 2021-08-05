@@ -9,7 +9,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
+
 
 import sg.edu.iss.asdadt8.domain.Applicant;
 import sg.edu.iss.asdadt8.domain.Company;
@@ -21,7 +21,8 @@ import sg.edu.iss.asdadt8.review.CompanyRepository;
 import sg.edu.iss.asdadt8.review.JobRepository;
 import sg.edu.iss.asdadt8.review.ReviewRepository;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages={
+"sg.edu.iss.asdast8", "sg.edu.iss.asdast8.review"})
 public class AsdJavaProjectT8ProjectApplication {
 
 
@@ -40,7 +41,7 @@ public class AsdJavaProjectT8ProjectApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(AsdJavaProjectT8ProjectApplication.class, args);
 	}
-	
+
 	@Bean
 	CommandLineRunner runner()  {
 			return args->{
