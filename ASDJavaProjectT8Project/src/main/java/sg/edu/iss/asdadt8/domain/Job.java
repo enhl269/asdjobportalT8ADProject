@@ -62,7 +62,6 @@ public class Job {
 		this.bookmarkedJobs = bookmarkedJobs;
 		this.review = review;
 	}
-	
 
 	public Job(String jobDescription, int autismLevel, float jobStarRating, String jobPositionURL, List<String> tags,
 			Company company, Review review) {
@@ -75,6 +74,7 @@ public class Job {
 		this.company = company;
 		this.review = review;
 	}
+
 
 	public Job(String jobDescription, int autismLevel, float jobStarRating, String jobPositionURL, List<String> tags,
 			Company company, List<ViewedJobs> viewedJobs, List<BookmarkedJobs> bookmarkedJobs,Review review) {

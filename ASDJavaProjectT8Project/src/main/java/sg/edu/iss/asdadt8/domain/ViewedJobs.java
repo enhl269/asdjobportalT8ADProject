@@ -37,11 +37,6 @@ public class ViewedJobs {
 		this.applicant = applicant;
 		this.dateViewed = dateViewed;
 	}
-	
-	public ViewedJobs(LocalDate dateViewed) {
-		super();
-		this.dateViewed = dateViewed;
-	}
 
 	public ViewedJobs(Job job, Applicant applicant, LocalDate dateViewed) {
 		super();
