@@ -13,6 +13,8 @@ import javax.persistence.OneToOne;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @DiscriminatorValue("Applicant")
 public class Applicant extends User {	
@@ -31,29 +33,45 @@ public class Applicant extends User {
 	private String selfIntroduction;
 	
 	@OneToMany(mappedBy="applicant", cascade = CascadeType.ALL)
+	@JsonManagedReference
 	private List<ViewedJobs> viewedJobs = new ArrayList<>();
 	
 	@ManyToMany(mappedBy="applicants", cascade = CascadeType.ALL)
+	@JsonManagedReference
 	private List<SocialGroup> socialGroups = new ArrayList<>();
 	
 	@OneToMany(mappedBy="applicant", cascade = CascadeType.ALL)
+	@JsonManagedReference
 	private List<BookmarkedJobs> bookmarkedJobs = new ArrayList<>();
 	
-	@OneToOne (mappedBy="applicant", cascade = CascadeType.ALL)
+	@OneToOne (mappedBy="applicant")
+	@JsonManagedReference
 	private Resume resume;
 	
-	@OneToOne (mappedBy="applicant", cascade = CascadeType.ALL)
-	private Review review;
+	@OneToMany (mappedBy="applicant", cascade = CascadeType.ALL)
+	@JsonManagedReference
+	private List<Review> reviews;
 
 	
 	public Applicant() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	public Applicant(String resumeURl, String userStatus, String chatstatus, LocalDate dob, String gender,
+			String selfIntroduction) {
+		super();
+		this.resumeURl = resumeURl;
+		this.userStatus = userStatus;
+		this.chatstatus = chatstatus;
+		this.dob = dob;
+		this.gender = gender;
+		this.selfIntroduction = selfIntroduction;
+	}
 
 	public Applicant(String resumeURl, String userStatus, String chatstatus, LocalDate dob, String gender,
 			String selfIntroduction, List<ViewedJobs> viewedJobs, List<SocialGroup> socialGroups,
-			List<BookmarkedJobs> bookmarkedJobs, Resume resume, Review review) {
+			List<BookmarkedJobs> bookmarkedJobs, Resume resume, List<Review> reviews) {
 		super();
 		this.resumeURl = resumeURl;
 		this.userStatus = userStatus;
@@ -65,7 +83,7 @@ public class Applicant extends User {
 		this.socialGroups = socialGroups;
 		this.bookmarkedJobs = bookmarkedJobs;
 		this.resume = resume;
-		this.review = review;
+		this.reviews = reviews;
 	}
 
 
@@ -169,14 +187,20 @@ public class Applicant extends User {
 	}
 
 
-	public Review getReview() {
-		return review;
+	public List<Review> getReview() {
+		return reviews;
 	}
 
 
 	public void setReview(Review review) {
-		this.review = review;
+		this.reviews = reviews;
 	}
+
+	@Override
+	public String toString() {
+		return getFirstName() + " " + getLastName() ;
+	}
+	
 	
 	
 

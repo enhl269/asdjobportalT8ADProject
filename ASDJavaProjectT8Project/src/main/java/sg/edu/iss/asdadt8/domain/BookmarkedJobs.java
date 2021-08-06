@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 @Entity
 public class BookmarkedJobs {
 	
@@ -17,9 +19,11 @@ public class BookmarkedJobs {
 	private long id;
 	
 	@ManyToOne
+	@JsonBackReference
 	private Job job;
 	
 	@ManyToOne
+	@JsonBackReference
 	private Applicant applicant;
 	
 	@DateTimeFormat (pattern="yyyy-MM-dd")
@@ -28,6 +32,11 @@ public class BookmarkedJobs {
 	public BookmarkedJobs() {
 		super();
 		// TODO Auto-generated constructor stub
+	}
+	
+	public BookmarkedJobs(LocalDate bookmarkDate) {
+		super();
+		this.bookmarkDate = bookmarkDate;
 	}
 
 	public BookmarkedJobs(long id, Job job, Applicant applicant, LocalDate bookmarkDate) {

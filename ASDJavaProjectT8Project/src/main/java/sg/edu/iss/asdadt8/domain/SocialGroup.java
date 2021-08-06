@@ -9,6 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 @Entity
 public class SocialGroup {
 	
@@ -17,6 +19,7 @@ public class SocialGroup {
 	private long id;
 	
 	@ManyToMany
+	@JsonBackReference
 	private List<Applicant> applicants = new ArrayList<>();
 
 	public SocialGroup() {

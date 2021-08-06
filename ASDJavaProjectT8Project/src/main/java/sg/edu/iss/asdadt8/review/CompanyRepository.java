@@ -15,5 +15,12 @@ public interface CompanyRepository extends JpaRepository<Company,Long>{
 	
 	@Query("SELECT c.reviews FROM Company c WHERE c.name =?1")
 	List<Review> findByCompanyReview(String CompanyName);
+	
+	@Query("SELECT c FROM Company c")
+	List<Company> findAll();
+	
+	@Query("SELECT c FROM Company c WHERE c.name =?1")
+	List<Company> findByReviewByCompany(String CompanyName);
+	
 
 }

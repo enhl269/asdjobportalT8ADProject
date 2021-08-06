@@ -9,7 +9,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Entity
 public class Company {
 	
@@ -22,14 +23,21 @@ public class Company {
 	private float starRating;
 	
 	@OneToMany (mappedBy="company", cascade = CascadeType.ALL)
+	@JsonManagedReference
 	private List<Review> reviews = new ArrayList<>();
 	
 	@OneToMany (mappedBy="company", cascade = CascadeType.ALL)
+	@JsonManagedReference
 	private List<Job> job = new ArrayList<>();
 
 	public Company() {
 		super();
 		// TODO Auto-generated constructor stub
+	}
+	public Company(String name, float starRating) {
+		super();
+		this.name = name;
+		this.starRating = starRating;
 	}
 
 	public Company(long id, String name, float starRating, List<Review> reviews, List<Job> job) {
@@ -47,14 +55,6 @@ public class Company {
 		this.starRating = starRating;
 		this.reviews = reviews;
 		this.job = job;
-	}
-	
-	
-
-	public Company(String name, float starRating) {
-		super();
-		this.name = name;
-		this.starRating = starRating;
 	}
 
 	public long getId() {

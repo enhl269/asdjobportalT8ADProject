@@ -5,6 +5,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 @Entity
 public class Resume {
 	
@@ -19,6 +21,7 @@ public class Resume {
 	private String experience;
 	
 	@OneToOne
+	@JsonBackReference
 	private Applicant applicant;
 
 	public Resume() {
@@ -33,6 +36,13 @@ public class Resume {
 		this.education = education;
 		this.experience = experience;
 		this.applicant = applicant;
+	}
+	
+	public Resume(String skillSet, String education, String experience) {
+		super();
+		this.skillSet = skillSet;
+		this.education = education;
+		this.experience = experience;
 	}
 
 	public Resume(String skillSet, String education, String experience, Applicant applicant) {

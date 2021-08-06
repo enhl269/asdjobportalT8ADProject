@@ -5,20 +5,25 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Entity
 public class Job {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
+	
+	private String jobTitle;
+	
+	private String jobIndustry;
 	
 	private String jobDescription;
 	
@@ -32,26 +37,32 @@ public class Job {
 	private List<String> tags;
 	
 	@ManyToOne 
+	@JsonBackReference
 	private Company company;
 	
 	@OneToMany(mappedBy="job", cascade = CascadeType.ALL)
+	@JsonManagedReference
 	private List<ViewedJobs> viewedJobs = new ArrayList<>();
 	
 	@OneToMany(mappedBy="job", cascade = CascadeType.ALL)
+	@JsonManagedReference
 	private List<BookmarkedJobs> bookmarkedJobs = new ArrayList<>();
 	
-	@OneToOne 
-	private Review review;
+	@OneToMany (mappedBy="job", cascade = CascadeType.ALL)
+	@JsonManagedReference
+	private List<Review> reviews= new ArrayList<>();
 
 	public Job() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Job(long id, String jobDescription, int autismLevel, float jobStarRating, String jobPositionURL,
-			List<String> tags, Company company, List<ViewedJobs> viewedJobs, List<BookmarkedJobs> bookmarkedJobs,Review review) {
+	public Job(long id, String jobTitle,String jobIndustry, String jobDescription, int autismLevel, float jobStarRating, String jobPositionURL,
+			List<String> tags, Company company, List<ViewedJobs> viewedJobs, List<BookmarkedJobs> bookmarkedJobs,List<Review> reviews) {
 		super();
 		this.id = id;
+		this.jobTitle = jobTitle;
+		this.jobIndustry = jobIndustry;
 		this.jobDescription = jobDescription;
 		this.autismLevel = autismLevel;
 		this.jobStarRating = jobStarRating;
@@ -60,25 +71,29 @@ public class Job {
 		this.company = company;
 		this.viewedJobs = viewedJobs;
 		this.bookmarkedJobs = bookmarkedJobs;
-		this.review = review;
+		this.reviews = reviews;
 	}
+	
 
-	public Job(String jobDescription, int autismLevel, float jobStarRating, String jobPositionURL, List<String> tags,
-			Company company, Review review) {
+	public Job(String jobTitle,String jobIndustry,String jobDescription, int autismLevel, float jobStarRating, String jobPositionURL, List<String> tags,
+			Company company, List<Review> reviews) {
 		super();
+		this.jobTitle = jobTitle;
+		this.jobIndustry = jobIndustry;
 		this.jobDescription = jobDescription;
 		this.autismLevel = autismLevel;
 		this.jobStarRating = jobStarRating;
 		this.jobPositionURL = jobPositionURL;
 		this.tags = tags;
 		this.company = company;
-		this.review = review;
+		this.reviews = reviews;
 	}
 
-
-	public Job(String jobDescription, int autismLevel, float jobStarRating, String jobPositionURL, List<String> tags,
-			Company company, List<ViewedJobs> viewedJobs, List<BookmarkedJobs> bookmarkedJobs,Review review) {
+	public Job(String jobTitle,String jobIndustry,String jobDescription, int autismLevel, float jobStarRating, String jobPositionURL, List<String> tags,
+			Company company, List<ViewedJobs> viewedJobs, List<BookmarkedJobs> bookmarkedJobs,List<Review> reviews) {
 		super();
+		this.jobTitle = jobTitle;
+		this.jobIndustry = jobIndustry;
 		this.jobDescription = jobDescription;
 		this.autismLevel = autismLevel;
 		this.jobStarRating = jobStarRating;
@@ -87,7 +102,7 @@ public class Job {
 		this.company = company;
 		this.viewedJobs = viewedJobs;
 		this.bookmarkedJobs = bookmarkedJobs;
-		this.review = review;
+		this.reviews = reviews;
 	}
 
 	public long getId() {
@@ -96,6 +111,22 @@ public class Job {
 
 	public void setId(long id) {
 		this.id = id;
+	}
+	
+	public String getJobTitle() {
+		return jobTitle;
+	}
+
+	public void setJobTitle(String jobTitle) {
+		this.jobTitle = jobTitle;
+	}
+	
+	public String getJobIndustry() {
+		return jobIndustry;
+	}
+
+	public void setJobIndustry(String jobIndustry) {
+		this.jobIndustry = jobIndustry;
 	}
 
 	public String getJobDescription() {
@@ -161,12 +192,12 @@ public class Job {
 	public void setBookmarkedJobs(List<BookmarkedJobs> bookmarkedJobs) {
 		this.bookmarkedJobs = bookmarkedJobs;
 	}
-	public Review getReview() {
-		return review;
+	public List<Review> getReview() {
+		return reviews;
 	}
 
-	public void setReview(Review review) {
-		this.review = review;
+	public void setReview(List<Review> reviews) {
+		this.reviews = reviews;
 	}
 	
 	

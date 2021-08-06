@@ -1,5 +1,8 @@
 package sg.edu.iss.asdadt8.review;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,40 +34,94 @@ public class ReviewController {
 	@Autowired
 	CompanyRepository crepo;
 	
+	@Autowired
+	JobRepository jrepo;
 	
-	@GetMapping("/list")
-	public List<Review> allReview() {
-        return rrepo.findAll();
+	@Autowired
+	ApplicantRepository arepo;
+	
+	
+    @GetMapping("list")
+	public List<ReviewDTO> allReview() {
+		List<Review> r = rrepo.findAll();
+		return generateLists(r);
     }
 	
 	@GetMapping("/company/{name}")
 	public List<Company> allCompanies(@PathVariable("name") String companyName) {
         return crepo.findByCompanyName(companyName);
     }
-
-	@GetMapping("/company/review/{name}")
-	public List<Review> allCompaniesReviews(@PathVariable("name") String companyName) {
-        return crepo.findByCompanyReview(companyName);
+	
+	@GetMapping("/review/list")
+	public List<CompaniesReviewDTO> allCompanyReview() {
+        return rservice.showAllCompaniesReviews();
 	}
 
-	
-	@PostMapping(path ="/newreview", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<Review> saveReview(@RequestBody Review review) {
-        rservice.save(review);
-        HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.add("review", "/api/review/" + Long.toString(review.getId()));
-        return new ResponseEntity<>(review, httpHeaders, HttpStatus.CREATED);
-    }
+//	@GetMapping("/company/review/{name}")
+//	public List<CompaniesReviewDTO> allCompaniesReviews(@PathVariable("name") String companyName) {
+//        return rservice.showByCompanyReview(companyName);
+//	}
 
-    @DeleteMapping("/deletereview/{reviewid}")
-    public ResponseEntity<Void> deleteReview(@PathVariable("reviewid") Long id) {
-    	try {
-    		rservice.delete(id);
-        } catch (Exception e) {
-           return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.noContent().build();
+
+	@GetMapping("company/review/{companyname}")
+	public List<ReviewDTO> allCompaniesReviews(@PathVariable("companyname") String companyName) {
+		List<Review> r = crepo.findByCompanyReview(companyName);
+		return generateLists(r);
     }
-    
+	
+	@GetMapping("user/review/{userid}")
+	public List<ReviewDTO> findReviewByUser(@PathVariable("userid") Long userid) {
+		List<Review> r =arepo.findByApplicantReview(userid);
+		return generateLists(r);
+    }	
+	
+	@GetMapping("job/review/{jobtitle}")
+	public List<ReviewDTO> findReviewByJob(@PathVariable("jobtitle") String jobTitle) {
+		List<Review> r =jrepo.findByJobReview(jobTitle);
+		return generateLists(r);
+    }	
+	
+	@GetMapping("job/company/{jobtitle}/{companyname}")
+	public List<ReviewDTO> findReviewByJobandCompany(@PathVariable("jobtitle") String jobTitle,@PathVariable("companyname") String companyName) {
+		List<Review> r = rrepo.findReviewsByCompanynameandJobTitle(companyName, jobTitle);
+		return generateLists(r);
+    }	
+		
+	@PostMapping(path ="newreview")
+    public Review saveReviewDTO(@RequestBody ReviewDTO rdto) {
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate ld = LocalDate.parse(rdto.getReviewDate(),dtf);
+		
+        Review review = new Review(rdto.getReviewstars(),rdto.getReviewDescription(),
+    		  crepo.findByCompanyName(rdto.getCompanyName().toString()).get(0),ld,
+    		 jrepo.findByJobName(rdto.getJobTitle().toString()).get(0),
+    		  arepo.findApplicantByID(rdto.getUserId()).get(0));
+    return rservice.save(review);
+    }
+	
+	@DeleteMapping("deletereview/{reviewid}") 
+	public ResponseEntity<Void> deleteReview(@PathVariable("reviewid") Long id) {
+		try {
+			rservice.delete(id); 
+		  } catch (Exception e) { 
+			  return ResponseEntity.notFound().build(); 
+			  } 
+		return ResponseEntity.noContent().build(); 
+		}
+	
+	private List<ReviewDTO> generateLists(List<Review> r){
+		List<ReviewDTO> rdto = new ArrayList<>(r.size());
+		for(int i=0;i<r.size();i++) {
+			rdto.add(new ReviewDTO());
+			rdto.get(i).setCompanyName(r.get(i).getCompany().getName());
+			rdto.get(i).setUserId(r.get(i).getApplicant().getId());
+			  rdto.get(i).setReviewstars(r.get(i).getReviewstars());
+			  rdto.get(i).setReviewDescription(r.get(i).getReviewDescription());
+			  rdto.get(i).setReviewDate(r.get(i).getReviewDate().toString());
+			  rdto.get(i).setJobTitle(r.get(i).getJob().getJobTitle());
+		}
+		return rdto;
+		
+	}
 
 }

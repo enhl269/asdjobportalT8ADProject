@@ -10,6 +10,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 @Entity
 public class Review {
 	
@@ -27,12 +29,15 @@ public class Review {
 	private LocalDate reviewDate;
 	
 	@ManyToOne
+	@JsonBackReference
 	private Company company;
 	
-	@OneToOne
+	@ManyToOne
+	@JsonBackReference
 	private Job job;
 	
 	@OneToOne
+	@JsonBackReference
 	private Applicant applicant;
 
 	public Review() {
@@ -41,24 +46,34 @@ public class Review {
 	}
 
 	public Review(long id, float reviewstars, String reviewDescription, String reviewStatus, Company company, LocalDate reviewDate,
-			Applicant applicant) {
+			Job job,Applicant applicant) {
 		super();
 		this.id = id;
 		this.reviewstars = reviewstars;
 		this.reviewDescription = reviewDescription;
 		this.reviewStatus = reviewStatus;
 		this.company = company;
+		this.job = job;
 		this.applicant = applicant;
 		this.reviewDate=reviewDate;
 	}
-
-	public Review(float reviewstars, String reviewDescription, String reviewStatus, Company company,LocalDate reviewDate,
-			Applicant applicant) {
+	
+	public Review(float reviewstars, String reviewDescription, String reviewStatus, LocalDate reviewDate) {
 		super();
+
 		this.reviewstars = reviewstars;
 		this.reviewDescription = reviewDescription;
 		this.reviewStatus = reviewStatus;
+		this.reviewDate=reviewDate;
+	}
+
+	public Review(float reviewstars, String reviewDescription, Company company,
+			LocalDate reviewDate,Job job,Applicant applicant) {
+		super();
+		this.reviewstars = reviewstars;
+		this.reviewDescription = reviewDescription;
 		this.company = company;
+		this.job=job;
 		this.applicant = applicant;
 		this.reviewDate=reviewDate;
 	}
@@ -101,6 +116,14 @@ public class Review {
 
 	public void setCompany(Company company) {
 		this.company = company;
+	}
+	
+	public Job getJob() {
+		return job;
+	}
+
+	public void setJob(Job job) {
+		this.job = job;
 	}
 
 	public Applicant getApplicant() {

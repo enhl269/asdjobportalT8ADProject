@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 import org.springframework.format.annotation.DateTimeFormat;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 @Entity
 public class ViewedJobs {
 	
@@ -17,9 +19,11 @@ public class ViewedJobs {
 	private long id;
 	
 	@ManyToOne
+	@JsonBackReference
 	private Job job;
 	
 	@ManyToOne
+	@JsonBackReference
 	private Applicant applicant;
 	
 	@DateTimeFormat (pattern="yyyy-MM-dd")
@@ -35,6 +39,11 @@ public class ViewedJobs {
 		this.id = id;
 		this.job = job;
 		this.applicant = applicant;
+		this.dateViewed = dateViewed;
+	}
+	
+	public ViewedJobs(LocalDate dateViewed) {
+		super();
 		this.dateViewed = dateViewed;
 	}
 
