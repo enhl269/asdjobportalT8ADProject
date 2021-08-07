@@ -94,10 +94,10 @@ public class AsdJavaProjectT8ProjectApplication {
 				u5.setRoles(Role.APPLICANT.toString());
 				u5.setUserStatus("Approve");
 
-				Company c = new Company("ABC Company", 4.2f); //job
-				Company c1 = new Company("Digital Company", 2.2f);
-				Company c2 = new Company("Solution Design", 3.2f);
-				Company c3 = new Company("Gondola Team", 4.7f);
+				Company c = new Company("ABC Company","hr@abc.com", 4.2f); //job
+				Company c1 = new Company("Digital Company","hr@digital.com", 2.2f);
+				Company c2 = new Company("Solution Design","hr@solutiondesign.com", 3.2f);
+				Company c3 = new Company("Gondola Team","hr@gondola.com", 4.7f);
 
 				
 				Job j = new Job("analyst","food","best job forever", 2, 3.5f, "/jobsback1",null, c,null);
