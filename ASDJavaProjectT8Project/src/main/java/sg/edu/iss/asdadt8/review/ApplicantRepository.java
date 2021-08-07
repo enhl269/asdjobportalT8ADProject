@@ -16,6 +16,5 @@ public interface ApplicantRepository extends JpaRepository<Applicant,Long>{
 	@Query("SELECT a.reviews FROM Applicant a WHERE a.id =?1")
 	List<Review> findByApplicantReview(Long id);
 	
-	
 
 }

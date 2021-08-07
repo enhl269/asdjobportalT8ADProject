@@ -55,6 +55,7 @@ public class AsdJavaProjectT8ProjectApplication {
 				user.setContactNumber("86325472");
 				user.setRoles(Role.APPLICANT.toString());
 				user.setAvatarImageUrl("/blahblah");
+				user.setUserStatus("Approve");
 				
 				Applicant u2 = new Applicant();
 				u2.setEmail("wankey@gmail.com");
@@ -63,7 +64,8 @@ public class AsdJavaProjectT8ProjectApplication {
 				u2.setLastName("Teo");
 				u2.setContactNumber("96396872");
 				u2.setRoles(Role.APPLICANT.toString());
-				user.setAvatarImageUrl("/bye");
+				u2.setAvatarImageUrl("/bye");
+				u2.setUserStatus("Approve");
 				
 				Applicant u3 = new Applicant();
 				u3.setEmail("zhangran@gmail.com");
@@ -72,6 +74,7 @@ public class AsdJavaProjectT8ProjectApplication {
 				u3.setLastName("Ran");
 				u3.setContactNumber("86396872");
 				u3.setRoles(Role.APPLICANT.toString());
+				u3.setUserStatus("Approve");
 				
 				Applicant u4 = new Applicant();
 				u4.setEmail("johnson@gmail.com");
@@ -80,6 +83,7 @@ public class AsdJavaProjectT8ProjectApplication {
 				u4.setLastName("Leow");
 				u4.setContactNumber("96081872");
 				u4.setRoles(Role.APPLICANT.toString());
+				u4.setUserStatus("Approve");
 				
 				Applicant u5 = new Applicant();
 				u5.setEmail("noel@gmail.com");
@@ -88,6 +92,7 @@ public class AsdJavaProjectT8ProjectApplication {
 				u5.setLastName("Wai");
 				u5.setContactNumber("86080072");
 				u5.setRoles(Role.APPLICANT.toString());
+				u5.setUserStatus("Approve");
 
 				Company c = new Company("ABC Company", 4.2f); //job
 				Company c1 = new Company("Digital Company", 2.2f);
