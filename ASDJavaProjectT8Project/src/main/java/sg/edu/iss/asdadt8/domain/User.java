@@ -13,10 +13,9 @@ import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
 
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "users")
@@ -28,25 +27,21 @@ public class User  {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@SuppressWarnings("deprecation")
 	@Column(nullable = false, unique = true, length = 45)
 	@NotEmpty(message = "Email can not be empty.")
 	@Email(message = "Enter valid e-mail")
 	private String email;
 	
-	@SuppressWarnings("deprecation")
 	@Column(nullable = false, length = 64)
 	@NotNull(message="Please enter a password")
 	@NotEmpty(message = "Password can not be empty.")
 	private String password;
 	
-	@SuppressWarnings("deprecation")
 	@Column(name = "first_name", nullable = false, length = 20)
 	@NotNull(message = "First Name can not be empty.")
     @NotEmpty(message = "First Name can not be empty.")
 	private String firstName;
 	
-	@SuppressWarnings("deprecation")
 	@Column(name = "last_name", nullable = false, length = 20)
 	@NotNull(message = "Last Name can not be empty.")
     @NotEmpty(message = "Last Name can not be empty.")
