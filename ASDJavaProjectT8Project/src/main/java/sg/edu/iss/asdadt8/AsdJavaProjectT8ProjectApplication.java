@@ -10,6 +10,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import sg.edu.iss.asdadt8.domain.Applicant;
 import sg.edu.iss.asdadt8.domain.Company;
@@ -40,6 +42,11 @@ public class AsdJavaProjectT8ProjectApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(AsdJavaProjectT8ProjectApplication.class, args);
 	}
+	
+    @Bean
+    PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
 	
 	@Bean
 	CommandLineRunner runner()  {
