@@ -17,7 +17,7 @@ import sg.edu.iss.asdadt8.domain.User;
 import java.net.URI;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/user")
 public class UserController {
 	
 	@Autowired
