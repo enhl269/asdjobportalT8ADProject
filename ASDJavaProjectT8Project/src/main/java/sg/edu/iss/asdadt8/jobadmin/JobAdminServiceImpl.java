@@ -33,8 +33,12 @@ public class JobAdminServiceImpl implements JobAdminService{
 	
 	//find job by job id 
 	@Override
-	public Job findJobById(Long Id) {
-		return jrepo.findsJobById(Id);
+	public  JobAdminDTO findJobById(Long Id) {
+		Job job = jrepo.findsJobById(Id);
+		JobAdminDTO jobadmin = new JobAdminDTO(job.getId(), job.getJobTitle(), job.getJobIndustry(), job.getJobDescription(), job.getAutismLevel(), 
+				job.getJobStarRating(), job.getJobPositionURL(), job.getCompany().getName());
+				
+		return jobadmin;
 	}
 	
 	//find all book mark by user id 

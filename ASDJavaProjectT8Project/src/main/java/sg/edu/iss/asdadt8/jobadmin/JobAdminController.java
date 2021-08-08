@@ -26,8 +26,8 @@ public class JobAdminController {
     }
 	
 	@RequestMapping(value = "details/{id}", method = RequestMethod.GET)
-	public Job ListJob(Model model, @PathVariable("id") Long Id) {
-		 Job jobdetails_obj = jservice.findJobById(Id);
+	public JobAdminDTO ListJob(Model model, @PathVariable("id") Long Id) {
+		JobAdminDTO jobdetails_obj = jservice.findJobById(Id);
 		
 		//model.addAttribute("jobdetails_obj",jobdetails_obj);
 		// "jobdetails";

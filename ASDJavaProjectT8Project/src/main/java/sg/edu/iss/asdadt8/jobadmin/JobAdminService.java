@@ -8,7 +8,7 @@ public interface JobAdminService {
 	
 	void saveBookMark(long id);
 	
-    Job findJobById(Long Id);
+	JobAdminDTO findJobById(Long Id);
     
 	List<Job> getAllJobs();
 	
