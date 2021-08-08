@@ -16,7 +16,8 @@ import sg.edu.iss.asdadt8.domain.Job;
 @RestController
 @RequestMapping("/api/jobadmin/")
 public class JobAdminController {
-
+	
+	//hello
 	@Autowired
 	JobAdminService jservice;
 	
