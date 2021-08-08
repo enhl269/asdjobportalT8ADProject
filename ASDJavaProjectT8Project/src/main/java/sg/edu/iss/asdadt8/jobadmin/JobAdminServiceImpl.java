@@ -31,7 +31,7 @@ public class JobAdminServiceImpl implements JobAdminService{
 		return jrepo.findAll();
 	}
 	
-	//find job by job id 
+	//find job by job id with DTO
 	@Override
 	public  JobAdminDTO findJobById(Long Id) {
 		Job job = jrepo.findsJobById(Id);
