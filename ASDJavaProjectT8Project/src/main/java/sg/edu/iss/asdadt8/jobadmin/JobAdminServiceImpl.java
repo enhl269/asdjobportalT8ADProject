@@ -1,6 +1,7 @@
 package sg.edu.iss.asdadt8.jobadmin;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import sg.edu.iss.asdadt8.domain.Applicant;
 import sg.edu.iss.asdadt8.domain.BookmarkedJobs;
 import sg.edu.iss.asdadt8.domain.Job;
+import sg.edu.iss.asdadt8.domain.Review;
 import sg.edu.iss.asdadt8.domain.ViewedJobs;
 
 @Service
@@ -129,6 +131,36 @@ public class JobAdminServiceImpl implements JobAdminService{
 				
 		//return string company HR email
 		return job_details.getCompany().getHrEmail();
+	}
+	
+	public List<BookmarkedJobsDTO> findBookmarkByUserID(long applicant_id){
+		List<BookmarkedJobs> bookmarkedjobs_list = jrepo.findBookmarkByUserID(applicant_id);
+		
+		//BookmarkedJobsDTO bookmarkedjobs_temp = new BookmarkedJobsDTO();
+		List<BookmarkedJobsDTO> bookmarkedjobs_transfer = new ArrayList<>();
+		
+		for (BookmarkedJobs a: bookmarkedjobs_list) {
+			//long id, String jobtitle, String companyname, LocalDate bookmarkDate
+			bookmarkedjobs_transfer.add(new BookmarkedJobsDTO(a.getId(), a.getJob().getJobTitle(), 
+					a.getJob().getCompany().getName(), a.getBookmarkDate()));
+		}
+			
+		return bookmarkedjobs_transfer;
+	}
+	
+	public List<ViewedJobsDTO> findViewedJobsByUserID(long applicant_id){
+		List<ViewedJobs> viewedjobs_list = jrepo.findViewedJobsByUserID(applicant_id);
+		
+		//BookmarkedJobsDTO bookmarkedjobs_temp = new BookmarkedJobsDTO();
+		List<ViewedJobsDTO> viewedjobs_transfer = new ArrayList<>();
+		
+		for (ViewedJobs a: viewedjobs_list) {
+			//long id, String jobtitle, String companyname, LocalDate bookmarkDate
+			viewedjobs_transfer.add(new ViewedJobsDTO(a.getId(), a.getJob().getJobTitle(), 
+					a.getJob().getCompany().getName(), a.getDateViewed()));
+		}
+			
+		return viewedjobs_transfer;
 	}
 	
 }
