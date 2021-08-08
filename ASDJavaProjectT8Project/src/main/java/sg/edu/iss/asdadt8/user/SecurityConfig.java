@@ -11,6 +11,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import sg.edu.iss.asdadt8.user.filter.CustomAuthenticationFilter;
+
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
@@ -36,6 +38,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
     @Override
     protected void configure(HttpSecurity http) throws Exception{
+    	
+    	 CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean());
+         customAuthenticationFilter.setFilterProcessesUrl("/api/login");
+         
     	//disable csrf() and make it stateless for json
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(STATELESS);
@@ -44,7 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 //        http.authorizeRequests().antMatchers(GET,"/api/user/users/**").hasRole("ADMIN");
 //        http.authorizeRequests().anyRequest().authenticated();
 //        
-//        http.addFilter(customAuthenticationFilter);
+        http.addFilter(customAuthenticationFilter);
 //        http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 

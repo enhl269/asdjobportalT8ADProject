@@ -22,6 +22,7 @@ import sg.edu.iss.asdadt8.review.ApplicantRepository;
 import sg.edu.iss.asdadt8.review.CompanyRepository;
 import sg.edu.iss.asdadt8.review.JobRepository;
 import sg.edu.iss.asdadt8.review.ReviewRepository;
+import sg.edu.iss.asdadt8.user.UserServiceImp;
 
 @SpringBootApplication
 public class AsdJavaProjectT8ProjectApplication {
@@ -38,6 +39,9 @@ public class AsdJavaProjectT8ProjectApplication {
 	
 	@Autowired
 	ApplicantRepository arepo;
+	
+	@Autowired
+	UserServiceImp userService;
 	
 	public static void main(String[] args) {
 		SpringApplication.run(AsdJavaProjectT8ProjectApplication.class, args);
@@ -122,11 +126,11 @@ public class AsdJavaProjectT8ProjectApplication {
 				Review r7 = new Review(2.5f, "best1 place", c,date, j1,u4);
 				
 				
-				arepo.save(user);
-				arepo.save(u2);
-				arepo.save(u3);
-				arepo.save(u4);
-				arepo.save(u5);
+				userService.saveUser(user);
+				userService.saveUser(u2);
+				userService.saveUser(u3);
+				userService.saveUser(u4);
+				userService.saveUser(u5);
 				
 				crepo.save(c);
 				crepo.save(c1);
