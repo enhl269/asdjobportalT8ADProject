@@ -25,6 +25,8 @@ public class Job {
 	
 	private String jobIndustry;
 	
+	private String jobqualification;
+	
 	private String jobDescription;
 	
 	private int autismLevel;
@@ -56,6 +58,29 @@ public class Job {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	
+
+	public Job(long id, String jobTitle, String jobIndustry, String jobqualification, String jobDescription,
+			int autismLevel, float jobStarRating, String jobPositionURL, List<String> tags, Company company,
+			List<ViewedJobs> viewedJobs, List<BookmarkedJobs> bookmarkedJobs, List<Review> reviews) {
+		super();
+		this.id = id;
+		this.jobTitle = jobTitle;
+		this.jobIndustry = jobIndustry;
+		this.jobqualification = jobqualification;
+		this.jobDescription = jobDescription;
+		this.autismLevel = autismLevel;
+		this.jobStarRating = jobStarRating;
+		this.jobPositionURL = jobPositionURL;
+		this.tags = tags;
+		this.company = company;
+		this.viewedJobs = viewedJobs;
+		this.bookmarkedJobs = bookmarkedJobs;
+		this.reviews = reviews;
+	}
+
+
 
 	public Job(long id, String jobTitle,String jobIndustry, String jobDescription, int autismLevel, float jobStarRating, String jobPositionURL,
 			List<String> tags, Company company, List<ViewedJobs> viewedJobs, List<BookmarkedJobs> bookmarkedJobs,List<Review> reviews) {
@@ -199,9 +224,13 @@ public class Job {
 	public void setReview(List<Review> reviews) {
 		this.reviews = reviews;
 	}
-	
-	
-	
-	
 
+	public String getJobqualification() {
+		return jobqualification;
+	}
+
+	public void setJobqualification(String jobqualification) {
+		this.jobqualification = jobqualification;
+	}
+	
 }
