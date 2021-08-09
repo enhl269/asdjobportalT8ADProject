@@ -13,6 +13,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import sg.edu.iss.asdadt8.domain.Admin;
 import sg.edu.iss.asdadt8.domain.Applicant;
 import sg.edu.iss.asdadt8.domain.Company;
 import sg.edu.iss.asdadt8.domain.Job;
@@ -104,7 +105,15 @@ public class AsdJavaProjectT8ProjectApplication {
 				u5.setContactNumber("86080072");
 				u5.setRoles(Role.APPLICANT.toString());
 				u5.setUserStatus("Approve");
-
+				
+				Admin u6 = new Admin();
+				u6.setEmail("haha@gmail.com");
+				u6.setPassword("123456");
+				u6.setFirstName("haha");
+				u6.setLastName("haha");
+				u6.setContactNumber("00100123");
+				u6.setRoles(Role.ADMIN.toString());
+				
 				Company c = new Company("ABC Company","hr@abc.com", 4.2f); //job
 				Company c1 = new Company("Digital Company","hr@digital.com", 2.2f);
 				Company c2 = new Company("Solution Design","hr@solutiondesign.com", 3.2f);
@@ -131,6 +140,7 @@ public class AsdJavaProjectT8ProjectApplication {
 				userService.saveUser(u3);
 				userService.saveUser(u4);
 				userService.saveUser(u5);
+				userService.saveUser(u6);
 				
 				crepo.save(c);
 				crepo.save(c1);
