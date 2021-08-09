@@ -37,7 +37,7 @@ public class JobAdminServiceImpl implements JobAdminService{
 	@Override
 	public  JobAdminDTO findJobById(Long Id) {
 		Job job = jrepo.findsJobById(Id);
-		JobAdminDTO jobadmin = new JobAdminDTO(job.getId(), job.getJobTitle(), job.getJobIndustry(), job.getJobDescription(), job.getAutismLevel(), 
+		JobAdminDTO jobadmin = new JobAdminDTO(job.getId(), job.getJobTitle(), job.getJobIndustry(), job.getJobqualification(),job.getJobDescription(), job.getAutismLevel(), 
 				job.getJobStarRating(), job.getJobPositionURL(), job.getCompany().getName());
 				
 		return jobadmin;
