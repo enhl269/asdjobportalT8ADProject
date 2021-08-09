@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import sg.edu.iss.asdadt8.domain.Role;
 import sg.edu.iss.asdadt8.user.filter.CustomAuthenticationFilter;
 import sg.edu.iss.asdadt8.user.filter.CustomAuthorizationFilter;
 
@@ -49,7 +50,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         http.sessionManagement().sessionCreationPolicy(STATELESS);
         
         //http.authorizeRequests().antMatchers("/api/login/**","/api/user/**").permitAll();
-        http.authorizeRequests().antMatchers("/api/webadmin/**").hasAuthority("ADMIN");
+        http.authorizeRequests().antMatchers("/api/webadmin/**").hasAuthority(Role.ADMIN.toString());
+        http.authorizeRequests().antMatchers("/api/jobadmin/**").hasAuthority(Role.APPLICANT.toString());
         http.authorizeRequests().anyRequest().authenticated();       
         
         http.addFilter(customAuthenticationFilter);
