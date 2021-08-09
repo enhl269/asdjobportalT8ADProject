@@ -1,7 +1,5 @@
 package sg.edu.iss.asdadt8.domain;
 
-import java.time.LocalDate;
-
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
@@ -37,14 +35,14 @@ public class User  {
 	@NotEmpty(message = "Password can not be empty.")
 	private String password;
 	
-	@Column(name = "first_name", nullable = false, length = 20)
-	@NotNull(message = "First Name can not be empty.")
-    @NotEmpty(message = "First Name can not be empty.")
+	@Column(name = "first_name", nullable = true, length = 20)
+	//@NotNull(message = "First Name can not be empty.")
+    //@NotEmpty(message = "First Name can not be empty.")
 	private String firstName;
 	
-	@Column(name = "last_name", nullable = false, length = 20)
-	@NotNull(message = "Last Name can not be empty.")
-    @NotEmpty(message = "Last Name can not be empty.")
+	@Column(name = "last_name", nullable = true, length = 20)
+	//@NotNull(message = "Last Name can not be empty.")
+    //@NotEmpty(message = "Last Name can not be empty.")
 	private String lastName;
 	
 	@Size(min=8, message = "Mobile number should be of 8 digits.")

@@ -105,11 +105,8 @@ public class AsdJavaProjectT8ProjectApplication {
 				u5.setUserStatus("Approve");
 				
 				Admin u6 = new Admin();
-				u6.setEmail("haha@gmail.com");
+				u6.setEmail("admin@gmail.com");
 				u6.setPassword("123456");
-				u6.setFirstName("haha");
-				u6.setLastName("haha");
-				u6.setContactNumber("00100123");
 				u6.setRoles(Role.ADMIN.toString());
 				
 				Company c = new Company("ABC Company","hr@abc.com", 4.2f); //job

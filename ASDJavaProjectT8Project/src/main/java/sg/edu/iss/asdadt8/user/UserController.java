@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -27,14 +26,15 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import sg.edu.iss.asdadt8.domain.Admin;
+import sg.edu.iss.asdadt8.domain.Applicant;
 import sg.edu.iss.asdadt8.domain.User;
+import sg.edu.iss.asdadt8.domain.Role;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 
-
 import java.io.IOException;
-import java.net.URI;
 
 @RestController
 @RequestMapping("/api/user")
@@ -43,38 +43,83 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
+	//this method intends to get all users(include admin and applicant) as a list
 	@Secured("hasAuthority('ADMIN')")
 	@GetMapping("/list")
 	public ResponseEntity<List<User>> getUsers(){
 	    return ResponseEntity.ok().body(userService.getUsers());
 	}
 	
-    @PostMapping("/save")
-    public ResponseEntity<User> saveUser(@RequestBody User user){
-        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/save").toString());
-        return ResponseEntity.created(uri).body(userService.saveUser(user));
+	//this method intends to create and update admin,
+	//to creat a new admin should be implemented by another admin user.
+	@Secured("hasAuthority('ADMIN')")
+	@PostMapping("/admin")
+    public ResponseEntity<User> saveUser(@RequestBody Admin admin){
+        //URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/user").toString());
+    	if(admin.getId()==null) {
+    		if(admin.getEmail()==null)
+    			return ResponseEntity.badRequest().body(admin);
+    		else {
+    			User userExist = userService.getUser(admin.getEmail());
+    			if(userExist!=null)
+            		admin.setId(userExist.getId());
+    		}
+    	}
+    	if(admin.getRoles()==null) {
+    		admin.setRoles(Role.ADMIN.toString());
+    	}
+		return ResponseEntity.ok().body(userService.saveUser(admin));
+    }
+	
+	//this method intends to create and update an applicant
+	@PostMapping("/applicant")
+    public ResponseEntity<User> saveUser(@RequestBody Applicant applicant){
+        //URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/user").toString());
+    	if(applicant.getId()==null) {
+    		if(applicant.getEmail()==null)
+    			return ResponseEntity.badRequest().body(applicant);
+    		else {
+    			User userExist = userService.getUser(applicant.getEmail());
+    			if(userExist!=null)
+    				applicant.setId(userExist.getId());
+    		}
+    	}
+    	if(applicant.getRoles()==null) {
+    		applicant.setRoles(Role.APPLICANT.toString());
+    	}
+		return ResponseEntity.ok().body(userService.saveUser(applicant));
     }
     
-    @DeleteMapping("/delete")
-    public void deleteUser(@RequestBody User user) {
-    	userService.deleteUser(user);
+    //this method intends to delete the user
+    @DeleteMapping("/")
+    public ResponseEntity<User> deleteUser(@RequestBody User user) {
+    	User userDelete = userService.getUser(user.getEmail());
+    	if(userDelete!=null) {
+	    	userService.deleteUser(userDelete);    
+	    	return ResponseEntity.ok().body(userDelete);
+    	} else {
+    		return ResponseEntity.internalServerError().body(user);
+    	}
     }
     
+    //this method for refresh token, should be implement by front end
     @GetMapping("/refreshtoken")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) 
     		throws IOException{
-    	//get token from request 
-    	//verify token
-    	//decode token
-    	//create new token 
-    	//throw exception if error
+		/*
+		 * get token from request,
+		 * verify token,
+		 * decode token,
+		 * create new token throw
+		 */
     	String authorizationHeader = request.getHeader(AUTHORIZATION);
-        //the header should have prefix with "Bearer "
+        
+    	//the header(Authorization) should have prefix with "Bearer ", there is a space after bearer
         if(authorizationHeader!=null && authorizationHeader.startsWith("Bearer ")){
             try{
                 String token = authorizationHeader.substring("Bearer ".length());
 
-                //the same algorithm with authentication filter
+                //the same algorithm with authentication filter,"secret" is a key word
                 Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
 
                 //verify the jwt algorithm
@@ -102,7 +147,7 @@ public class UserController {
                 Map<String, String> tokens = new HashMap<>();
                 tokens.put("access_token", access_token);
                 tokens.put("refresh_token",refresh_token);
-            
+                tokens.put("username", username);
                 response.setContentType(MediaType.APPLICATION_JSON_VALUE);
                 new ObjectMapper().writeValue(response.getOutputStream(), tokens);
 
