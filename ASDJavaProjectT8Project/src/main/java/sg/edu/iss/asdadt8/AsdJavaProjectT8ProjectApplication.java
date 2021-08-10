@@ -114,12 +114,12 @@ public class AsdJavaProjectT8ProjectApplication {
 				Company c2 = new Company("Solution Design","hr@solutiondesign.com", 3.2f);
 				Company c3 = new Company("Gondola Team","hr@gondola.com", 4.7f);
 
-				Job j = new Job("analyst","food","best job forever", 2, 2.5f, "https://www.nus.edu.sg/careers/",null, c,null);
-				Job j1 = new Job("developer","food","best job forever", 3, 1.5f, "https://www.nus.edu.sg/careers/",null, c1,null);
-				Job j2 = new Job("architect","food","best job forever", 4, 4.5f, "https://www.nus.edu.sg/careers/",null, c2,null);
-				Job j3 = new Job("designer","education","best job forever", 3, 2.5f, "https://www.nus.edu.sg/careers/",null, c3,null);
-				Job j4 = new Job("designer","consultation","best job forever", 3, 1.5f, "https://www.nus.edu.sg/careers/",null, c3,null);
-				Job j5 = new Job("designer","digital solution","best job forever", 3, 4.5f, "https://www.nus.edu.sg/careers/",null, c3,null);
+				Job j = new Job("analyst","food","1 year exp","best job forever", 2, 2.5f, "https://www.nus.edu.sg/careers/",null, c,null);
+				Job j1 = new Job("developer","food","1 year exp","best job forever", 3, 1.5f, "https://www.nus.edu.sg/careers/",null, c1,null);
+				Job j2 = new Job("architect","food","1 year exp","best job forever", 4, 4.5f, "https://www.nus.edu.sg/careers/",null, c2,null);
+				Job j3 = new Job("designer","education","Show your Passion","best job forever", 3, 2.5f, "https://www.nus.edu.sg/careers/",null, c3,null);
+				Job j4 = new Job("designer","consultation","Show your Passion","best job forever", 3, 1.5f, "https://www.nus.edu.sg/careers/",null, c3,null);
+				Job j5 = new Job("designer","digital solution","2 year exp","best job forever", 3, 4.5f, "https://www.nus.edu.sg/careers/",null, c3,null);
 
 				Review r = new Review(3.2f, "best place to work", c,date, j,user);
 				Review r1 = new Review(2.5f, "poor place", c1,date, j1,u2);

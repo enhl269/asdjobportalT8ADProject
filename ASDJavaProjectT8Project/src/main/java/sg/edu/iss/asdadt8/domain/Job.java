@@ -100,11 +100,12 @@ public class Job {
 	}
 	
 
-	public Job(String jobTitle,String jobIndustry,String jobDescription, int autismLevel, float jobStarRating, String jobPositionURL, List<String> tags,
+	public Job(String jobTitle,String jobIndustry,String jobqualification,String jobDescription, int autismLevel, float jobStarRating, String jobPositionURL, List<String> tags,
 			Company company, List<Review> reviews) {
 		super();
 		this.jobTitle = jobTitle;
 		this.jobIndustry = jobIndustry;
+		this.jobqualification = jobqualification;
 		this.jobDescription = jobDescription;
 		this.autismLevel = autismLevel;
 		this.jobStarRating = jobStarRating;
