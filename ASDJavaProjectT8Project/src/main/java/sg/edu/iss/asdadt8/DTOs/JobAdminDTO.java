@@ -13,9 +13,10 @@ private long id;
 	private String jobPositionURL;
 	
 	private String companyname;
+	private String companyemail;
 
 	public JobAdminDTO(long id, String jobTitle, String jobIndustry, String jobqualification, String jobDescription, int autismLevel,
-			float jobStarRating, String jobPositionURL, String companyname) {
+			float jobStarRating, String jobPositionURL, String companyname, String companyemail) {
 		super();
 		this.id = id;
 		this.jobTitle = jobTitle;
@@ -26,6 +27,7 @@ private long id;
 		this.jobStarRating = jobStarRating;
 		this.jobPositionURL = jobPositionURL;
 		this.companyname = companyname;
+		this.companyemail = companyemail;
 	}
 
 	public long getId() {
@@ -98,6 +100,14 @@ private long id;
 
 	public void setJobqualification(String jobqualification) {
 		this.jobqualification = jobqualification;
+	}
+
+	public String getCompanyemail() {
+		return companyemail;
+	}
+
+	public void setCompanyemail(String companyemail) {
+		this.companyemail = companyemail;
 	}
 
 	

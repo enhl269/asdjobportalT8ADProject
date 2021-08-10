@@ -46,7 +46,7 @@ public class JobAdminServiceImpl implements JobAdminService{
 	public  JobAdminDTO findJobById(Long Id) {
 		Job job = jrepo.findsJobById(Id);
 		JobAdminDTO jobadmin = new JobAdminDTO(job.getId(), job.getJobTitle(), job.getJobIndustry(), job.getJobqualification(),job.getJobDescription(), job.getAutismLevel(), 
-				job.getJobStarRating(), job.getJobPositionURL(), job.getCompany().getName());
+				job.getJobStarRating(), job.getJobPositionURL(), job.getCompany().getName(),job.getCompany().getHrEmail());
 				
 		return jobadmin;
 	}
@@ -115,9 +115,9 @@ public class JobAdminServiceImpl implements JobAdminService{
 	}
 	
 	
-	public String applyJobEmail(long id) {
+	public JobAdminDTO applyJobEmail(long id) {
 		//get by id 
-		Job job_details = jrepo.findsJobById(id);
+		Job job = jrepo.findsJobById(id);
 		Applicant user_session= urepo.findApplicantByID((long)1);  //need to update to get user for session.
 		LocalDate localdate = LocalDate.now();
 				
@@ -129,18 +129,31 @@ public class JobAdminServiceImpl implements JobAdminService{
 				
 		//check for duplicate in viewedjobs 
 		for (int i = 0; i < allApplied.size() ; i++){
-			if( user_session.getId() == allApplied.get(i).getApplicant().getId() && job_details.getId() == allApplied.get(i).getJob().getId() ) {
+			if( user_session.getId() == allApplied.get(i).getApplicant().getId() && job.getId() == allApplied.get(i).getJob().getId() ) {
 				check = false;
 			}
 		}
 				
 		//save to ViewedJobs (apply)
 		if (check == true){
-			jrepo.saveApplyJob(job_details.getId(), user_session.getId(),localdate);
+			jrepo.saveApplyJob(job.getId(), user_session.getId(),localdate);
 		}
 				
 		//return string company HR email
-		return job_details.getCompany().getHrEmail();
+		JobAdminDTO jobadmin = new JobAdminDTO(job.getId(), job.getJobTitle(), job.getJobIndustry(), job.getJobqualification(),job.getJobDescription(), job.getAutismLevel(), 
+				job.getJobStarRating(), job.getJobPositionURL(), job.getCompany().getName() , job.getCompany().getHrEmail());
+		return jobadmin;
+	}
+	
+	public JobAdminDTO sharejoburl(long id) {
+		//get by id 
+		Job job = jrepo.findsJobById(id);
+		Applicant user_session= urepo.findApplicantByID((long)1);  //need to update to get user for session.
+		
+		JobAdminDTO jobadmin = new JobAdminDTO(job.getId(), job.getJobTitle(), job.getJobIndustry(), job.getJobqualification(),job.getJobDescription(), job.getAutismLevel(), 
+				job.getJobStarRating(), job.getJobPositionURL(), job.getCompany().getName(), job.getCompany().getHrEmail());				
+
+		return jobadmin;
 	}
 	
 	public List<BookmarkedJobsDTO> findBookmarkByUserID(long applicant_id){

@@ -18,7 +18,8 @@ public interface JobAdminService {
 	JobAdminDTO findJobById(Long Id);
     
 	ResponseMessage applyJobUrl(long id);
-	String applyJobEmail(long id);
+	JobAdminDTO applyJobEmail(long id);
+	JobAdminDTO sharejoburl(long id);
 	
 	List<BookmarkedJobsDTO> findBookmarkByUserID(long applicant_id);
 	List<ViewedJobsDTO> findViewedJobsByUserID(long applicant_id);

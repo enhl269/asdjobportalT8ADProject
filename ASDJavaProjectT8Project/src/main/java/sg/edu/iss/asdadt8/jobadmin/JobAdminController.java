@@ -48,8 +48,15 @@ public class JobAdminController {
 	
 	@RequestMapping(value= "applyjobemail/{id}" , method = RequestMethod.POST)
 	//job ID
-	public String ApplyJobEmail(@PathVariable("id") Long Id){
+	public JobAdminDTO ApplyJobEmail(@PathVariable("id") Long Id){
 		return jservice.applyJobEmail(Id);
+		//return "redirect:/details/" + Id;
+	}
+	
+	@RequestMapping(value= "shareurl/{id}" , method = RequestMethod.POST)
+	//job ID
+	public JobAdminDTO ShareJobUrl(@PathVariable("id") Long Id){
+		return jservice.sharejoburl(Id);
 		//return "redirect:/details/" + Id;
 	}
 	
