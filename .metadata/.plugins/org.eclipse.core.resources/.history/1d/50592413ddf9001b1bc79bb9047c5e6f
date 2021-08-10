@@ -4,7 +4,6 @@ import java.util.List;
 
 import sg.edu.iss.asdadt8.DTOs.BookmarkedJobsDTO;
 import sg.edu.iss.asdadt8.DTOs.JobAdminDTO;
-import sg.edu.iss.asdadt8.DTOs.ResponseMessage;
 import sg.edu.iss.asdadt8.DTOs.ViewedJobsDTO;
 import sg.edu.iss.asdadt8.domain.BookmarkedJobs;
 import sg.edu.iss.asdadt8.domain.Job;
@@ -17,7 +16,7 @@ public interface JobAdminService {
 	
 	JobAdminDTO findJobById(Long Id);
     
-	ResponseMessage applyJobUrl(long id);
+	String applyJobUrl(long id);
 	String applyJobEmail(long id);
 	
 	List<BookmarkedJobsDTO> findBookmarkByUserID(long applicant_id);

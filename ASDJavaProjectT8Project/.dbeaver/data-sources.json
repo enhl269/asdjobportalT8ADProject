@@ -19,6 +19,21 @@
 					"allowPublicKeyRetrieval": "TRUE",
 					"sslMode": "DISABLED"
 				},
+				"auth-model": "native"
+			}
+		},
+		"mysql8-17b30236311-6384c2c8492c6b39": {
+			"provider": "mysql",
+			"driver": "mysql8",
+			"name": "localhost",
+			"save-password": true,
+			"read-only": false,
+			"configuration": {
+				"host": "localhost",
+				"port": "3306",
+				"url": "jdbc:mysql://localhost:3306/",
+				"home": "C:\\Program Files\\MySQL\\MySQL Server 8.0",
+				"type": "dev",
 				"auth-model": "native",
 				"handlers": {}
 			}

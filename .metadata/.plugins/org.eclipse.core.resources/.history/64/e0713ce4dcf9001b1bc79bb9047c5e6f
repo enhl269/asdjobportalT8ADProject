@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import sg.edu.iss.asdadt8.DTOs.BookmarkedJobsDTO;
 import sg.edu.iss.asdadt8.DTOs.JobAdminDTO;
-import sg.edu.iss.asdadt8.DTOs.ResponseMessage;
 import sg.edu.iss.asdadt8.DTOs.ViewedJobsDTO;
 import sg.edu.iss.asdadt8.domain.BookmarkedJobs;
 
@@ -41,7 +40,7 @@ public class JobAdminController {
 	
 	@RequestMapping(value= "applyjoburl/{id}" , method = RequestMethod.POST)
 	//job ID
-	public ResponseMessage ApplyJobUrl(@PathVariable("id") Long Id){
+	public String ApplyJobUrl(@PathVariable("id") Long Id){
 		return jservice.applyJobUrl(Id);
 		//return "redirect:/details/" + Id;
 	}

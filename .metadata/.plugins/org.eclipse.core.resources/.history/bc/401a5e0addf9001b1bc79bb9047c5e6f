@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import sg.edu.iss.asdadt8.DTOs.BookmarkedJobsDTO;
 import sg.edu.iss.asdadt8.DTOs.JobAdminDTO;
-import sg.edu.iss.asdadt8.DTOs.ResponseMessage;
 import sg.edu.iss.asdadt8.DTOs.ViewedJobsDTO;
 import sg.edu.iss.asdadt8.domain.Applicant;
 import sg.edu.iss.asdadt8.domain.BookmarkedJobs;
@@ -84,7 +83,7 @@ public class JobAdminServiceImpl implements JobAdminService{
 		}
 	}
 	
-	public ResponseMessage applyJobUrl(long id) {
+	public String applyJobUrl(long id) {
 		//get by id 
 		Job job_details = jrepo.findsJobById(id);
 		Applicant user_session= urepo.findApplicantByID((long)1);  //need to update to get user for session.
@@ -109,9 +108,7 @@ public class JobAdminServiceImpl implements JobAdminService{
 		}
 		
 		//return string company url address
-		ResponseMessage message = new ResponseMessage();
-		message.setMessage(job_details.getJobPositionURL());
-		return message;
+		return job_details.getJobPositionURL();
 	}
 	
 	
