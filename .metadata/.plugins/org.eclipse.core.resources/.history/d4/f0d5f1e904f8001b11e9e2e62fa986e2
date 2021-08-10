@@ -1,0 +1,11 @@
+package sg.edu.iss.asdadt8.jobs;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
+import sg.edu.iss.asdadt8.review.JobRepository;
+
+public class JobServiceImpl implements JobService {
+
+	@Autowired
+	JobRepository jrepo;
+}

@@ -1,8 +1,6 @@
 package sg.edu.iss.asdadt8;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -10,16 +8,20 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
+import sg.edu.iss.asdadt8.domain.Admin;
 import sg.edu.iss.asdadt8.domain.Applicant;
 import sg.edu.iss.asdadt8.domain.Company;
 import sg.edu.iss.asdadt8.domain.Job;
 import sg.edu.iss.asdadt8.domain.Review;
 import sg.edu.iss.asdadt8.domain.Role;
-import sg.edu.iss.asdadt8.review.ApplicantRepository;
-import sg.edu.iss.asdadt8.review.CompanyRepository;
-import sg.edu.iss.asdadt8.review.JobRepository;
-import sg.edu.iss.asdadt8.review.ReviewRepository;
+import sg.edu.iss.asdadt8.repositories.ApplicantRepository;
+import sg.edu.iss.asdadt8.repositories.CompanyRepository;
+import sg.edu.iss.asdadt8.repositories.JobRepository;
+import sg.edu.iss.asdadt8.repositories.ReviewRepository;
+import sg.edu.iss.asdadt8.user.UserServiceImp;
 
 @SpringBootApplication
 public class AsdJavaProjectT8ProjectApplication {
@@ -37,9 +39,17 @@ public class AsdJavaProjectT8ProjectApplication {
 	@Autowired
 	ApplicantRepository arepo;
 	
+	@Autowired
+	UserServiceImp userService;
+	
 	public static void main(String[] args) {
 		SpringApplication.run(AsdJavaProjectT8ProjectApplication.class, args);
 	}
+	
+    @Bean
+    PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
 	
 	@Bean
 	CommandLineRunner runner()  {
@@ -93,13 +103,17 @@ public class AsdJavaProjectT8ProjectApplication {
 				u5.setContactNumber("86080072");
 				u5.setRoles(Role.APPLICANT.toString());
 				u5.setUserStatus("Approve");
-
-				Company c = new Company("ABC Company", 4.2f); //job
-				Company c1 = new Company("Digital Company", 2.2f);
-				Company c2 = new Company("Solution Design", 3.2f);
-				Company c3 = new Company("Gondola Team", 4.7f);
-
 				
+				Admin u6 = new Admin();
+				u6.setEmail("admin@gmail.com");
+				u6.setPassword("123456");
+				u6.setRoles(Role.ADMIN.toString());
+				
+				Company c = new Company("ABC Company","hr@abc.com", 4.2f); //job
+				Company c1 = new Company("Digital Company","hr@digital.com", 2.2f);
+				Company c2 = new Company("Solution Design","hr@solutiondesign.com", 3.2f);
+				Company c3 = new Company("Gondola Team","hr@gondola.com", 4.7f);
+
 				Job j = new Job("analyst","food","best job forever", 2, 2.5f, "/jobsback1",null, c,null);
 				Job j1 = new Job("developer","food","best job forever", 3, 1.5f, "/jobsback1",null, c1,null);
 				Job j2 = new Job("architect","food","best job forever", 4, 4.5f, "/jobsback1",null, c2,null);
@@ -107,8 +121,6 @@ public class AsdJavaProjectT8ProjectApplication {
 				Job j4 = new Job("designer","consultation","best job forever", 3, 1.5f, "/jobsback1",null, c3,null);
 				Job j5 = new Job("designer","digital solution","best job forever", 3, 4.5f, "/jobsback1",null, c3,null);
 
-				
-				
 				Review r = new Review(3.2f, "best place to work", c,date, j,user);
 				Review r1 = new Review(2.5f, "poor place", c1,date, j1,u2);
 				Review r2 = new Review(4.4f, "dirty place", c,date, j2,u3);
@@ -119,11 +131,12 @@ public class AsdJavaProjectT8ProjectApplication {
 				Review r7 = new Review(2.5f, "best1 place", c,date, j1,u4);
 				
 				
-				arepo.save(user);
-				arepo.save(u2);
-				arepo.save(u3);
-				arepo.save(u4);
-				arepo.save(u5);
+				userService.saveUser(user);
+				userService.saveUser(u2);
+				userService.saveUser(u3);
+				userService.saveUser(u4);
+				userService.saveUser(u5);
+				userService.saveUser(u6);
 				
 				crepo.save(c);
 				crepo.save(c1);

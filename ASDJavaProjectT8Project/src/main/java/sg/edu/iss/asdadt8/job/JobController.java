@@ -1,0 +1,60 @@
+package sg.edu.iss.asdadt8.job;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import sg.edu.iss.asdadt8.domain.Job;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import sg.edu.iss.asdadt8.domain.Job;
+
+
+	@RestController
+	@RequestMapping("/api/job")
+	public class JobController {
+		
+		@Autowired
+		JobServiceImpl jservice;
+		
+		
+		@GetMapping("/list")
+		public List<Job>viewJobs(){
+			return jservice.showallJobs();
+		}
+		
+		@GetMapping("/search/{key}")
+		public List<Job>searchJobs(@PathVariable("key")String key){
+			return jservice.findJobs(key);
+		}
+		@GetMapping("/detail/{jobId}")
+		public Job showJobDetail(@PathVariable("jobId")Long jobId) {
+			return jservice.findJobById(jobId);
+		}
+		@GetMapping("/categorize/{cateogirzeId}")
+		public List<Job>groupbyJobs(@PathVariable("cateogirzeId")String cateogirzeId){
+			return jservice.categorizeJobs(cateogirzeId);
+		}
+		//need to modify
+		@GetMapping("/filter/{title}/{jobStarRating}/{autismLvl}")
+		public List<Job>filterJobs(@PathVariable("title")String title,@PathVariable("jobStarRating")float jobStarRating,@PathVariable("autismLvl")int autismLvl){
+			return jservice.filterJobs(title,jobStarRating,autismLvl);
+		}
+		@GetMapping("/category")
+		public List<String>categoryList(){
+			return jservice.jobIndustryList();
+		}
+		
+
+	
+}

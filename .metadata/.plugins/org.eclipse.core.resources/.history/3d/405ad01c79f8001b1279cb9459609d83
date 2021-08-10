@@ -1,0 +1,12 @@
+package sg.edu.iss.asdadt8.jobs;
+
+import java.util.List;
+
+import sg.edu.iss.asdadt8.domain.Job;
+
+public interface JobService {
+
+	List<Job>showallJobs();
+	List<Job>findJobs(String searchKey);
+	List<Job>filterJobs(String name,String location,int autismLvl, String position);
+}

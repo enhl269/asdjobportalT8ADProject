@@ -6,8 +6,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import sg.edu.iss.asdadt8.DTOs.CompaniesReviewDTO;
 import sg.edu.iss.asdadt8.domain.Company;
 import sg.edu.iss.asdadt8.domain.Review;
+import sg.edu.iss.asdadt8.repositories.ApplicantRepository;
+import sg.edu.iss.asdadt8.repositories.CompanyRepository;
+import sg.edu.iss.asdadt8.repositories.JobRepository;
+import sg.edu.iss.asdadt8.repositories.ReviewRepository;
 
 @Service
 public class ReviewServiceImpl implements ReviewService {

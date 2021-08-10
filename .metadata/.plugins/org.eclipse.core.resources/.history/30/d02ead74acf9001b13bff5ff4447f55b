@@ -1,0 +1,17 @@
+ package sg.edu.iss.asdadt8.webadmin;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import sg.edu.iss.asdadt8.domain.Applicant;
+import sg.edu.iss.asdadt8.domain.Review;
+
+public interface ApplicantWebRepository extends JpaRepository<Applicant,Long>{
+	
+	
+	
+	
+
+}

@@ -191,8 +191,8 @@ public class Applicant extends User {
 		return reviews;
 	}
 
-
-	public void setReview(Review review) {
+	//change the input parameter type as list<Review> from Review
+	public void setReview(List<Review> reviews) {
 		this.reviews = reviews;
 	}
 

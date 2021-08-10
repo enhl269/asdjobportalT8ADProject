@@ -1,0 +1,32 @@
+package sg.edu.iss.asdadt8.jobs;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import sg.edu.iss.asdadt8.domain.Job;
+
+@RestController
+@RequestMapping("/api/job")
+public class JobController {
+	
+	@Autowired
+	JobServiceImpl jservice;
+	
+	
+	@GetMapping("/list")
+	public List<Job>viewJobs(){
+		return jservice.showallJobs();
+	}
+	
+	@GetMapping("/list/{search}")
+	public List<Job>searchJobs(@PathVariable("search")String search){
+		return jservice.findJobs(search);
+	}
+	
+
+}

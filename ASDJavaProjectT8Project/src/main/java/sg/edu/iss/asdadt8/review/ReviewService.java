@@ -2,6 +2,7 @@ package sg.edu.iss.asdadt8.review;
 
 import java.util.List;
 
+import sg.edu.iss.asdadt8.DTOs.CompaniesReviewDTO;
 import sg.edu.iss.asdadt8.domain.Company;
 import sg.edu.iss.asdadt8.domain.Review;
 

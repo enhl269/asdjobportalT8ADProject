@@ -1,0 +1,10 @@
+package sg.edu.iss.asdadt8.jobs;
+
+import java.util.List;
+
+import sg.edu.iss.asdadt8.domain.Job;
+
+public interface JobService {
+
+	List<Job>showallJobs();
+}

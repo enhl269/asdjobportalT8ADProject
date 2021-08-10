@@ -17,8 +17,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import sg.edu.iss.asdadt8.DTOs.CompaniesReviewDTO;
+import sg.edu.iss.asdadt8.DTOs.ReviewDTO;
 import sg.edu.iss.asdadt8.domain.Company;
 import sg.edu.iss.asdadt8.domain.Review;
+import sg.edu.iss.asdadt8.repositories.ApplicantRepository;
+import sg.edu.iss.asdadt8.repositories.CompanyRepository;
+import sg.edu.iss.asdadt8.repositories.JobRepository;
+import sg.edu.iss.asdadt8.repositories.ReviewRepository;
 
 
 @RestController
