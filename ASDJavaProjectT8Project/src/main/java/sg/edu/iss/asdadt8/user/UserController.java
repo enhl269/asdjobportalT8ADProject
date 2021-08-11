@@ -15,9 +15,11 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.util.MimeTypeUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.auth0.jwt.JWT;
@@ -49,6 +51,18 @@ public class UserController {
 	public ResponseEntity<List<User>> getUsers(){
 	    return ResponseEntity.ok().body(userService.getUsers());
 	}
+
+	@GetMapping("/applicant/{username}")
+	public ResponseEntity<ApplicantDTO> getApplicant(@PathVariable("username") String username){
+		ApplicantDTO applicant = userService.getApplicant(username);
+		if(applicant !=null) {
+			return ResponseEntity.ok().body(applicant);
+		} else {
+			return ResponseEntity.status(500).build();
+		}
+		
+	}
+	
 	
 	//this method intends to create and update admin,
 	//to creat a new admin should be implemented by another admin user.
@@ -73,7 +87,7 @@ public class UserController {
 	
 	//this method intends to create and update an applicant
 	@PostMapping("/applicant")
-    public ResponseEntity<User> saveUser(@RequestBody Applicant applicant){
+    public ResponseEntity<User> saveApplicant(@RequestBody User applicant){
         //URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/user").toString());
     	if(applicant.getId()==null) {
     		if(applicant.getEmail()==null)
@@ -91,7 +105,7 @@ public class UserController {
     }
     
     //this method intends to delete the user
-    @DeleteMapping("/")
+    @DeleteMapping("/user")
     public ResponseEntity<User> deleteUser(@RequestBody User user) {
     	User userDelete = userService.getUser(user.getEmail());
     	if(userDelete!=null) {

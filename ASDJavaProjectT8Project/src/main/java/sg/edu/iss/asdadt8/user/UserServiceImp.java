@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-
+import sg.edu.iss.asdadt8.domain.Applicant;
+import sg.edu.iss.asdadt8.domain.Role;
 import sg.edu.iss.asdadt8.domain.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,10 @@ public class UserServiceImp implements UserService, UserDetailsService{
 	private UserRepository userRepo;
 	
 	@Autowired
+	private ApplicantRepo arepo;
+	
+	
+	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
 	@Override
@@ -35,6 +40,16 @@ public class UserServiceImp implements UserService, UserDetailsService{
 	@Override
 	public User getUser(String email) {
 		return userRepo.findByEmail(email);
+	}
+	
+	public ApplicantDTO getApplicant(String email) {
+		Applicant user = arepo.findByEmail(email);
+		ApplicantDTO applicantDTO = new ApplicantDTO();
+		applicantDTO.setUsername(user.getEmail());
+		applicantDTO.setFirstName(user.getFirstName());
+		applicantDTO.setLastName(user.getLastName());
+		applicantDTO.setContactNumber(user.getContactNumber());
+		return applicantDTO;
 	}
 
 	@Override
@@ -61,5 +76,5 @@ public class UserServiceImp implements UserService, UserDetailsService{
         authorities.add(new SimpleGrantedAuthority(user.getRoles()));
 		return new org.springframework.security.core.userdetails.User(user.getEmail(),user.getPassword(), authorities);
 	}
-
+	
 }

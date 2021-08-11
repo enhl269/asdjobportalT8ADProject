@@ -3,6 +3,7 @@ package sg.edu.iss.asdadt8.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -18,6 +19,7 @@ import sg.edu.iss.asdadt8.user.filter.CustomAuthenticationFilter;
 import sg.edu.iss.asdadt8.user.filter.CustomAuthorizationFilter;
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
+import static org.springframework.http.HttpMethod.DELETE;
 
 @Configuration
 @EnableWebSecurity
@@ -50,6 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         http.sessionManagement().sessionCreationPolicy(STATELESS);
         
         //http.authorizeRequests().antMatchers("/api/user/**").permitAll();
+        http.authorizeRequests().antMatchers(DELETE,"/api/user/user").hasAnyAuthority(Role.APPLICANT.toString(),Role.ADMIN.toString());
         http.authorizeRequests().antMatchers("/api/webadmin/**").hasAuthority(Role.ADMIN.toString());
         //http.authorizeRequests().antMatchers("/api/jobadmin/**").hasAuthority(Role.APPLICANT.toString());
         http.authorizeRequests().anyRequest().authenticated();       
