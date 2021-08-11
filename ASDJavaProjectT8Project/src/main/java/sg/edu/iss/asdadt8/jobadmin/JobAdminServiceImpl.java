@@ -1,10 +1,12 @@
 package sg.edu.iss.asdadt8.jobadmin;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.datetime.DateFormatter;
 import org.springframework.stereotype.Service;
 
 import sg.edu.iss.asdadt8.DTOs.BookmarkedJobsDTO;
@@ -165,7 +167,7 @@ public class JobAdminServiceImpl implements JobAdminService{
 		for (BookmarkedJobs a: bookmarkedjobs_list) {
 			//long id, String jobtitle, String companyname, LocalDate bookmarkDate
 			bookmarkedjobs_transfer.add(new BookmarkedJobsDTO(a.getId(), a.getJob().getJobTitle(), 
-					a.getJob().getCompany().getName(), a.getBookmarkDate()));
+					a.getJob().getCompany().getName(), a.getBookmarkDate().toString()));
 		}
 			
 		return bookmarkedjobs_transfer;
@@ -178,9 +180,9 @@ public class JobAdminServiceImpl implements JobAdminService{
 		List<ViewedJobsDTO> viewedjobs_transfer = new ArrayList<>();
 		
 		for (ViewedJobs a: viewedjobs_list) {
-			//long id, String jobtitle, String companyname, LocalDate bookmarkDate
+			//long id, String jobtitle, String companyname, string bookmarkDate
 			viewedjobs_transfer.add(new ViewedJobsDTO(a.getId(), a.getJob().getJobTitle(), 
-					a.getJob().getCompany().getName(), a.getDateViewed()));
+					a.getJob().getCompany().getName(), a.getDateViewed().toString()));
 		}
 			
 		return viewedjobs_transfer;
