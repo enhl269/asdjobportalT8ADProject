@@ -1,6 +1,7 @@
 package sg.edu.iss.asdadt8.webadmin;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,11 @@ public class UserServiceImpl implements UserService {
 		Applicant applicant = arepo.findApplicantByID(id);
 		applicant.setUserStatus(status);
 		arepo.save(applicant);	
+	}
+	
+	@Override
+	public Optional<Applicant> findById(Long id) {
+		return arepo.findById(id);
 	}
 	
 	
