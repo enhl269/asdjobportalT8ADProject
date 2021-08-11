@@ -175,6 +175,7 @@ public class JobAdminServiceImpl implements JobAdminService{
 	
 	public List<ViewedJobsDTO> findViewedJobsByUserID(long applicant_id){
 		List<ViewedJobs> viewedjobs_list = jrepo.findViewedJobsByUserID(applicant_id);
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		
 		//BookmarkedJobsDTO bookmarkedjobs_temp = new BookmarkedJobsDTO();
 		List<ViewedJobsDTO> viewedjobs_transfer = new ArrayList<>();
@@ -182,7 +183,7 @@ public class JobAdminServiceImpl implements JobAdminService{
 		for (ViewedJobs a: viewedjobs_list) {
 			//long id, String jobtitle, String companyname, string bookmarkDate
 			viewedjobs_transfer.add(new ViewedJobsDTO(a.getId(), a.getJob().getJobTitle(), 
-					a.getJob().getCompany().getName(), a.getDateViewed().toString()));
+					a.getJob().getCompany().getName(), a.getDateViewed().format(dtf)));
 		}
 			
 		return viewedjobs_transfer;

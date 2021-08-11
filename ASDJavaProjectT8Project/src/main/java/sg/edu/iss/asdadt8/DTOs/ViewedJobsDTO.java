@@ -7,19 +7,19 @@ public class ViewedJobsDTO {
 	private long id;
 	private String jobtitle;
 	private String companyname;
-	private String bookmarkDate;
+	private String appliedDate;
 	
 	
 	public ViewedJobsDTO() {
 
 	}
 
-	public ViewedJobsDTO(long id, String jobtitle, String companyname, String bookmarkDate) {
+	public ViewedJobsDTO(long id, String jobtitle, String companyname, String appliedDate) {
 		super();
 		this.id = id;
 		this.jobtitle = jobtitle;
 		this.companyname = companyname;
-		this.bookmarkDate = bookmarkDate;
+		this.appliedDate = appliedDate;
 	}
 	
 	public long getId() {
@@ -40,11 +40,11 @@ public class ViewedJobsDTO {
 	public void setCompanyname(String companyname) {
 		this.companyname = companyname;
 	}
-	public String getBookmarkDate() {
-		return bookmarkDate;
+	public String getappliedDate() {
+		return appliedDate;
 	}
-	public void setBookmarkDate(String bookmarkDate) {
-		this.bookmarkDate = bookmarkDate;
+	public void setappliedDate(String appliedDate) {
+		this.appliedDate = appliedDate;
 	}
 
 }
