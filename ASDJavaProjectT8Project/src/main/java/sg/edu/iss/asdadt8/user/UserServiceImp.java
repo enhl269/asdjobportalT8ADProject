@@ -7,6 +7,7 @@ import java.util.List;
 import sg.edu.iss.asdadt8.domain.Applicant;
 import sg.edu.iss.asdadt8.domain.Role;
 import sg.edu.iss.asdadt8.domain.User;
+import sg.edu.iss.asdadt8.repositories.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
