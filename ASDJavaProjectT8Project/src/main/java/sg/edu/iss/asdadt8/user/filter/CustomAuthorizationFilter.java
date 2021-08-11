@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.FilterChain;
@@ -54,11 +55,13 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter{
                     //decode jwt and get username and roles
                     DecodedJWT decodedJWT = verifier.verify(token);
                     String username = decodedJWT.getSubject();
-                    String[] roles = decodedJWT.getClaim("roles").asArray(String.class);
+                    List<String> roles = decodedJWT.getClaim("roles").asList(String.class);
 
                     //get the authority
                     Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-                    stream(roles).forEach(role-> authorities.add(new SimpleGrantedAuthority(role)));
+                    for(String role:roles){
+                    	authorities.add(new SimpleGrantedAuthority(role));
+                    }
                     UsernamePasswordAuthenticationToken authenticationToken =
                             new UsernamePasswordAuthenticationToken(username,null,authorities);
 
