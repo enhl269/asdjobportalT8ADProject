@@ -12,5 +12,6 @@ public interface UserService {
 	List<User> getUsers();
 	void deleteUser(User user);
 	ApplicantDTO getApplicant(String username);
+	void saveApplicant(ApplicantDTO applicant); //creat and update applicant
 
 }

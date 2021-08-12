@@ -7,6 +7,7 @@ import java.util.List;
 import sg.edu.iss.asdadt8.domain.Applicant;
 import sg.edu.iss.asdadt8.domain.Role;
 import sg.edu.iss.asdadt8.domain.User;
+import sg.edu.iss.asdadt8.repositories.ApplicantRepository;
 import sg.edu.iss.asdadt8.repositories.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class UserServiceImp implements UserService, UserDetailsService{
 	private UserRepository userRepo;
 	
 	@Autowired
-	private ApplicantRepo arepo;
+	private ApplicantRepository arepo;
 	
 	
 	@Autowired
@@ -44,13 +45,21 @@ public class UserServiceImp implements UserService, UserDetailsService{
 	}
 	
 	public ApplicantDTO getApplicant(String email) {
-		Applicant user = arepo.findByEmail(email);
-		ApplicantDTO applicantDTO = new ApplicantDTO();
-		applicantDTO.setUsername(user.getEmail());
-		applicantDTO.setFirstName(user.getFirstName());
-		applicantDTO.setLastName(user.getLastName());
-		applicantDTO.setContactNumber(user.getContactNumber());
+		Applicant applicant = arepo.findByEmail(email);
+		ApplicantDTO applicantDTO = applicantToDTO(applicant); 
 		return applicantDTO;
+	}
+	
+	//completed
+	@Override
+	public void saveApplicant(ApplicantDTO dto) {
+		Applicant a = DTOToApplicant(dto);
+		//check the password
+		if(dto.getPassword()!=null) {
+			//means the user update the password
+			a.setPassword(passwordEncoder.encode(dto.getPassword()));
+		}
+		arepo.save(a);
 	}
 
 	@Override
@@ -76,6 +85,47 @@ public class UserServiceImp implements UserService, UserDetailsService{
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(user.getRoles()));
 		return new org.springframework.security.core.userdetails.User(user.getEmail(),user.getPassword(), authorities);
+	}
+
+
+	
+	ApplicantDTO applicantToDTO(Applicant a) {
+		ApplicantDTO dto = new ApplicantDTO();
+		dto.setId(a.getId());
+		dto.setUsername(a.getEmail());
+		dto.setFirstName(a.getFirstName());
+		dto.setLastName(a.getLastName());
+		dto.setContactNumber(a.getContactNumber());
+		dto.setAvatarImageURl(a.getAvatarImageUrl());
+		dto.setChatstatus(a.getChatstatus());
+		dto.setDob(a.getDob());
+		dto.setGender(a.getGender());
+		dto.setResumeURl(a.getResumeURl());
+		dto.setRoles(Role.APPLICANT.toString());
+		dto.setSelfIntroduction(a.getSelfIntroduction());
+		dto.setUserStatus(a.getUserStatus());
+		return dto;
+	}
+	
+	Applicant DTOToApplicant(ApplicantDTO d) {
+		Applicant a = new Applicant();
+		if(d.getId()!=null) {
+			a.setId(d.getId());
+		}
+		a.setEmail(d.getUsername());
+		a.setFirstName(d.getFirstName());
+		a.setLastName(d.getLastName());
+		a.setContactNumber(d.getContactNumber());
+		a.setAvatarImageUrl(d.getAvatarImageURl());
+		a.setChatstatus(d.getChatstatus());
+		a.setDob(d.getDob());
+		a.setGender(d.getGender());
+		a.setPassword(d.getPassword());
+		a.setResumeURl(d.getResumeURl());
+		a.setRoles(Role.APPLICANT.toString());
+		a.setSelfIntroduction(d.getSelfIntroduction());
+		a.setUserStatus(d.getUserStatus());
+		return a;
 	}
 	
 }

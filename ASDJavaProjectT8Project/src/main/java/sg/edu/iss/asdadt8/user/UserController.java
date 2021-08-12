@@ -46,6 +46,43 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
+	//this method intends to create and update an applicant, completed
+	@PostMapping("/applicant")
+    public ResponseEntity<ApplicantDTO> saveApplicant(@RequestBody ApplicantDTO applicant){
+		//validate if there is a email
+		if(applicant.getUsername()==null) {
+			return ResponseEntity.badRequest().body(applicant);
+		} 
+		else {
+        //check if it is a new user
+			if(applicant.getId()==null) {
+				//then it should be a new user or they dont pass the userid
+				//if it is a new user
+				try {applicant.setId(userService.getApplicant(applicant.getUsername()).getId());}
+				catch (NullPointerException e){}
+			    	if(applicant.getRoles()==null)
+			    		applicant.setRoles(Role.APPLICANT.toString());
+			} 
+				// update or create applicant
+			userService.saveApplicant(applicant);
+			return ResponseEntity.ok().body(applicant);
+		}		
+	}
+	
+
+	//this method is to get applicant detail
+	@GetMapping("/applicant/{username}")
+	public ResponseEntity<ApplicantDTO> getApplicant(@PathVariable("username") String username){
+		ApplicantDTO applicant = userService.getApplicant(username);
+		if(applicant !=null) {
+			return ResponseEntity.ok().body(applicant);
+		} else {
+			return ResponseEntity.badRequest().body(applicant);
+		}
+	}
+	
+	
+	
 	//this method intends to get all users(include admin and applicant) as a list
 	@Secured("hasAuthority('ADMIN')")
 	@GetMapping("/list")
@@ -53,16 +90,7 @@ public class UserController {
 	    return ResponseEntity.ok().body(userService.getUsers());
 	}
 
-	@GetMapping("/applicant/{username}")
-	public ResponseEntity<ApplicantDTO> getApplicant(@PathVariable("username") String username){
-		ApplicantDTO applicant = userService.getApplicant(username);
-		if(applicant !=null) {
-			return ResponseEntity.ok().body(applicant);
-		} else {
-			return ResponseEntity.status(500).build();
-		}
-		
-	}
+
 	
 	
 	//this method intends to create and update admin,
@@ -86,24 +114,7 @@ public class UserController {
 		return ResponseEntity.ok().body(userService.saveUser(admin));
     }
 	
-	//this method intends to create and update an applicant
-	@PostMapping("/applicant")
-    public ResponseEntity<User> saveApplicant(@RequestBody User applicant){
-        //URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/user").toString());
-    	if(applicant.getId()==null) {
-    		if(applicant.getEmail()==null)
-    			return ResponseEntity.badRequest().body(applicant);
-    		else {
-    			User userExist = userService.getUser(applicant.getEmail());
-    			if(userExist!=null)
-    				applicant.setId(userExist.getId());
-    		}
-    	}
-    	if(applicant.getRoles()==null) {
-    		applicant.setRoles(Role.APPLICANT.toString());
-    	}
-		return ResponseEntity.ok().body(userService.saveUser(applicant));
-    }
+
     
     //this method intends to delete the user
     @DeleteMapping("/user")
@@ -180,5 +191,7 @@ public class UserController {
         }
     	
     }
+    
+    
     
 }

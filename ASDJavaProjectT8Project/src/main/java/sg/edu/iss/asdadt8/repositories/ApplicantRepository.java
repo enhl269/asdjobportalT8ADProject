@@ -28,5 +28,7 @@ public interface ApplicantRepository extends JpaRepository<Applicant,Long>{
 	
 	@Query("SELECT a FROM Applicant a")
 	List<Applicant> findAllApplicant();
+	
+	Applicant findByEmail(String email);
 
 }
