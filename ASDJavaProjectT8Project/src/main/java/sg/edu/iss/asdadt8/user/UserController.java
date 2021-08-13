@@ -38,6 +38,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 
 import java.io.IOException;
+import java.net.http.HttpRequest;
 
 @RestController
 @RequestMapping("/api/user")
@@ -69,7 +70,6 @@ public class UserController {
 		}		
 	}
 	
-
 	//this method is to get applicant detail
 	@GetMapping("/applicant/{username}")
 	public ResponseEntity<ApplicantDTO> getApplicant(@PathVariable("username") String username){

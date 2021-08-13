@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         //http.authorizeRequests().antMatchers("/api/user/**").permitAll();
         http.authorizeRequests().antMatchers("/api/webadmin/**").hasAuthority(Role.ADMIN.toString());
         //http.authorizeRequests().antMatchers("/api/jobadmin/**").hasAuthority(Role.APPLICANT.toString());
-		/* http.authorizeRequests().anyRequest().authenticated(); */      
+		//http.authorizeRequests().anyRequest().authenticated();      
         
         http.addFilter(customAuthenticationFilter);
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
