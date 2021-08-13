@@ -20,6 +20,8 @@ public class Company {
 	
 	private String name;
 	
+	private String hrEmail;
+	
 	private float starRating;
 	
 	@OneToMany (mappedBy="company", cascade = CascadeType.ALL)
@@ -34,16 +36,18 @@ public class Company {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public Company(String name, float starRating) {
+	public Company(String name, String hrEmail, float starRating) {
 		super();
 		this.name = name;
+		this.hrEmail = hrEmail;
 		this.starRating = starRating;
 	}
 
-	public Company(long id, String name, float starRating, List<Review> reviews, List<Job> job) {
+	public Company(long id, String name, String hrEmail, float starRating, List<Review> reviews, List<Job> job) {
 		super();
 		this.id = id;
 		this.name = name;
+		this.hrEmail = hrEmail;
 		this.starRating = starRating;
 		this.reviews = reviews;
 		this.job = job;
@@ -96,6 +100,13 @@ public class Company {
 
 	public void setJob(List<Job> job) {
 		this.job = job;
+	}
+	public String getHrEmail() {
+		return hrEmail;
+	}
+	
+	public void setHrEmail(String hrEmail) {
+		this.hrEmail = hrEmail;
 	}
 	
 	

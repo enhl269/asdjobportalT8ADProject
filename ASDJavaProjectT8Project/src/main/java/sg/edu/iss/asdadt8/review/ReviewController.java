@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import sg.edu.iss.asdadt8.domain.Company;
 import sg.edu.iss.asdadt8.domain.Review;
 
-
+@CrossOrigin(origins= "http://localhost:3000")
 @RestController
 @RequestMapping("/api/review")
 public class ReviewController {
@@ -43,7 +44,7 @@ public class ReviewController {
 	
     @GetMapping("list")
 	public List<ReviewDTO> allReview() {
-		List<Review> r = rrepo.findAll();
+		List<Review> r = rrepo.findApprovedReviews();
 		return generateLists(r);
     }
 	
@@ -65,19 +66,19 @@ public class ReviewController {
 
 	@GetMapping("company/review/{companyname}")
 	public List<ReviewDTO> allCompaniesReviews(@PathVariable("companyname") String companyName) {
-		List<Review> r = crepo.findByCompanyReview(companyName);
+		List<Review> r = rrepo.findReviewsByCompanyname(companyName);
 		return generateLists(r);
     }
 	
 	@GetMapping("user/review/{userid}")
 	public List<ReviewDTO> findReviewByUser(@PathVariable("userid") Long userid) {
-		List<Review> r =arepo.findByApplicantReview(userid);
+		List<Review> r =rrepo.findReviewsByApplicant(userid);
 		return generateLists(r);
     }	
 	
 	@GetMapping("job/review/{jobtitle}")
 	public List<ReviewDTO> findReviewByJob(@PathVariable("jobtitle") String jobTitle) {
-		List<Review> r =jrepo.findByJobReview(jobTitle);
+		List<Review> r = rrepo.findReviewsByJobTitle(jobTitle);
 		return generateLists(r);
     }	
 	
@@ -92,7 +93,7 @@ public class ReviewController {
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate ld = LocalDate.parse(rdto.getReviewDate(),dtf);
 		
-        Review review = new Review(rdto.getReviewstars(),rdto.getReviewDescription(),
+        Review review = new Review(rdto.getReviewstars(),rdto.getReviewDescription(),"Approved",
     		  crepo.findByCompanyName(rdto.getCompanyName().toString()).get(0),ld,
     		 jrepo.findByJobName(rdto.getJobTitle().toString()).get(0),
     		  arepo.findApplicantByID(rdto.getUserId()).get(0));
@@ -110,6 +111,7 @@ public class ReviewController {
 		}
 	
 	private List<ReviewDTO> generateLists(List<Review> r){
+		
 		List<ReviewDTO> rdto = new ArrayList<>(r.size());
 		for(int i=0;i<r.size();i++) {
 			rdto.add(new ReviewDTO());

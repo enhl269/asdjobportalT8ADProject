@@ -24,6 +24,7 @@ public class Job {
 	private String jobTitle;
 	
 	private String jobIndustry;
+	private String jobqualification;
 	
 	private String jobDescription;
 	
@@ -57,12 +58,13 @@ public class Job {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Job(long id, String jobTitle,String jobIndustry, String jobDescription, int autismLevel, float jobStarRating, String jobPositionURL,
+	public Job(long id, String jobTitle,String jobIndustry, String jobqualification, String jobDescription, int autismLevel, float jobStarRating, String jobPositionURL,
 			List<String> tags, Company company, List<ViewedJobs> viewedJobs, List<BookmarkedJobs> bookmarkedJobs,List<Review> reviews) {
 		super();
 		this.id = id;
 		this.jobTitle = jobTitle;
 		this.jobIndustry = jobIndustry;
+		this.jobqualification = jobqualification;
 		this.jobDescription = jobDescription;
 		this.autismLevel = autismLevel;
 		this.jobStarRating = jobStarRating;
@@ -75,11 +77,12 @@ public class Job {
 	}
 	
 
-	public Job(String jobTitle,String jobIndustry,String jobDescription, int autismLevel, float jobStarRating, String jobPositionURL, List<String> tags,
+	public Job(String jobTitle,String jobIndustry,String jobDescription, String jobqualification, int autismLevel, float jobStarRating, String jobPositionURL, List<String> tags,
 			Company company, List<Review> reviews) {
 		super();
 		this.jobTitle = jobTitle;
 		this.jobIndustry = jobIndustry;
+		this.jobqualification = jobqualification;
 		this.jobDescription = jobDescription;
 		this.autismLevel = autismLevel;
 		this.jobStarRating = jobStarRating;
@@ -89,11 +92,12 @@ public class Job {
 		this.reviews = reviews;
 	}
 
-	public Job(String jobTitle,String jobIndustry,String jobDescription, int autismLevel, float jobStarRating, String jobPositionURL, List<String> tags,
+	public Job(String jobTitle,String jobIndustry,String jobqualification, String jobDescription, int autismLevel, float jobStarRating, String jobPositionURL, List<String> tags,
 			Company company, List<ViewedJobs> viewedJobs, List<BookmarkedJobs> bookmarkedJobs,List<Review> reviews) {
 		super();
 		this.jobTitle = jobTitle;
 		this.jobIndustry = jobIndustry;
+		this.jobqualification = jobqualification;
 		this.jobDescription = jobDescription;
 		this.autismLevel = autismLevel;
 		this.jobStarRating = jobStarRating;
@@ -198,6 +202,14 @@ public class Job {
 
 	public void setReview(List<Review> reviews) {
 		this.reviews = reviews;
+	}
+	
+	public String getJobqualification() {
+		return jobqualification;
+	}
+
+	public void setJobqualification(String jobqualification) {
+		this.jobqualification = jobqualification;
 	}
 	
 	

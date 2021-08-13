@@ -55,6 +55,7 @@ public class AsdJavaProjectT8ProjectApplication {
 				user.setContactNumber("86325472");
 				user.setRoles(Role.APPLICANT.toString());
 				user.setAvatarImageUrl("/blahblah");
+				user.setUserStatus("Approved");
 				
 				Applicant u2 = new Applicant();
 				u2.setEmail("wankey@gmail.com");
@@ -63,7 +64,8 @@ public class AsdJavaProjectT8ProjectApplication {
 				u2.setLastName("Teo");
 				u2.setContactNumber("96396872");
 				u2.setRoles(Role.APPLICANT.toString());
-				user.setAvatarImageUrl("/bye");
+				u2.setAvatarImageUrl("/bye");
+				u2.setUserStatus("Approved");
 				
 				Applicant u3 = new Applicant();
 				u3.setEmail("zhangran@gmail.com");
@@ -72,6 +74,7 @@ public class AsdJavaProjectT8ProjectApplication {
 				u3.setLastName("Ran");
 				u3.setContactNumber("86396872");
 				u3.setRoles(Role.APPLICANT.toString());
+				u3.setUserStatus("Blocked");
 				
 				Applicant u4 = new Applicant();
 				u4.setEmail("johnson@gmail.com");
@@ -80,6 +83,7 @@ public class AsdJavaProjectT8ProjectApplication {
 				u4.setLastName("Leow");
 				u4.setContactNumber("96081872");
 				u4.setRoles(Role.APPLICANT.toString());
+				u4.setUserStatus("Blocked");
 				
 				Applicant u5 = new Applicant();
 				u5.setEmail("noel@gmail.com");
@@ -88,26 +92,28 @@ public class AsdJavaProjectT8ProjectApplication {
 				u5.setLastName("Wai");
 				u5.setContactNumber("86080072");
 				u5.setRoles(Role.APPLICANT.toString());
+				u5.setUserStatus("Approved");
+				
 
-				Company c = new Company("ABC Company", 4.2f); //job
-				Company c1 = new Company("Digital Company", 2.2f);
-				Company c2 = new Company("Solution Design", 3.2f);
-				Company c3 = new Company("Gondola Team", 4.7f);
+				Company c = new Company("ABC Company", null,4.2f); //job
+				Company c1 = new Company("Digital Company", null,2.2f);
+				Company c2 = new Company("Solution Design", null,3.2f);
+				Company c3 = new Company("Gondola Team", null,4.7f);
 
 				
-				Job j = new Job("analyst","food","best job forever", 2, 3.5f, "/jobsback1",null, c,null);
-				Job j1 = new Job("developer","food","best job forever", 3, 3.5f, "/jobsback1",null, c1,null);
-				Job j2 = new Job("architect","food","best job forever", 4, 3.5f, "/jobsback1",null, c2,null);
-				Job j3 = new Job("designer","food","best job forever", 3, 3.5f, "/jobsback1",null, c3,null);
+				Job j = new Job("analyst","food","needs diploma","best job forever", 2, 3.5f, "/jobsback1",null, c,null);
+				Job j1 = new Job("developer","education","needs degree","best job forever", 3, 3.5f, "/jobsback1",null, c1,null);
+				Job j2 = new Job("architect","consulting","needs to talk","best job forever", 4, 3.5f, "/jobsback1",null, c2,null);
+				Job j3 = new Job("designer","finance","needs nothing","best job forever", 3, 3.5f, "/jobsback1",null, c3,null);
 				
-				Review r = new Review(3.2f, "best place to work", c,date, j,user);
-				Review r1 = new Review(2.5f, "poor place", c1,date, j1,u2);
-				Review r2 = new Review(4.4f, "dirty place", c,date, j2,u3);
-				Review r3 = new Review(2.4f, "unremarkable place", c3,date, j3,u4);
-				Review r4 = new Review(1.4f, "great place", c1,date, j1,user);
-				Review r5 = new Review(4.3f, "trendy place", c3,date, j3,u2);
-				Review r6 = new Review(3.8f, "best2 place", c2,date, j2,u3);
-				Review r7 = new Review(2.5f, "best1 place", c,date, j1,u4);
+				Review r = new Review(3.2f, "best place to work", "Approved",c,date, j,user);
+				Review r1 = new Review(2.5f, "poor place", "Approved",c1,date, j1,u2);
+				Review r2 = new Review(4.4f, "dirty place", "Approved",c,date, j2,u3);
+				Review r3 = new Review(2.4f, "unremarkable place", "Approved",c3,date, j3,u4);
+				Review r4 = new Review(1.4f, "great place", "Approved",c1,date, j1,user);
+				Review r5 = new Review(4.3f, "trendy place", "Approved",c3,date, j3,u2);
+				Review r6 = new Review(3.8f, "best2 place", "Blocked",c2,date, j2,u3);
+				Review r7 = new Review(2.5f, "best1 place", "Blocked",c,date, j1,u4);
 				
 				
 				arepo.save(user);

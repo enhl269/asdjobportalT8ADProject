@@ -18,6 +18,28 @@ public interface ReviewRepository extends JpaRepository<Review,Long>{
 	@Query("SELECT r FROM Review r JOIN r.company c "
 			+ "JOIN c.job j "
 			+ "where c.name=:cname "
-			+ "AND j.jobTitle=:jobTitle")
+			+ "AND j.jobTitle=:jobTitle "
+			+ "AND r.reviewStatus= 'Approved'")
 	public List<Review> findReviewsByCompanynameandJobTitle(@Param("cname") String cname,@Param("jobTitle") String jobTitle);
+	
+	@Query("SELECT r FROM Review r JOIN r.job j "
+			+ "where j.jobTitle=:jobTitle "
+			+ "AND r.reviewStatus= 'Approved'")
+	public List<Review> findReviewsByJobTitle(@Param("jobTitle") String jobTitle);
+	
+	@Query("SELECT r FROM Review r JOIN r.applicant a "
+			+ "where a.id =?1 "
+			+ "AND r.reviewStatus= 'Approved'")
+	public List<Review> findReviewsByApplicant(@Param("id") Long id);
+	
+	@Query("SELECT r FROM Review r JOIN r.company c "
+			+ "where c.name=:cname "
+			+ "AND r.reviewStatus= 'Approved'")
+	public List<Review> findReviewsByCompanyname(@Param("cname") String cname);
+	
+	@Query("SELECT r FROM Review r "
+			+ "where r.reviewStatus= 'Approved'")
+	public List<Review> findApprovedReviews();
+	
+	
 }

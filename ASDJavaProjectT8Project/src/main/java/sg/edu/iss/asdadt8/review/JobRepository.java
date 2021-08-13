@@ -14,7 +14,8 @@ public interface JobRepository extends JpaRepository<Job,Long>{
 	@Query("SELECT j FROM Job j WHERE j.jobTitle =?1")
 	List<Job> findByJobName(String JobName);
 	
-	@Query("SELECT j.reviews FROM Job j WHERE j.jobTitle =?1")
+	@Query("SELECT j.reviews FROM Job j JOIN j.reviews r WHERE j.jobTitle =?1 "
+			+ "AND r.reviewStatus = 'Approved'")
 	List<Review> findByJobReview(String JobTitle);
 
 }

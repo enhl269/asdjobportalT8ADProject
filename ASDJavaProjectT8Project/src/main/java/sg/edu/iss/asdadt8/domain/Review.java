@@ -7,11 +7,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 @Entity
 public class Review {
 	
@@ -36,7 +36,7 @@ public class Review {
 	@JsonBackReference
 	private Job job;
 	
-	@OneToOne
+	@ManyToOne 
 	@JsonBackReference
 	private Applicant applicant;
 
@@ -67,11 +67,12 @@ public class Review {
 		this.reviewDate=reviewDate;
 	}
 
-	public Review(float reviewstars, String reviewDescription, Company company,
+	public Review(float reviewstars, String reviewDescription, String reviewStatus, Company company,
 			LocalDate reviewDate,Job job,Applicant applicant) {
 		super();
 		this.reviewstars = reviewstars;
 		this.reviewDescription = reviewDescription;
+		this.reviewStatus = reviewStatus;
 		this.company = company;
 		this.job=job;
 		this.applicant = applicant;
