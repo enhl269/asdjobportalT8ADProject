@@ -58,6 +58,8 @@ public class UserServiceImp implements UserService, UserDetailsService{
 		if(dto.getPassword()!=null) {
 			//means the user update the password
 			a.setPassword(passwordEncoder.encode(dto.getPassword()));
+		} else {
+			a.setPassword(arepo.findByEmail(dto.getUsername()).getPassword());
 		}
 		arepo.save(a);
 	}
@@ -120,7 +122,6 @@ public class UserServiceImp implements UserService, UserDetailsService{
 		a.setChatstatus(d.getChatstatus());
 		a.setDob(d.getDob());
 		a.setGender(d.getGender());
-		a.setPassword(d.getPassword());
 		a.setResumeURl(d.getResumeURl());
 		a.setRoles(Role.APPLICANT.toString());
 		a.setSelfIntroduction(d.getSelfIntroduction());
