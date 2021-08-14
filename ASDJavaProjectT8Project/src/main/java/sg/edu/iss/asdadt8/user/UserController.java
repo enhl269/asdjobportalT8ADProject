@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -47,88 +48,7 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 	
-	//this method intends to create and update an applicant, completed
-	@PostMapping("/applicant")
-    public ResponseEntity<ApplicantDTO> saveApplicant(@RequestBody ApplicantDTO applicant){
-		//validate if there is a email
-		if(applicant.getUsername()==null) {
-			return ResponseEntity.badRequest().body(applicant);
-		} 
-		else {
-        //check if it is a new user
-			if(applicant.getId()==null) {
-				//then it should be a new user or they dont pass the userid
-				//if it is a new user
-				try {applicant.setId(userService.getApplicant(applicant.getUsername()).getId());}
-				catch (NullPointerException e){}
-			    	if(applicant.getRoles()==null)
-			    		applicant.setRoles(Role.APPLICANT.toString());
-			} 
-				// update or create applicant
-			userService.saveApplicant(applicant);
-			return ResponseEntity.ok().body(applicant);
-		}		
-	}
-	
-	//this method is to get applicant detail
-	@GetMapping("/applicant/{username}")
-	public ResponseEntity<ApplicantDTO> getApplicant(@PathVariable("username") String username){
-		ApplicantDTO applicant = userService.getApplicant(username);
-		if(applicant !=null) {
-			return ResponseEntity.ok().body(applicant);
-		} else {
-			return ResponseEntity.badRequest().body(applicant);
-		}
-	}
-	
-	
-	
-	//this method intends to get all users(include admin and applicant) as a list
-	@Secured("hasAuthority('ADMIN')")
-	@GetMapping("/list")
-	public ResponseEntity<List<User>> getUsers(){
-	    return ResponseEntity.ok().body(userService.getUsers());
-	}
-
-
-	
-	
-	//this method intends to create and update admin,
-	//to creat a new admin should be implemented by another admin user.
-	@Secured("hasAuthority('ADMIN')")
-	@PostMapping("/admin")
-    public ResponseEntity<User> saveUser(@RequestBody Admin admin){
-        //URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/user").toString());
-    	if(admin.getId()==null) {
-    		if(admin.getEmail()==null)
-    			return ResponseEntity.badRequest().body(admin);
-    		else {
-    			User userExist = userService.getUser(admin.getEmail());
-    			if(userExist!=null)
-            		admin.setId(userExist.getId());
-    		}
-    	}
-    	if(admin.getRoles()==null) {
-    		admin.setRoles(Role.ADMIN.toString());
-    	}
-		return ResponseEntity.ok().body(userService.saveUser(admin));
-    }
-	
-
-    
-    //this method intends to delete the user
-    @DeleteMapping("/user")
-    public ResponseEntity<User> deleteUser(@RequestBody User user) {
-    	User userDelete = userService.getUser(user.getEmail());
-    	if(userDelete!=null) {
-	    	userService.deleteUser(userDelete);    
-	    	return ResponseEntity.ok().body(userDelete);
-    	} else {
-    		return ResponseEntity.internalServerError().body(user);
-    	}
-    }
-    
-    //this method for refresh token, should be implement by front end
+    //this method for refresh token, should be implement by front end, completed
     @GetMapping("/refreshtoken")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) 
     		throws IOException{
@@ -191,7 +111,120 @@ public class UserController {
         }
     	
     }
+	
+	//this method intends to create an applicant, completed, no authentication
+	@PostMapping("/applicant")
+    public ResponseEntity<ApplicantDTO> saveApplicant(@RequestBody ApplicantDTO applicant){
+		//validate if there is a email
+		if(applicant.getUsername()==null) {
+			return ResponseEntity.badRequest().body(applicant);
+		} 
+		else {
+        //check if it is a new user
+			if(applicant.getId()==null) {
+				//then it should be a new user or they dont pass the userid
+				//if it is a new user
+				try {applicant.setId(userService.getApplicant(applicant.getUsername()).getId());}
+				catch (NullPointerException e){}
+			    	if(applicant.getRoles()==null)
+			    		applicant.setRoles(Role.APPLICANT.toString());
+			} 
+				// update or create applicant
+			userService.saveApplicant(applicant);
+			return ResponseEntity.ok().body(applicant);
+		}		
+	}
+	
+	//this method intends to update an applicant
+	@PostMapping("/applicant/update")
+    public ResponseEntity<ApplicantDTO> updateApplicant(@RequestBody ApplicantDTO applicant){
+		//validate if there is a email
+		if(applicant.getUsername()==null) {
+			return ResponseEntity.badRequest().body(applicant);
+		} 
+		else {
+        //check if it is a new user
+			if(applicant.getId()==null) {
+				//then it should be a new user or they dont pass the userid
+				//if it is a new user
+				try {applicant.setId(userService.getApplicant(applicant.getUsername()).getId());}
+				catch (NullPointerException e){}
+			    	if(applicant.getRoles()==null)
+			    		applicant.setRoles(Role.APPLICANT.toString());
+			} 
+				// update or create applicant
+			userService.saveApplicant(applicant);
+			return ResponseEntity.ok().body(applicant);
+		}		
+	}
+	
+	//this method is to get applicant detail, completed
+	@GetMapping("/applicant/{username}")
+	public ResponseEntity<ApplicantDTO> getApplicant(@PathVariable("username") String username){
+		ApplicantDTO applicant = userService.getApplicant(username);
+		if(applicant !=null) {
+			return ResponseEntity.ok().body(applicant);
+		} else {
+			return ResponseEntity.badRequest().body(applicant);
+		}
+	}
+		
+    //this method intends to delete the user, completed
+    @DeleteMapping("/applicant/{username}")
+    public ResponseEntity<ApplicantDTO> deleteUser(@PathVariable("username") String username) {
+		ApplicantDTO applicant = userService.getApplicant(username);
+    	if(applicant!=null) {
+	    	userService.deleteApplicant(applicant);    
+	    	return ResponseEntity.ok().body(applicant);
+    	} else {
+    		return ResponseEntity.badRequest().body(applicant);
+    	}
+    }
+	
+    
+
+	
     
     
+    //this method intends to get all users(include admin and applicant) as a list
+	@Secured("hasAuthority('ADMIN')")
+	@GetMapping("admin/list")
+	public ResponseEntity<List<User>> getUsers(){
+	    return ResponseEntity.ok().body(userService.getUsers());
+	}
+
+	//this method intends to create and update admin,
+	//to creat a new admin should be implemented by another admin user.
+	@Secured("hasAuthority('ADMIN')")
+	@PostMapping("/admin")
+    public ResponseEntity<User> saveUser(@RequestBody Admin admin){
+        //URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/user/user").toString());
+    	if(admin.getId()==null) {
+    		if(admin.getEmail()==null)
+    			return ResponseEntity.badRequest().body(admin);
+    		else {
+    			User userExist = userService.getUser(admin.getEmail());
+    			if(userExist!=null)
+            		admin.setId(userExist.getId());
+    		}
+    	}
+    	if(admin.getRoles()==null) {
+    		admin.setRoles(Role.ADMIN.toString());
+    	}
+		return ResponseEntity.ok().body(userService.saveUser(admin));
+    }
     
+    //this method intends to delete the admin
+	@Secured("hasAuthority('ADMIN')")
+    @DeleteMapping("/user/admin")
+    public ResponseEntity<User> deleteUser(@RequestBody User user) {
+    	User userDelete = userService.getUser(user.getEmail());
+    	if(userDelete!=null) {
+	    	userService.deleteUser(userDelete);    
+	    	return ResponseEntity.ok().body(userDelete);
+    	} else {
+    		return ResponseEntity.internalServerError().body(user);
+    	}
+    }
+
 }
