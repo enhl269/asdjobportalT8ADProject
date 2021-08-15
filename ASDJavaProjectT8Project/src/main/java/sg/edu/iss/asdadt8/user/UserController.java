@@ -2,10 +2,12 @@
 package sg.edu.iss.asdadt8.user;
 
 import java.util.Date;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -14,6 +16,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.util.MimeTypeUtils;
+import org.springframework.util.ResourceUtils;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.stereotype.Controller;
+import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,7 +28,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -38,8 +47,12 @@ import sg.edu.iss.asdadt8.domain.Role;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import static org.springframework.http.HttpStatus.FORBIDDEN;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.http.HttpRequest;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 @RestController
 @RequestMapping("/api/user")
@@ -181,9 +194,40 @@ public class UserController {
     	}
     }
 	
-    
+	@PostMapping("/applicant/updateavatar/{username}")
+    public ResponseEntity<ApplicantDTO> updateAvatar(@RequestParam("file") MultipartFile file, @PathVariable("username") String username){
+		String filename = file.getOriginalFilename();
+		String suffixName = filename.substring(filename.lastIndexOf("."));
+		filename = "avatar"+suffixName;
+        String staticPath = ClassUtils.getDefaultClassLoader().getResource("static").getPath();
+		String avatarURL = staticPath + File.separator + username + File.separator + filename;
+		File avatarFile = new File(avatarURL);
+		if (!avatarFile.getParentFile().exists()) 
+			avatarFile.getParentFile().mkdirs(); 
 
+		try{
+			file.transferTo(avatarFile);
+		} 
+		catch (IOException e) { e.printStackTrace();}
+		
+		ApplicantDTO a = userService.getApplicant(username);
+		a.setAvatarImageURl(avatarURL);
+		userService.saveApplicant(a);
+		return ResponseEntity.ok().body(a);	
+	}
 	
+	@GetMapping("/applicant/avatar/{username}")
+    public ResponseEntity<StreamingResponseBody> downloadavatar(@PathVariable("username") String username) 
+    		throws FileNotFoundException{
+    	ApplicantDTO applicant = userService.getApplicant(username);
+		if(applicant.getAvatarImageURl() !=null) {			
+	        InputStream inputStream = new FileInputStream(applicant.getAvatarImageURl());
+	        StreamingResponseBody body = outputStream -> FileCopyUtils.copy(inputStream, outputStream);
+	        return ResponseEntity.ok().body(body);
+		} else {
+			return ResponseEntity.badRequest().build();
+		}
+    }
     
     
     //this method intends to get all users(include admin and applicant) as a list
