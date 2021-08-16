@@ -1,0 +1,11 @@
+pandas
+scipy
+numpy
+scikit_learn==0.24.0
+tensorflow==2.3
+joblib
+surprise
+keras==2.4.3
+keras-bert==0.88.0
+flask
+flask_restful
