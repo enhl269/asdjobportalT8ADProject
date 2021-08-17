@@ -121,14 +121,14 @@ public class AsdJavaProjectT8ProjectApplication {
 				Job j4 = new Job("Designer","Consultation","Show your Passion","best job forever", 3, 1.5f, "https://www.nus.edu.sg/careers/",null, c3,null);
 				Job j5 = new Job("Designer","Digital Solution","2 year exp","best job forever", 3, 4.5f, "https://www.nus.edu.sg/careers/",null, c3,null);
 
-				Review r = new Review(3.2f, "best place to work", c,date, j,user);
-				Review r1 = new Review(2.5f, "poor place", c1,date, j1,u2);
-				Review r2 = new Review(4.4f, "dirty place", c,date, j2,u3);
-				Review r3 = new Review(2.4f, "unremarkable place", c3,date, j3,u4);
-				Review r4 = new Review(1.4f, "great place", c1,date, j1,user);
-				Review r5 = new Review(4.3f, "trendy place", c3,date, j3,u2);
-				Review r6 = new Review(3.8f, "best2 place", c2,date, j2,u3);
-				Review r7 = new Review(2.5f, "best1 place", c,date, j1,u4);
+				Review r = new Review(3.2f, "best place to work", "Approved",c,date, j,user);
+				Review r1 = new Review(2.5f, "poor place", "Approved",c1,date, j1,u2);
+				Review r2 = new Review(4.4f, "dirty place", "Approved",c,date, j2,u3);
+				Review r3 = new Review(2.4f, "unremarkable place", "Approved",c3,date, j3,u4);
+				Review r4 = new Review(1.4f, "great place", "Approved",c1,date, j1,user);
+				Review r5 = new Review(4.3f, "trendy place", "Approved",c3,date, j3,u2);
+				Review r6 = new Review(3.8f, "best2 place", "Blocked",c2,date, j2,u3);
+				Review r7 = new Review(2.5f, "best1 place", "Blocked",c,date, j1,u4);
 				
 				
 				userService.saveUser(user);

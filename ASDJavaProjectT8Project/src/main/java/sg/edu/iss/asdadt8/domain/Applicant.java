@@ -50,7 +50,7 @@ public class Applicant extends User {
 	
 	@OneToMany (mappedBy="applicant", cascade = CascadeType.ALL)
 	@JsonManagedReference
-	private List<Review> reviews;
+	private List<Review> reviews = new ArrayList<>();
 
 	
 	public Applicant() {

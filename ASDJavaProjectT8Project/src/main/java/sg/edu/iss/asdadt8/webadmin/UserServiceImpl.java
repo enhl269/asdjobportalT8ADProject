@@ -2,18 +2,16 @@ package sg.edu.iss.asdadt8.webadmin;
 
 import java.util.List;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import sg.edu.iss.asdadt8.domain.Applicant;
-import sg.edu.iss.asdadt8.repositories.ApplicantRepository;
 
 @Service
-public class UserServiceImpl implements UserService {
-
+public class UserServiceImpl implements UserService{
+	
 	@Autowired
-	ApplicantRepository arepo;
+	ApplicantWebRepository arepo;
 	
 	@Override
 	public List<Applicant> findAllApplicant(){
@@ -32,12 +30,9 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public void updateApplicantStatus(Long id, String status){
-		Applicant applicant = arepo.findOneApplicantByID(id);
+		Applicant applicant = arepo.findApplicantByID(id);
 		applicant.setUserStatus(status);
 		arepo.save(applicant);	
 	}
-	
-	
-	
-	
+
 }
