@@ -6,12 +6,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -42,6 +44,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import sg.edu.iss.asdadt8.domain.Admin;
 import sg.edu.iss.asdadt8.domain.Applicant;
 import sg.edu.iss.asdadt8.domain.User;
+import sg.edu.iss.asdadt8.filetest.ResponseFileMessage;
 import sg.edu.iss.asdadt8.domain.Role;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
@@ -128,25 +131,56 @@ public class UserController {
 	//this method intends to create an applicant, completed, no authentication
 	@PostMapping("/applicant")
     public ResponseEntity<ApplicantDTO> saveApplicant(@RequestBody ApplicantDTO applicant){
-		//validate if there is a email
-		if(applicant.getUsername()==null) {
-			return ResponseEntity.badRequest().body(applicant);
-		} 
-		else {
-        //check if it is a new user
-			if(applicant.getId()==null) {
-				//then it should be a new user or they dont pass the userid
-				//if it is a new user
-				try {applicant.setId(userService.getApplicant(applicant.getUsername()).getId());}
-				catch (NullPointerException e){}
-			    	if(applicant.getRoles()==null)
-			    		applicant.setRoles(Role.APPLICANT.toString());
+	//validate if there is a email
+			if(applicant.getUsername()==null) {
+				return ResponseEntity.badRequest().body(applicant);
 			} 
-				// update or create applicant
-			userService.saveApplicant(applicant);
-			return ResponseEntity.ok().body(applicant);
-		}		
+			else {
+	        //check if it is a new user
+				if(applicant.getId()==null) {
+					//then it should be a new user or they dont pass the userid
+					//if it is a new user
+					try {applicant.setId(userService.getApplicant(applicant.getUsername()).getId());}
+					catch (NullPointerException e){}
+				    	if(applicant.getRoles()==null)
+				    		applicant.setRoles(Role.APPLICANT.toString());
+				} 
+					// update or create applicant
+				userService.saveApplicant(applicant);
+				return ResponseEntity.ok().body(applicant);
+			}		
 	}
+
+	//save avatar image
+	@PostMapping("/applicant/uploadavatar/{username}")
+	  public ResponseEntity<HttpStatus> uploadAvatar(@PathVariable("username") String username, @RequestParam("avatar") MultipartFile avatar) {
+	    String message = "";
+	    try {
+	    	userService.storeAvatar(username,avatar);
+
+		      message = "Uploaded the file successfully: " + avatar.getOriginalFilename();
+		      return new ResponseEntity<>(HttpStatus.OK);
+	    } catch (Exception e) {
+	      message = "Could not upload the file: " + avatar.getOriginalFilename() + "!";
+	      return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+	    }
+	  }
+	
+	//save resume 
+	@PostMapping("/applicant/uploadresume/{username}")
+	  public ResponseEntity<HttpStatus> uploadResume(@PathVariable("username") String username, @RequestParam("resume") MultipartFile resume) {
+	    String message = "";
+	    try {
+	    	userService.storeResume(username,resume);
+
+	      message = "Uploaded the file successfully: " + resume.getOriginalFilename();
+	      return new ResponseEntity<>(HttpStatus.OK);
+	    } catch (Exception e) {
+	      message = "Could not upload the file: " + resume.getOriginalFilename() + "!";
+	      return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+	    }
+	  }
+
 	
 	//this method intends to update an applicant
 	@PostMapping("/applicant/update")
@@ -216,6 +250,7 @@ public class UserController {
 		return ResponseEntity.ok().body(a);	
 	}
 	
+
 	@GetMapping("/applicant/avatar/{username}")
     public ResponseEntity<StreamingResponseBody> downloadavatar(@PathVariable("username") String username) 
     		throws FileNotFoundException{
@@ -229,12 +264,16 @@ public class UserController {
 		}
     }
     
-    
     //this method intends to get all users(include admin and applicant) as a list
 	@Secured("hasAuthority('ADMIN')")
 	@GetMapping("admin/list")
 	public ResponseEntity<List<User>> getUsers(){
 	    return ResponseEntity.ok().body(userService.getUsers());
+	}
+	//add by sz
+	@GetMapping("/userlist")
+	public ResponseEntity<List<ApplicantDTO>> getApplicants(){
+	    return ResponseEntity.ok().body(userService.getApplicants());
 	}
 
 	//this method intends to create and update admin,
@@ -271,4 +310,32 @@ public class UserController {
     	}
     }
 
+
+    
+    //used getmapping as i cannot get pass the CORS policy of chrome. Therefore edited the delete method thru get method instead 
+    //this method intends to delete the user
+      @GetMapping("/user/{id}")
+      public ResponseEntity<HttpStatus>  deleteUserById(@PathVariable("id") Long id) {
+      	User userDelete = userService.getUserById(id);
+      	if(userDelete!=null) {
+  	    	userService.deleteUser(userDelete);    
+  	    	return new ResponseEntity<>(HttpStatus.ACCEPTED);
+      	} else {
+      		return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+      	}
+      }
+      
+      //added by sz from down here 
+      @GetMapping("/list/applicant/{id}")
+  	public ResponseEntity<Applicant> retrieveApplicant(@PathVariable("id") Long id) {
+  		Optional<Applicant> applicant = userService.findAllApplicantById(id);
+  		
+  		if(applicant.isPresent()) return new ResponseEntity<>(applicant.get(),HttpStatus.OK);
+  		
+  			else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+  		
+  	}
+      
+     
+      
 }

@@ -1,13 +1,20 @@
 package sg.edu.iss.asdadt8.user;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import sg.edu.iss.asdadt8.domain.Applicant;
+import sg.edu.iss.asdadt8.domain.AvatarFile;
+import sg.edu.iss.asdadt8.domain.ResumeFile;
 import sg.edu.iss.asdadt8.domain.Role;
 import sg.edu.iss.asdadt8.domain.User;
+import sg.edu.iss.asdadt8.filetest.File;
 import sg.edu.iss.asdadt8.repositories.ApplicantRepository;
+import sg.edu.iss.asdadt8.repositories.AvatarFileRepository;
+import sg.edu.iss.asdadt8.repositories.ResumeFileRepository;
 import sg.edu.iss.asdadt8.repositories.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +25,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @Service @Transactional
@@ -28,6 +37,12 @@ public class UserServiceImp implements UserService, UserDetailsService{
 	
 	@Autowired
 	private ApplicantRepository arepo;
+	
+	@Autowired
+	private ResumeFileRepository frepo;
+	
+	@Autowired
+	private AvatarFileRepository avatarRepo;
 	
 	
 	@Autowired
@@ -128,10 +143,68 @@ public class UserServiceImp implements UserService, UserDetailsService{
 		return a;
 	}
 
+
 	@Override
 	public void deleteUser(User userDelete) {
 		userRepo.delete(userDelete);
 		
 	}
+
+	//added by sz
+		@Override
+		public User getUserById(Long id) {
+			return userRepo.getById(id);
+		}
+		//added by sz
+		@Override
+		public Optional<Applicant> findAllApplicantById(Long id){
+			return arepo.findById(id);
+		}
+		//added by sz
+		@Override
+		public void saveApplicant(Applicant applicant) {
+			arepo.save(applicant);
+		}
+		
+		@Override
+		public List<ApplicantDTO> getApplicants() {
+			List<Applicant> App = arepo.findAll();
+			List<ApplicantDTO> listAppDTO = new ArrayList<>();
+			
+			for(Applicant a:App) {
+				ApplicantDTO aDTO = applicantToDTO(a);
+				listAppDTO.add(aDTO);
+			}
+			
+			return listAppDTO;
+			
+		}
+		
+		@Override
+		public ResumeFile storeResume(String username, MultipartFile file) throws IOException {
+		    String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+		    
+//		    Applicant applicant = arepo.findByEmail(username);
+		    
+		    ResumeFile FileDB = new ResumeFile(fileName, file.getContentType(), file.getBytes(), username);
+//		    arepo.save(applicant);
+		    return frepo.save(FileDB);
+
+		    
+		  }
+
+
+		@Override
+		public AvatarFile storeAvatar(String username, MultipartFile file) throws IOException {
+		    String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+		    
+//		    Applicant applicant = arepo.findByEmail(username);
+		    	
+		    AvatarFile FileDB = new AvatarFile(fileName, file.getContentType(), file.getBytes(), username);
+//		    arepo.save(applicant);
+		    return avatarRepo.save(FileDB);
+		  
+		  }
+
 	
 }

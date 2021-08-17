@@ -64,7 +64,8 @@ public class AsdJavaProjectT8ProjectApplication {
 				user.setLastName("Page");
 				user.setContactNumber("86325472");
 				user.setRoles(Role.APPLICANT.toString());
-				user.setAvatarImageUrl("/blahblah");
+				user.setAvatarImageUrl(null);
+				//user.setAvatarImageUrl("/blahblah");
 				user.setUserStatus("Approve");
 				
 				Applicant u2 = new Applicant();
@@ -74,7 +75,8 @@ public class AsdJavaProjectT8ProjectApplication {
 				u2.setLastName("Teo");
 				u2.setContactNumber("96396872");
 				u2.setRoles(Role.APPLICANT.toString());
-				u2.setAvatarImageUrl("/bye");
+				u2.setAvatarImageUrl(null);
+				//u2.setAvatarImageUrl("/bye");
 				u2.setUserStatus("Approve");
 				
 				Applicant u3 = new Applicant();

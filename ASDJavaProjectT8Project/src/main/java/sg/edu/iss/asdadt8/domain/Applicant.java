@@ -51,6 +51,8 @@ public class Applicant extends User {
 	@OneToMany (mappedBy="applicant", cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private List<Review> reviews;
+	
+	
 
 	
 	public Applicant() {
@@ -85,6 +87,9 @@ public class Applicant extends User {
 		this.resume = resume;
 		this.reviews = reviews;
 	}
+	
+	
+
 
 
 	public String getResumeURl() {
@@ -200,6 +205,7 @@ public class Applicant extends User {
 	public String toString() {
 		return getFirstName() + " " + getLastName() ;
 	}
+
 	
 	
 	

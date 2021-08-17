@@ -12,6 +12,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 import sg.edu.iss.asdadt8.domain.Role;
 import sg.edu.iss.asdadt8.user.filter.CustomAuthenticationFilter;
@@ -38,6 +40,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         auth.userDetailsService(userDetailsService)
             .passwordEncoder(new BCryptPasswordEncoder());
     }
+    
+  //this was added to allow incoming request from localhost 3000
+    //added by sz
+    public void addCorsMappings(CorsRegistry registry) {
+		registry.addMapping("/**").allowedOrigins("*")
+		.allowedMethods("HEAD", "GET", "PUT", "POST",
+		"DELETE", "PATCH").allowedHeaders("*");
+	}
 
     @Override
     protected void configure(HttpSecurity http) throws Exception{
@@ -48,6 +58,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
     	//disable csrf() and make it stateless for json
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(STATELESS);
+      //added by sz
+        http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
         
         //http.authorizeRequests().antMatchers("/api/user/**").permitAll();
         http.authorizeRequests().antMatchers("/api/user/refreshtoken").authenticated(); 
