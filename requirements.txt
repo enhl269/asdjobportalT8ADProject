@@ -9,3 +9,4 @@ keras==2.4.3
 keras-bert==0.88.0
 flask
 flask_restful
+requests
