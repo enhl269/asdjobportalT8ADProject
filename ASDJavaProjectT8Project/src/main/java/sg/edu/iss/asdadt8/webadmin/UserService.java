@@ -5,7 +5,7 @@ import java.util.List;
 import sg.edu.iss.asdadt8.domain.Applicant;
 
 public interface UserService {
-
+	
 	List<Applicant> findAllApplicant();
 
 	List<Applicant> findAllApplicantByApproveStatus();

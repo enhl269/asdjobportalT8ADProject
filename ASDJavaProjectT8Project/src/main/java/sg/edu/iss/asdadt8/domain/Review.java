@@ -36,7 +36,7 @@ public class Review {
 	@JsonBackReference
 	private Job job;
 	
-	@OneToOne
+	@ManyToOne
 	@JsonBackReference
 	private Applicant applicant;
 
@@ -72,6 +72,18 @@ public class Review {
 		super();
 		this.reviewstars = reviewstars;
 		this.reviewDescription = reviewDescription;
+		this.company = company;
+		this.job=job;
+		this.applicant = applicant;
+		this.reviewDate=reviewDate;
+	}
+	
+	public Review(float reviewstars, String reviewDescription, String reviewStatus, Company company,
+			LocalDate reviewDate,Job job,Applicant applicant) {
+		super();
+		this.reviewstars = reviewstars;
+		this.reviewDescription = reviewDescription;
+		this.reviewStatus = reviewStatus;
 		this.company = company;
 		this.job=job;
 		this.applicant = applicant;

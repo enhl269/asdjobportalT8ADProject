@@ -8,12 +8,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import sg.edu.iss.asdadt8.domain.Applicant;
+import sg.edu.iss.asdadt8.domain.Review;
 
 @CrossOrigin(origins= "http://localhost:3000")
 @RestController
@@ -21,9 +22,12 @@ import sg.edu.iss.asdadt8.domain.Applicant;
 public class WebAdminController {
 	
 	@Autowired
+	ReviewServiceWeb rservice;
+	
+	@Autowired
 	UserService uservice;
 	
-	@GetMapping("/list")
+	@GetMapping("/list/applicant")
 	public List<Applicant> allApplicant(){
 		return uservice.findAllApplicant();
 	}
@@ -46,7 +50,32 @@ public class WebAdminController {
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
 		}
-		
 	}
-
+	
+	@GetMapping("list/reviews")
+	public List<Review> findAllReviews() {
+		return rservice.findAllReviews();
+    }
+	
+	@GetMapping("list/reviews/rejected")
+	public List<Review> findBlockedReviews() {
+		return rservice.findBlockedReviews();
+    }
+	
+	@GetMapping("list/reviews/approved")
+	public List<Review> findApprovedReviews() {
+		return rservice.findApprovedReviews();
+    }
+	
+	@PutMapping("list/reviews/{reviewid}/{reviewstatus}")
+	public @ResponseBody ResponseEntity<String> updateReview(@PathVariable("reviewid") Long id, @PathVariable("reviewstatus") String status) {
+	    
+		try {
+			rservice.updateReviewStatus(id, status);
+		  } catch (Exception e) { 
+			  return ResponseEntity.notFound().build(); 
+			  } 
+		return new ResponseEntity<String>("PUT Response", HttpStatus.OK);
+	}
+	
 }

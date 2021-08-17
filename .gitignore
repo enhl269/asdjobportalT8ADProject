@@ -1,4 +1,8 @@
 
+<<<<<<< HEAD
 *.bak
 *.bak
 ASDJavaProjectT8Project/.dbeaver/.credentials-config.json.bak
+=======
+/.metadata/
+>>>>>>> WPA

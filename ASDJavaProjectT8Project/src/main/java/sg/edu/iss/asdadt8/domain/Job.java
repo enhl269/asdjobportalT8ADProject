@@ -130,6 +130,23 @@ public class Job {
 		this.bookmarkedJobs = bookmarkedJobs;
 		this.reviews = reviews;
 	}
+	
+	public Job(String jobTitle,String jobIndustry,String jobqualification, String jobDescription, int autismLevel, float jobStarRating, String jobPositionURL, List<String> tags,
+			Company company, List<ViewedJobs> viewedJobs, List<BookmarkedJobs> bookmarkedJobs,List<Review> reviews) {
+		super();
+		this.jobTitle = jobTitle;
+		this.jobIndustry = jobIndustry;
+		this.jobqualification = jobqualification;
+		this.jobDescription = jobDescription;
+		this.autismLevel = autismLevel;
+		this.jobStarRating = jobStarRating;
+		this.jobPositionURL = jobPositionURL;
+		this.tags = tags;
+		this.company = company;
+		this.viewedJobs = viewedJobs;
+		this.bookmarkedJobs = bookmarkedJobs;
+		this.reviews = reviews;
+	}
 
 	public long getId() {
 		return id;
