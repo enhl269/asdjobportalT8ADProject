@@ -1,10 +1,9 @@
 FROM python:3.6.13
 
-RUN sudo apt-get update && \
-    sudo apt-get install python3.7 -y && \
-    sudo apt-get install python3-pip -y && \
-    sudo apt-get install zip -y && \
-    sudo pip3 install -U pip
+RUN yum install python3.7 -y && \
+    yum install python3-pip -y && \
+    yum install zip -y && \
+    pip3 install -U pip
 
 WORKDIR /app
 COPY . .
