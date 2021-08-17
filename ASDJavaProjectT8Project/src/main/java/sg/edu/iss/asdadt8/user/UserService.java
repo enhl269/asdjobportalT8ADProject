@@ -10,8 +10,9 @@ public interface UserService {
 	User saveUser(User user);
 	User getUser(String email);
 	List<User> getUsers();
-	void deleteUser(User user);
+	void deleteApplicant(ApplicantDTO applicant);
 	ApplicantDTO getApplicant(String username);
 	void saveApplicant(ApplicantDTO applicant); //creat and update applicant
+	void deleteUser(User userDelete);
 
 }

@@ -55,9 +55,10 @@ public class UserServiceImp implements UserService, UserDetailsService{
 	public void saveApplicant(ApplicantDTO dto) {
 		Applicant a = DTOToApplicant(dto);
 		//check the password
-		if(dto.getPassword()!=null) {
-			//means the user update the password
+		try{
 			a.setPassword(passwordEncoder.encode(dto.getPassword()));
+		} catch (Exception e) {
+			a.setPassword(arepo.findByEmail(dto.getUsername()).getPassword());
 		}
 		arepo.save(a);
 	}
@@ -68,8 +69,8 @@ public class UserServiceImp implements UserService, UserDetailsService{
 	}
 
 	@Override
-	public void deleteUser(User user) {
-		userRepo.delete(user);
+	public void deleteApplicant(ApplicantDTO dto) {
+		arepo.deleteById(dto.getId());
 	}
 
 	@Override
@@ -120,12 +121,17 @@ public class UserServiceImp implements UserService, UserDetailsService{
 		a.setChatstatus(d.getChatstatus());
 		a.setDob(d.getDob());
 		a.setGender(d.getGender());
-		a.setPassword(d.getPassword());
 		a.setResumeURl(d.getResumeURl());
 		a.setRoles(Role.APPLICANT.toString());
 		a.setSelfIntroduction(d.getSelfIntroduction());
 		a.setUserStatus(d.getUserStatus());
 		return a;
+	}
+
+	@Override
+	public void deleteUser(User userDelete) {
+		userRepo.delete(userDelete);
+		
 	}
 	
 }
