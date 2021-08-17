@@ -23,9 +23,11 @@ public interface UserService {
 	void deleteUser(User userDelete);
 	User getUserById(Long id);
 	Optional<Applicant> findAllApplicantById(Long id);
-	void saveApplicant(Applicant applicant);
+	//void saveApplicant(Applicant applicant);
 	List<ApplicantDTO> getApplicants();
 	ResumeFile storeResume(String username, MultipartFile file) throws IOException;
 	AvatarFile storeAvatar(String username, MultipartFile file) throws IOException;
+	void saveResumeApplicant(ApplicantDTO dto) ;
+	void saveAvatarApplicant(ApplicantDTO dto) ;
 
 }

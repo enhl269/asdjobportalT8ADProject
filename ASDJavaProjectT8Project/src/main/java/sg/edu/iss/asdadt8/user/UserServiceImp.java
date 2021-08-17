@@ -77,6 +77,33 @@ public class UserServiceImp implements UserService, UserDetailsService{
 		}
 		arepo.save(a);
 	}
+	
+	//added by sz
+	@Override
+	public void saveResumeApplicant(ApplicantDTO dto)  {
+		Applicant a = DTOToApplicant(dto);
+		//check the password
+		try{
+			a.setPassword(passwordEncoder.encode(dto.getPassword()));
+		} catch (Exception e) {
+			a.setPassword(arepo.findByEmail(dto.getUsername()).getPassword());
+		}
+		
+		arepo.saveAndFlush(a);
+	}
+	
+	@Override
+	public void saveAvatarApplicant(ApplicantDTO dto)  {
+		Applicant a = DTOToApplicant(dto);
+		//check the password
+		try{
+			a.setPassword(passwordEncoder.encode(dto.getPassword()));
+		} catch (Exception e) {
+			a.setPassword(arepo.findByEmail(dto.getUsername()).getPassword());
+		}
+		
+		arepo.saveAndFlush(a);
+	}
 
 	@Override
 	public List<User> getUsers() {
@@ -160,11 +187,11 @@ public class UserServiceImp implements UserService, UserDetailsService{
 		public Optional<Applicant> findAllApplicantById(Long id){
 			return arepo.findById(id);
 		}
-		//added by sz
-		@Override
-		public void saveApplicant(Applicant applicant) {
-			arepo.save(applicant);
-		}
+//		//added by sz
+//		@Override
+//		public void saveApplicant(Applicant applicant) {
+//			arepo.save(applicant);
+//		}
 		
 		@Override
 		public List<ApplicantDTO> getApplicants() {

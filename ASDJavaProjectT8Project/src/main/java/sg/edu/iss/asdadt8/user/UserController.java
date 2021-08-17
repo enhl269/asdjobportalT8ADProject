@@ -151,35 +151,35 @@ public class UserController {
 			}		
 	}
 
-	//save avatar image
-	@PostMapping("/applicant/uploadavatar/{username}")
-	  public ResponseEntity<HttpStatus> uploadAvatar(@PathVariable("username") String username, @RequestParam("avatar") MultipartFile avatar) {
-	    String message = "";
-	    try {
-	    	userService.storeAvatar(username,avatar);
-
-		      message = "Uploaded the file successfully: " + avatar.getOriginalFilename();
-		      return new ResponseEntity<>(HttpStatus.OK);
-	    } catch (Exception e) {
-	      message = "Could not upload the file: " + avatar.getOriginalFilename() + "!";
-	      return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
-	    }
-	  }
-	
-	//save resume 
-	@PostMapping("/applicant/uploadresume/{username}")
-	  public ResponseEntity<HttpStatus> uploadResume(@PathVariable("username") String username, @RequestParam("resume") MultipartFile resume) {
-	    String message = "";
-	    try {
-	    	userService.storeResume(username,resume);
-
-	      message = "Uploaded the file successfully: " + resume.getOriginalFilename();
-	      return new ResponseEntity<>(HttpStatus.OK);
-	    } catch (Exception e) {
-	      message = "Could not upload the file: " + resume.getOriginalFilename() + "!";
-	      return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
-	    }
-	  }
+//	//save avatar image
+//	@PostMapping("/applicant/uploadavatar/{username}")
+//	  public ResponseEntity<HttpStatus> uploadAvatar(@PathVariable("username") String username, @RequestParam("avatar") MultipartFile avatar) {
+//	    String message = "";
+//	    try {
+//	    	userService.storeAvatar(username,avatar);
+//
+//		      message = "Uploaded the file successfully: " + avatar.getOriginalFilename();
+//		      return new ResponseEntity<>(HttpStatus.OK);
+//	    } catch (Exception e) {
+//	      message = "Could not upload the file: " + avatar.getOriginalFilename() + "!";
+//	      return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+//	    }
+//	  }
+//	
+//	//save resume 
+//	@PostMapping("/applicant/uploadresume/{username}")
+//	  public ResponseEntity<HttpStatus> uploadResume(@PathVariable("username") String username, @RequestParam("resume") MultipartFile resume) {
+//	    String message = "";
+//	    try {
+//	    	userService.storeResume(username,resume);
+//
+//	      message = "Uploaded the file successfully: " + resume.getOriginalFilename();
+//	      return new ResponseEntity<>(HttpStatus.OK);
+//	    } catch (Exception e) {
+//	      message = "Could not upload the file: " + resume.getOriginalFilename() + "!";
+//	      return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+//	    }
+//	  }
 
 	
 	//this method intends to update an applicant
@@ -233,7 +233,7 @@ public class UserController {
 		String filename = file.getOriginalFilename();
 		String suffixName = filename.substring(filename.lastIndexOf("."));
 		filename = "avatar"+suffixName;
-        String staticPath = ClassUtils.getDefaultClassLoader().getResource("static").getPath();
+        String staticPath = ClassUtils.getDefaultClassLoader().getResource("").getPath();
 		String avatarURL = staticPath + File.separator + username + File.separator + filename;
 		File avatarFile = new File(avatarURL);
 		if (!avatarFile.getParentFile().exists()) 
@@ -243,9 +243,29 @@ public class UserController {
 			file.transferTo(avatarFile);
 		} 
 		catch (IOException e) { e.printStackTrace();}
-		
 		ApplicantDTO a = userService.getApplicant(username);
 		a.setAvatarImageURl(avatarURL);
+		userService.saveApplicant(a);
+		return ResponseEntity.ok().body(a);	
+	}
+	
+	@PostMapping("/applicant/updateresume/{username}")
+    public ResponseEntity<ApplicantDTO> updateResume(@RequestParam("file") MultipartFile file, @PathVariable("username") String username) {
+		String filename = file.getOriginalFilename();
+		String suffixName = filename.substring(filename.lastIndexOf("."));
+		filename = "resume"+suffixName;
+        String staticPath = ClassUtils.getDefaultClassLoader().getResource("").getPath();
+		String resumeURL = staticPath + File.separator + username + File.separator + filename;
+		File resumeFile = new File(resumeURL);
+		if (!resumeFile.getParentFile().exists()) 
+			resumeFile.getParentFile().mkdirs(); 
+
+		try{
+			file.transferTo(resumeFile);
+		} 
+		catch (IOException e) { e.printStackTrace();}
+		ApplicantDTO a = userService.getApplicant(username);
+		a.setResumeURl(resumeURL);
 		userService.saveApplicant(a);
 		return ResponseEntity.ok().body(a);	
 	}
