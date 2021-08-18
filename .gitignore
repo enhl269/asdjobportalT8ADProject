@@ -34,3 +34,11 @@ uncased_L-2_H-128_A-2/
 dataset/
 .zip
 __pycache__/
+
+*.swo
+*.swp
+*.csv
+uc?export=download&id=1-Y1IlzS6YXC3Xy5BaaqfNnNhquC8NUKv
+wget-log
+wget-log.1
+wget-log.2
