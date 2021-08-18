@@ -10,3 +10,5 @@ keras-bert==0.88.0
 flask
 flask_restful
 requests
+gunicorn
+gevent
