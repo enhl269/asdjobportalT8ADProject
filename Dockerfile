@@ -8,8 +8,7 @@ RUN apt-get update && \
 
 WORKDIR /app
 COPY . .
-RUN wget https://storage.googleapis.com/bert_models/2018_11_23/multi_cased_L-12_H-768_A-12.zip && \
-    uncased_L-2_H-128_A-2.zip
+RUN wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1-Y1IlzS6YXC3Xy5BaaqfNnNhquC8NUKv' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1-Y1IlzS6YXC3Xy5BaaqfNnNhquC8NUKv" -O uncased_L-2_H-128_A-2.zip && rm -rf /tmp/cookies.txt
 RUN pip3 install -r ./requirements.txt
 CMD python bertAPI.py
 
