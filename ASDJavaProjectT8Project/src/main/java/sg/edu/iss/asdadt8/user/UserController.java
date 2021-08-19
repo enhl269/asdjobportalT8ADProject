@@ -1,12 +1,14 @@
 
 package sg.edu.iss.asdadt8.user;
 
+
 import java.util.Date;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +24,7 @@ import org.springframework.util.MimeTypeUtils;
 import org.springframework.util.ResourceUtils;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Base64Utils;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,6 +38,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -44,7 +48,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import sg.edu.iss.asdadt8.domain.AvatarFile;
 import sg.edu.iss.asdadt8.domain.Admin;
 import sg.edu.iss.asdadt8.domain.Applicant;
+import sg.edu.iss.asdadt8.domain.AvatarFile;
 import sg.edu.iss.asdadt8.domain.User;
+import sg.edu.iss.asdadt8.filetest.ResponseFile;
 import sg.edu.iss.asdadt8.filetest.ResponseFileMessage;
 import sg.edu.iss.asdadt8.domain.Role;
 
