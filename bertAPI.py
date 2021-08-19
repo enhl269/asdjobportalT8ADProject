@@ -1,4 +1,3 @@
-# middle client script between TF-S and backend
 
 import json
 import requests
@@ -51,12 +50,12 @@ def get_model(paths):
     model = load_trained_model_from_checkpoint(
         config_file=paths.config,
         checkpoint_file=paths.checkpoint,
-        training=True,#pretrain
+        training=True,
         trainable=True,
         # output_layer_num=2,
     )
     # model.load_weights('./checkpoints/uncased_L-2_H-128_A-2/updated_model_checkpoint_0.4623.h5',by_name=True)
-    #load pretrain model
+   
     inputs = model.inputs[:2]
     dense =model.get_layer('NSP-Dense').output
     outputs = keras.layers.Dense(units=2, activation='softmax')(dense)
@@ -66,7 +65,7 @@ paths = get_checkpoint_paths(model_path)
 model=get_model(paths)
 model.load_weights(model_weight)
 
-#get URL of image from the client
+
 class get_url(Resource):
     # @app.route('/')
     def post(self):
@@ -91,6 +90,6 @@ class get_url(Resource):
 api.add_resource(get_url, '/')
 
 if __name__ == '__main__':
-    # from waitress import serve
+ 
     # serve(app, host="0.0.0.0", port=5000)
     app.run(debug=False)

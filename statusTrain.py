@@ -1,11 +1,8 @@
-# middle client script between TF-S and backend
+
 
 import json
 import requests
 import time
-# from flask import Flask, jsonify,request
-# from flask_restful import reqparse, abort, Api, Resource
-
 import numpy as np
 import http
 import pandas as pd
@@ -24,7 +21,7 @@ def feature_encode():
         category1:list of standard label
     '''
 
-    SERVER_URL='http://127.0.0.1:5000/'#local URL(for test)
+    SERVER_URL='http://47.241.209.188:5000/'#local URL(for test)
 
     #------------------------1.read data----------------------------
     df=pd.read_csv('./dataset/crawl_data.csv')
