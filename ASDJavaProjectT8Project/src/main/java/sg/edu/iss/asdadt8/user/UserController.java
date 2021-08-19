@@ -203,8 +203,10 @@ public class UserController {
 				//if it is a new user
 				try {applicant.setId(userService.getApplicant(applicant.getUsername()).getId());}
 				catch (NullPointerException e){}
-			    	if(applicant.getRoles()==null)
-			    		applicant.setRoles(Role.APPLICANT.toString());
+		    	if(applicant.getRoles()==null)
+		    		applicant.setRoles(Role.APPLICANT.toString());
+		    	if(applicant.getContactNumber()=="")
+		    		applicant.setContactNumber(null);
 			} 
 				// update or create applicant
 			userService.saveApplicant(applicant);
