@@ -78,6 +78,7 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         tokens.put("access_token", access_token);
         tokens.put("refresh_token",refresh_token);
         tokens.put("username", user.getUsername());
+        tokens.put("roles", user.getAuthorities().toString());
         
         
         

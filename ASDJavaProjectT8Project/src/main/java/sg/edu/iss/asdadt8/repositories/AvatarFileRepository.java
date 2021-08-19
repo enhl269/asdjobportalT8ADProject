@@ -7,4 +7,6 @@ import sg.edu.iss.asdadt8.domain.AvatarFile;
 @Repository
 public interface AvatarFileRepository extends JpaRepository<AvatarFile, String>{
 
+	AvatarFile findByUsername(String username);
+
 }
