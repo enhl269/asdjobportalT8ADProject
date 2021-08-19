@@ -15,9 +15,9 @@ public interface JobServiceWeb {
 	List<Job>categorizeJobs(String cateogirzeId);
 	List<Job>filterJobs(String title,float jobStarRating, int autismLvl);
 	
-	void saveBookMark(long id);
-	String applyJobUrl(long id);
-	String applyJobEmail(long id);
-	List<ViewedJobs> findViewedJobsByApplicantId(long id);
-	List<BookmarkedJobs> findBookmarkedJobsByApplicantId(long id);
+	void saveBookMark(long id, String username);
+	String applyJobUrl(long id, String username);
+	String applyJobEmail(long id, String username);
+	List<ViewedJobs> findViewedJobsByApplicantEmail(String username);
+	List<BookmarkedJobs> findBookmarkedJobsByApplicantEmail(String username);
 }

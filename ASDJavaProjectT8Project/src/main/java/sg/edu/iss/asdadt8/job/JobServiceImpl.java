@@ -104,10 +104,10 @@ public class JobServiceImpl implements JobService {
 	//}
 	
 	@Override
-	public void saveBookMark(long id) {
+	public void saveBookMark(long id, String username) {
 		//get by id 
 		Job job_details = jobAdminRepo.findsJobById(id);
-		Applicant user_session= urepo.findApplicantByID((long)1);  //need to update to get user for session.
+		Applicant user_session= urepo.findApplicantByEmail(username);  //need to update to get user for session.
 		LocalDate localdate = LocalDate.now();
 		
 		//get all 
@@ -129,10 +129,10 @@ public class JobServiceImpl implements JobService {
 		}
 	}
 	
-	public ResponseMessage applyJobUrl(long id) {
+	public ResponseMessage applyJobUrl(long id, String username) {
 		//get by id 
 		Job job_details = jobAdminRepo.findsJobById(id);
-		Applicant user_session= urepo.findApplicantByID((long)1);  //need to update to get user for session.
+		Applicant user_session= urepo.findApplicantByEmail(username);  //need to update to get user for session.
 		LocalDate localdate = LocalDate.now();
 		
 		//get all 
@@ -160,10 +160,10 @@ public class JobServiceImpl implements JobService {
 	}
 	
 	
-	public JobAdminDTO applyJobEmail(long id) {
+	public JobAdminDTO applyJobEmail(long id, String username) {
 		//get by id 
 		Job job = jobAdminRepo.findsJobById(id);
-		Applicant user_session= urepo.findApplicantByID((long)1);  //need to update to get user for session.
+		Applicant user_session= urepo.findApplicantByEmail(username);  //need to update to get user for session.
 		LocalDate localdate = LocalDate.now();
 				
 		//get all 
@@ -190,10 +190,10 @@ public class JobServiceImpl implements JobService {
 		return jobadmin;
 	}
 	
-	public JobAdminDTO sharejoburl(long id) {
+	public JobAdminDTO sharejoburl(long id, String username) {
 		//get by id 
 		Job job = jobAdminRepo.findsJobById(id);
-		Applicant user_session= urepo.findApplicantByID((long)1);  //need to update to get user for session.
+		Applicant user_session= urepo.findApplicantByEmail(username);  //need to update to get user for session.
 		
 		JobAdminDTO jobadmin = new JobAdminDTO(job.getId(), job.getJobTitle(), job.getJobIndustry(), job.getJobqualification(),job.getJobDescription(), job.getAutismLevel(), 
 				job.getJobStarRating(), job.getJobPositionURL(), job.getCompany().getName(), job.getCompany().getHrEmail());				
@@ -230,5 +230,9 @@ public class JobServiceImpl implements JobService {
 		}
 			
 		return viewedjobs_transfer;
+	}
+	
+	public long findApplicantId(String username) {
+		return urepo.findApplicantByEmail(username).getId();
 	}
 }

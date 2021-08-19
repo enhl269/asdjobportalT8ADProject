@@ -232,6 +232,11 @@ public class UserServiceImp implements UserService, UserDetailsService{
 		    return avatarRepo.save(FileDB);
 		  
 		  }
+		
+		@Override
+		public AvatarFile getAvatar(String username) {
+			return avatarRepo.findByUsername(username);
+		}
 
 	
 }

@@ -29,5 +29,6 @@ public interface UserService {
 	AvatarFile storeAvatar(String username, MultipartFile file) throws IOException;
 	void saveResumeApplicant(ApplicantDTO dto) ;
 	void saveAvatarApplicant(ApplicantDTO dto) ;
+	AvatarFile getAvatar(String username);
 
 }

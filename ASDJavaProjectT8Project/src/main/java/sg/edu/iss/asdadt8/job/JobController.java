@@ -1,5 +1,6 @@
 package sg.edu.iss.asdadt8.job;
 
+import java.security.Principal;
 import java.util.List;
 
 
@@ -78,43 +79,48 @@ import sg.edu.iss.asdadt8.domain.Job;
 		}
 		
 		@RequestMapping(value= "bookmark/{id}" , method = RequestMethod.POST)
-		public void SaveBookmark(@PathVariable("id") Long Id) {
-			jservice.saveBookMark(Id);
+		public void SaveBookmark(@PathVariable("id") Long jobId, Principal p) {
+			String username = p.getName();
+			jservice.saveBookMark(jobId,username);
 			//return "redirect:/details/" + Id;
 		}
 		
 		@RequestMapping(value= "applyjoburl/{id}" , method = RequestMethod.POST)
 		//job ID
-		public ResponseMessage ApplyJobUrl(@PathVariable("id") Long Id){
-			return jservice.applyJobUrl(Id);
+		public ResponseMessage ApplyJobUrl(@PathVariable("id") Long jobId, Principal p){
+			String username = p.getName();
+			return jservice.applyJobUrl(jobId,username);
 			//return "redirect:/details/" + Id;
 		}
 		
 		@RequestMapping(value= "applyjobemail/{id}" , method = RequestMethod.POST)
 		//job ID
-		public JobAdminDTO ApplyJobEmail(@PathVariable("id") Long Id){
-			return jservice.applyJobEmail(Id);
+		public JobAdminDTO ApplyJobEmail(@PathVariable("id") Long jobId,Principal p){
+			
+			String username = p.getName();
+			return jservice.applyJobEmail(jobId, username);
 			//return "redirect:/details/" + Id;
 		}
 		
 		@RequestMapping(value= "shareurl/{id}" , method = RequestMethod.POST)
 		//job ID
-		public JobAdminDTO ShareJobUrl(@PathVariable("id") Long Id){
-			return jservice.sharejoburl(Id);
+		public JobAdminDTO ShareJobUrl(@PathVariable("id") Long jobId,Principal p){
+			String username = p.getName();
+			return jservice.sharejoburl(jobId,username);
 			//return "redirect:/details/" + Id;
 		}
 		
 		@RequestMapping(value= "details/bookmark/list",method = RequestMethod.GET)
-	    public List<BookmarkedJobsDTO> ListBookmarkJobs(Model model){
-			Long Id = (long) 1; //PENDING 
-		    List<BookmarkedJobsDTO> bookmarkedjobs = jservice.findBookmarkByUserID(Id);
+	    public List<BookmarkedJobsDTO> ListBookmarkJobs(Model model,Principal p){
+			long userid = jservice.findApplicantId(p.getName());
+		    List<BookmarkedJobsDTO> bookmarkedjobs = jservice.findBookmarkByUserID(userid);
 			return bookmarkedjobs;
 		}
 		
 		@RequestMapping(value= "details/viewed/list",method = RequestMethod.GET)
-	    public List<ViewedJobsDTO> ListViewedJobs(Model model){
-			Long Id = (long) 1; //PENDING 
-		    List<ViewedJobsDTO> viewedjobs = jservice.findViewedJobsByUserID(Id);
+	    public List<ViewedJobsDTO> ListViewedJobs(Model model,Principal p){
+			long userid = jservice.findApplicantId(p.getName());
+		    List<ViewedJobsDTO> viewedjobs = jservice.findViewedJobsByUserID(userid);
 			return viewedjobs;
 		}
 	

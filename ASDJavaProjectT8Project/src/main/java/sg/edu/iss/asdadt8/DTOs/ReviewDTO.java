@@ -23,7 +23,7 @@ public class ReviewDTO {
 	private String jobTitle;
 	//private String jobIndustry;
 	private long userId;
-	//private String applicantName;
+	private String applicantName;
 	
 	
 	public ReviewDTO() {
@@ -34,7 +34,7 @@ public class ReviewDTO {
 
 	public ReviewDTO(float reviewstars,String companyName,long userId,
 			String reviewDescription, 
-			String jobTitle, String reviewDate) {
+			String jobTitle, String reviewDate, String applicantName) {
 		super();
 		//this.id = id;
 		this.reviewstars = reviewstars;
@@ -50,7 +50,7 @@ public class ReviewDTO {
 		this.jobTitle = jobTitle;
 		//this.jobIndustry = jobIndustry;
 		this.userId = userId;
-		//this.applicantName = applicantName;
+		this.applicantName = applicantName;
 	}
 
 
@@ -110,6 +110,12 @@ public class ReviewDTO {
 	 
 	 public void setReviewDate(String reviewDate) { this.reviewDate =
 	 reviewDate; }
+	 
+	 public String getApplicantName() { return applicantName; }
+	  
+	  
+	  public void setApplicantName(String applicantName) { this.applicantName =
+	  applicantName; }
 	
 	
 

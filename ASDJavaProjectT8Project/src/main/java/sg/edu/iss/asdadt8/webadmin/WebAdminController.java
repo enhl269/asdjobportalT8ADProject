@@ -42,7 +42,7 @@ public class WebAdminController {
 		return uservice.findAllApplicantByBlockStatus();
 	}
 	
-	@PutMapping("/list/applicant/{id}/{status}")
+	@GetMapping("/list/applicant/{id}/{status}")
 	public ResponseEntity<HttpStatus> updateApplicantStatus(@PathVariable("id") Long id, @PathVariable("status") String status){
 		try {
 			uservice.updateApplicantStatus(id,status);
@@ -67,15 +67,18 @@ public class WebAdminController {
 		return rservice.findApprovedReviews();
     }
 	
-	@PutMapping("list/reviews/{reviewid}/{reviewstatus}")
-	public @ResponseBody ResponseEntity<String> updateReview(@PathVariable("reviewid") Long id, @PathVariable("reviewstatus") String status) {
+	@GetMapping("list/reviews/{reviewid}/{reviewstatus}")
+	public ResponseEntity<HttpStatus> updateReview(@PathVariable("reviewid") Long id, @PathVariable("reviewstatus") String status) {
 	    
 		try {
 			rservice.updateReviewStatus(id, status);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		  } catch (Exception e) { 
-			  return ResponseEntity.notFound().build(); 
+			  //return ResponseEntity.notFound().build(); 
+			  return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
 			  } 
-		return new ResponseEntity<String>("PUT Response", HttpStatus.OK);
+		//return new ResponseEntity<String>("PUT Response", HttpStatus.OK);
+		
 	}
 	
 }

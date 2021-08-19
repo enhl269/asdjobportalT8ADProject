@@ -23,14 +23,15 @@ public interface JobService {
 	//job detail
 	List<Job> getAllJobs();
 	
-	void saveBookMark(long id);
+	void saveBookMark(long id, String username);
 	
 	JobAdminDTO findJobById(Long Id);
     
-	ResponseMessage applyJobUrl(long id);
-	JobAdminDTO applyJobEmail(long id);
-	JobAdminDTO sharejoburl(long id);
+	ResponseMessage applyJobUrl(long id, String username);
+	JobAdminDTO applyJobEmail(long id, String username);
+	JobAdminDTO sharejoburl(long id, String username);
 	
 	List<BookmarkedJobsDTO> findBookmarkByUserID(long applicant_id);
 	List<ViewedJobsDTO> findViewedJobsByUserID(long applicant_id);
+	long findApplicantId(String username);
 }

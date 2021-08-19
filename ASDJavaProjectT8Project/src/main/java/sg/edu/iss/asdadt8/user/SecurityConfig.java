@@ -59,12 +59,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(STATELESS);
       //added by sz
-        http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
+       http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
         
         //http.authorizeRequests().antMatchers("/api/user/**").permitAll();
-        http.authorizeRequests().antMatchers("/api/user/refreshtoken").authenticated(); 
-        //http.authorizeRequests().antMatchers("/api/user/applicant/**").authenticated();   
-        //http.authorizeRequests().antMatchers("/api/user/applicant/**").authenticated();   
+        http.authorizeRequests().antMatchers("/api/user/refreshtoken","/api/webuser/**","/api/job/**").authenticated(); 
+        //http.authorizeRequests().antMatchers("/api/user/applicant/**").authenticated();  
+        //http.authorizeRequests().antMatchers("/api/webuser/job/**").permitAll();
+        //http.authorizeRequests().antMatchers("/api/webuser/job/category").permitAll();
+        //http.authorizeRequests().antMatchers("/api/webadmin/**").authenticated(); 
+        //http.authorizeRequests().antMatchers("/api/webuser/**").authenticated(); 
         //http.authorizeRequests().antMatchers("/api/webadmin/**").hasAuthority(Role.ADMIN.toString());
         //http.authorizeRequests().antMatchers("/api/jobadmin/**").hasAuthority(Role.APPLICANT.toString());    
         

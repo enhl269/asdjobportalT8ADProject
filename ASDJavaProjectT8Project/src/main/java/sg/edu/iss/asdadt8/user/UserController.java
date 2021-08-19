@@ -11,7 +11,8 @@ import java.util.Optional;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+import org.springframework.util.Base64Utils;
+import org.springframework.util.ClassUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -40,7 +41,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import sg.edu.iss.asdadt8.domain.AvatarFile;
 import sg.edu.iss.asdadt8.domain.Admin;
 import sg.edu.iss.asdadt8.domain.Applicant;
 import sg.edu.iss.asdadt8.domain.User;
@@ -229,7 +230,10 @@ public class UserController {
     }
 	
 	@PostMapping("/applicant/updateavatar/{username}")
-    public ResponseEntity<ApplicantDTO> updateAvatar(@RequestParam("file") MultipartFile file, @PathVariable("username") String username){
+    public ResponseEntity<ApplicantDTO> updateAvatar(@RequestParam("file") MultipartFile file, @PathVariable("username") String username) throws IOException{
+		//added by sz
+		userService.storeAvatar(username,file);
+		
 		String filename = file.getOriginalFilename();
 		String suffixName = filename.substring(filename.lastIndexOf("."));
 		filename = "avatar"+suffixName;
@@ -246,6 +250,9 @@ public class UserController {
 		ApplicantDTO a = userService.getApplicant(username);
 		a.setAvatarImageURl(avatarURL);
 		userService.saveApplicant(a);
+		
+		
+		
 		return ResponseEntity.ok().body(a);	
 	}
 	
@@ -283,6 +290,41 @@ public class UserController {
 			return ResponseEntity.badRequest().build();
 		}
     }
+	
+	@GetMapping("/applicant/avatarweb/{username}")
+    public ResponseEntity<String> downloadavatarweb(@PathVariable("username") String username) 
+    		throws IOException{
+    	ApplicantDTO applicant = userService.getApplicant(username);
+		if(applicant.getAvatarImageURl() !=null) {			
+	        InputStream inputStream = new FileInputStream(applicant.getAvatarImageURl());
+	        String encoded = Base64Utils.encodeToString(inputStream.readAllBytes());
+	        
+	        return ResponseEntity.ok().body(encoded);
+		} else {
+			return ResponseEntity.badRequest().build();
+		}
+    }
+	
+	//@GetMapping("/applicant/avatar/{username}")
+	  public String getListFiles(@PathVariable("username") String username) {
+	    AvatarFile files = userService.getAvatar(username);
+	    String encoded = Base64Utils.encodeToString(files.getData());
+	    
+	    
+	    StreamingResponseBody body = outputStream -> files.getData();
+//	    String cleanfiles = files.substring(1);
+//	     String fileDownloadUri = ServletUriComponentsBuilder
+//	          .fromCurrentContextPath()
+//	          .path("/api/user/files/")
+//	          .path(files.getId())
+//	          .toUriString();
+	    
+	    
+
+//	      return fileDownloadUri;
+	    
+	    return encoded;
+	}
     
     //this method intends to get all users(include admin and applicant) as a list
 	@Secured("hasAuthority('ADMIN')")

@@ -17,5 +17,8 @@ public interface ViewedJobRepositoryWeb extends JpaRepository<ViewedJobs,Long>{
 	@Query("SELECT j FROM ViewedJobs j where j.applicant.id=:id")
 	public List<ViewedJobs> findAll(@Param("id") Long id);
 	
+	@Query("SELECT v FROM ViewedJobs v where v.applicant.email=:applicant")
+	public List<ViewedJobs> findViewedJobsByUserEmail(@Param("applicant") String applicant);
+	
 
 }

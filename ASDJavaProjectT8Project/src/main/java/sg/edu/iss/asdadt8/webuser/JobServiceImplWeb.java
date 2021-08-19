@@ -57,31 +57,31 @@ public class JobServiceImplWeb implements JobServiceWeb{
 		return jrepo.categorizeJobs();
 	}
 	
-	public List<ViewedJobs> findViewedJobsByApplicantId(long id){
-		return vrepo.findViewedJobsByUserID(id);
+	public List<ViewedJobs> findViewedJobsByApplicantEmail(String username){
+		return vrepo.findViewedJobsByUserEmail(username);
 	}
 	
-	public List<BookmarkedJobs> findBookmarkedJobsByApplicantId(long id){
-		return brepo.findBookmarkByUserID(id);
+	public List<BookmarkedJobs> findBookmarkedJobsByApplicantEmail(String username){
+		return brepo.findBookmarkByUserEmail(username);
 		}
 	
-	public String applyJobUrl(long id) {
-		Job j = applyJob(id);
+	public String applyJobUrl(long jobid, String username) {
+		Job j = applyJob(jobid, username);
 		//return string company url address
 		return j.getJobPositionURL();
 	}
 	
-	public String applyJobEmail(long id) {
-		Job j = applyJob(id);
+	public String applyJobEmail(long jobid, String username) {
+		Job j = applyJob(jobid, username);
 		//return string company HR email
 		return j.getCompany().getHrEmail();
 	}
 	
 	@Override
-	public void saveBookMark(long id) {
+	public void saveBookMark(long id,String username) {
 		//get by id 
 		Job job_details = jrepo.findById(id).get();
-		Applicant user_session= urepo.findApplicantByID((long)1);  //need to update to get user for session.
+		Applicant user_session= urepo.findApplicantByEmail(username);  //need to update to get user for session.
 		LocalDate localdate = LocalDate.now();
 		
 		//get all 
@@ -103,9 +103,9 @@ public class JobServiceImplWeb implements JobServiceWeb{
 		}
 	}
 	
-	private Job applyJob(long id) {
+	private Job applyJob(long id, String username) {
 		Job job_details = jrepo.findById(id).get();
-		Applicant user_session= urepo.findApplicantByID((long)1);  //need to update to get user for session.
+		Applicant user_session= urepo.findApplicantByEmail(username);  //need to update to get user for session.
 		LocalDate localdate = LocalDate.now();
 		//get all 
 		List<Job> allJobs = showallJobs();

@@ -126,6 +126,7 @@ public class ReviewController {
 			  rdto.get(i).setReviewDescription(r.get(i).getReviewDescription());
 			  rdto.get(i).setReviewDate(r.get(i).getReviewDate().toString());
 			  rdto.get(i).setJobTitle(r.get(i).getJob().getJobTitle());
+			  rdto.get(i).setApplicantName(r.get(i).getApplicant().getFirstName().toString() + " " + r.get(i).getApplicant().getLastName().toString());
 		}
 		return rdto;
 		

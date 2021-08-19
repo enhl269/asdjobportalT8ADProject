@@ -5,6 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+
+import java.io.IOException;
+import java.security.Principal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +20,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
 
 import sg.edu.iss.asdadt8.domain.BookmarkedJobs;
 import sg.edu.iss.asdadt8.domain.Job;
@@ -67,32 +80,35 @@ public class WebUserJobController {
 		return map;
 	}
 	
-	@PostMapping("bookmarkjob/{id}")
-	public void SaveBookmark(@PathVariable("id") Long Id) {
-		jservice.saveBookMark(Id);
+	@GetMapping("bookmarkjob/{id}")
+	public void SaveBookmark(@PathVariable("id") Long jobId, Principal p) {
+		String username = p.getName();
+		jservice.saveBookMark(jobId,username);
 	}
 	
-	@PostMapping("applyjoburl/{id}")
-	public String ApplyJobUrl(@PathVariable("id") Long Id){
-		return jservice.applyJobUrl(Id);
+	@GetMapping("applyjoburl/{id}")
+	public String ApplyJobUrl(@PathVariable("id") Long jobId, Principal p){
+		String username = p.getName();
+		return jservice.applyJobUrl(jobId,username);
 	}
 	
-	@PostMapping("applyjobemail/{id}")
-	public String ApplyJobEmail(@PathVariable("id") Long Id){
-		return jservice.applyJobEmail(Id);
+	@GetMapping("applyjobemail/{id}")
+	public String ApplyJobEmail(@PathVariable("id") Long jobId, Principal p){
+		String username = p.getName();
+		return jservice.applyJobEmail(jobId,username);
 	}
 	
 	@GetMapping("bookmarkedjobs/list")
-    public List<WebUserJobDTO> ListBookmarkJobs(){
-		Long Id = (long) 1; //PENDING 
-		List<BookmarkedJobs> j =jservice.findBookmarkedJobsByApplicantId(Id);
+    public List<WebUserJobDTO> ListBookmarkJobs(Principal p){
+		String username = p.getName();
+		List<BookmarkedJobs> j =jservice.findBookmarkedJobsByApplicantEmail(username);
 		return generateBookmarkJobLists(j);
 	}
 	
 	@GetMapping("viewedjobs/list")
-    public List<WebUserJobDTO> ListViewedJobs(){
-		Long Id = (long) 1; //PENDING 
-		List<ViewedJobs> j =jservice.findViewedJobsByApplicantId(Id);
+    public List<WebUserJobDTO> ListViewedJobs(Principal p){
+		String username = p.getName();
+		List<ViewedJobs> j =jservice.findViewedJobsByApplicantEmail(username);
 		return generateViewJobLists(j);
 	}
 	

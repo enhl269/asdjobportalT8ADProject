@@ -13,5 +13,8 @@ public interface BookmarkJobRepositoryWeb extends JpaRepository<BookmarkedJobs,L
 	
 	@Query("SELECT b FROM BookmarkedJobs b where b.applicant.id=:applicant")
 	public List<BookmarkedJobs> findBookmarkByUserID(@Param("applicant") Long applicant);
+	
+	@Query("SELECT b FROM BookmarkedJobs b where b.applicant.email=:applicant")
+	public List<BookmarkedJobs> findBookmarkByUserEmail(@Param("applicant") String applicant);
 
 }
