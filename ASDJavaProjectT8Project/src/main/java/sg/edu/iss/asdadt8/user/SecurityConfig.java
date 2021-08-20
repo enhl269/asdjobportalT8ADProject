@@ -26,6 +26,9 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @EnableGlobalMethodSecurity(securedEnabled=true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 
+	  
+
+	 
 	@Autowired
 	private UserDetailsService userDetailsService;
 
@@ -61,10 +64,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
       //added by sz
        http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
         
-        //http.authorizeRequests().antMatchers("/api/user/**").permitAll();
-        http.authorizeRequests().antMatchers("/api/user/refreshtoken","/api/webuser/**","/api/job/**").authenticated(); 
-        //http.authorizeRequests().antMatchers("/api/user/applicant/**").authenticated();  
-        //http.authorizeRequests().antMatchers("/api/webuser/job/**").permitAll();
+       
+        http.authorizeRequests().antMatchers("/api/user/refreshtoken",
+        									 "/api/user/applicant/**",
+        									 "/api/webuser/**",
+        									 "/api/job/bookmark/**",
+        									 "/api/job/applyjoburl/**",
+        									 "/api/job/applyjobemail/**",
+        									 "/api/job/shareurl/**",
+        									 "/api/job/details/bookmark/list",
+        									 "/api/job/details/viewed/list").authenticated(); 
+
         //http.authorizeRequests().antMatchers("/api/webuser/job/category").permitAll();
         //http.authorizeRequests().antMatchers("/api/webadmin/**").authenticated(); 
         //http.authorizeRequests().antMatchers("/api/webuser/**").authenticated(); 
@@ -74,6 +84,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         http.addFilter(customAuthenticationFilter);
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
     }
-
 
 }
