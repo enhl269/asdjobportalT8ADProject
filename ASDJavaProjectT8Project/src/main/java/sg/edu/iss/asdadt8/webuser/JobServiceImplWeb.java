@@ -110,7 +110,7 @@ public class JobServiceImplWeb implements JobServiceWeb{
 		//get all 
 		List<Job> allJobs = showallJobs();
 		//get all applied jobs by applicant ID
-		List<ViewedJobs> allApplied = vrepo.findViewedJobsByUserID(id); //need to update to get user for session.
+		List<ViewedJobs> allApplied = vrepo.findViewedJobsByUserID(user_session.getId()); //need to update to get user for session.
 		boolean check = true;		
 		//check for duplicate in viewedjobs 
 		for (int i = 0; i < allApplied.size() ; i++){
