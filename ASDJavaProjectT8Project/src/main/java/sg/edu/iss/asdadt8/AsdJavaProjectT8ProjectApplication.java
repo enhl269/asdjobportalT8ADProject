@@ -8,9 +8,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import sg.edu.iss.asdadt8.client.Client;
+import sg.edu.iss.asdadt8.client.RequestTimer;
 import sg.edu.iss.asdadt8.domain.Admin;
 import sg.edu.iss.asdadt8.domain.Applicant;
 import sg.edu.iss.asdadt8.domain.Company;
@@ -25,6 +28,7 @@ import sg.edu.iss.asdadt8.user.UserServiceImp;
 
 @SpringBootApplication
 public class AsdJavaProjectT8ProjectApplication {
+
 
 
 	@Autowired
@@ -42,8 +46,13 @@ public class AsdJavaProjectT8ProjectApplication {
 	@Autowired
 	UserServiceImp userService;
 	
+	@Autowired
+	RequestTimer requestTimer;
+	
 	public static void main(String[] args) {
 		SpringApplication.run(AsdJavaProjectT8ProjectApplication.class, args);
+
+		
 	}
 	
     @Bean
@@ -161,7 +170,10 @@ public class AsdJavaProjectT8ProjectApplication {
 				rrepo.save(r5);
 				rrepo.save(r6);
 				rrepo.save(r7);
-				
+
+
+				//Client.sendGetRequest();
+				requestTimer.request();
 			};
 	}
 

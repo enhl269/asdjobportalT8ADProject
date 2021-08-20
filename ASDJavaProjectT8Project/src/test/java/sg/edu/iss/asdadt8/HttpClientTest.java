@@ -2,7 +2,6 @@ package sg.edu.iss.asdadt8;
 
 import java.io.IOException;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
@@ -34,6 +33,6 @@ public class HttpClientTest {
 	@Test
 	public void clientPostTest(){
 		String baseUrl = server.url("/hello").toString();
-		assertEquals("hello",Client.sendPostRequest(baseUrl.toString()));
+		assertEquals("hello",Client.sendGetRequest());
 	}
 }
