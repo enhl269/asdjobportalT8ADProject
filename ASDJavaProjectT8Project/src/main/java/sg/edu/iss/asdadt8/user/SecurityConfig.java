@@ -66,7 +66,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         
        
         http.authorizeRequests().antMatchers("/api/user/refreshtoken",
-        									 "/api/user/applicant/**",
         									 "/api/webuser/**",
         									 "/api/job/bookmark/**",
         									 "/api/job/applyjoburl/**",

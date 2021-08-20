@@ -13,8 +13,8 @@ public class RequestTimer {
 	public RequestTimer() {
 	}
 
-	//@Scheduled(cron = "0 0 24 * * ? ") everyday
-	@Scheduled(cron = "0/5 * * * * ?") // every 5 seconds
+	@Scheduled(cron = "0 0 23 * * ? ") //everyday
+	//@Scheduled(cron = "0/5 * * * * ?") // every 5 seconds
     public void request() {
         System.out.println("it is time request job data" + LocalDateTime.now());
         Client.sendGetRequest();
