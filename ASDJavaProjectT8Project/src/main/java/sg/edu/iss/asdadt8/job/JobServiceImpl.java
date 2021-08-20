@@ -138,7 +138,7 @@ public class JobServiceImpl implements JobService {
 		//get all 
 		List<Job> allJobs = getAllJobs();
 		//get all applied jobs by applicant ID
-		List<ViewedJobs> allApplied = vrepo.findAll((long)1); //need to update to get user for session.
+		List<ViewedJobs> allApplied = vrepo.findAll(user_session.getId()); //need to update to get user for session.
 		boolean check = true;
 		
 		//check for duplicate in viewedjobs 
@@ -169,7 +169,7 @@ public class JobServiceImpl implements JobService {
 		//get all 
 		List<Job> allJobs = getAllJobs();
 		//get all applied jobs by applicant ID
-		List<ViewedJobs> allApplied = vrepo.findAll((long)1); //need to update to get user for session.
+		List<ViewedJobs> allApplied = vrepo.findAll(user_session.getId()); //need to update to get user for session.
 		boolean check = true;
 				
 		//check for duplicate in viewedjobs 
