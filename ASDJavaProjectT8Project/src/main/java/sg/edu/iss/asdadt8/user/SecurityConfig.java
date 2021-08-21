@@ -65,7 +65,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
        http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
         
        
+       	http.authorizeRequests().antMatchers("/api/user/applicant").permitAll();
         http.authorizeRequests().antMatchers("/api/user/refreshtoken",
+        									 "/api/user/applicant/**",
         									 "/api/webuser/**",
         									 "/api/job/bookmark/**",
         									 "/api/job/applyjoburl/**",
@@ -74,7 +76,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         									 "/api/job/details/bookmark/list",
         									 "/api/job/details/viewed/list").authenticated(); 
 
-        //http.authorizeRequests().antMatchers("/api/webuser/job/category").permitAll();
+        
         //http.authorizeRequests().antMatchers("/api/webadmin/**").authenticated(); 
         //http.authorizeRequests().antMatchers("/api/webuser/**").authenticated(); 
         //http.authorizeRequests().antMatchers("/api/webadmin/**").hasAuthority(Role.ADMIN.toString());
