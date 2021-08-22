@@ -12,7 +12,7 @@ import keras
 from keras_bert import get_base_dict, get_model, compile_model, gen_batch_inputs,extract_embeddings
 from keras_bert import load_trained_model_from_checkpoint, get_custom_objects
 from keras_bert import get_pretrained, PretrainedList, get_checkpoint_paths, load_trained_model_from_checkpoint,POOL_NSP, POOL_MAX
-
+from careerjet_api import CareerjetAPIClient
 
 SEQ_LEN=512
 BATCH_SIZE = 8
@@ -26,6 +26,65 @@ model_path='./uncased_L-2_H-128_A-2'
 model_weight='./uncased_L-2_H-128_A-2/finetune_model_1.0000.h5'
 app = Flask(__name__)
 api = Api(app)
+
+
+
+#f — full time, p — part time, none — all work period.
+def country(location):
+    area={'Singapore':"en_SG",
+          'Australia':"en_AU",
+          'UAE':"en_AE",
+          'Bangladesh':"en_BD",
+          'Canada':"en_CA",
+          'Ireland':"en_IE",
+          'India':"en_IN",
+          'Kuwait':"en_KW",
+          'Malaysia':"en_MY",
+          'New Zealand':"en_NZ",
+          'Oman':"en_OM",
+          'Philippines':"en_PH",
+          'Pakistan':"en_PK",
+          'Qatar':"en_QA",
+          'UK':"en_GB",
+          'USA':"en_US",
+          'South Africa':"en_ZA",
+          'Saudi Arabia':"en_SA",
+          'Vietnam':"en_VN" 
+          }
+    c_country=area[location]
+    return c_country
+def careerjet_api(num,keywords,location):
+    
+    cj  =  CareerjetAPIClient(country(location));
+
+    result_json = cj.search({
+                            'location'    :  location,
+                            'contractperiod':'f',
+                            'keywords'    :  keywords,
+                            'pagesize'    :  num,
+                            'affid'       : '213e213hd12344552',
+                            'user_ip'     : '11.22.33.44',
+                            'url'         : 'http://www.example.com/jobsearch?q=python&l='+location,
+                            'user_agent'  : 'Mozilla/5.0 (X11; Linux x86_64; rv:31.0) Gecko/20100101 Firefox/31.0'
+                          });
+    
+    cj_offers = result_json['jobs']
+    cj_df = pd.DataFrame(cj_offers)
+    print('CareerJet data downloaded succesfully')
+    cj_df=cj_df.drop(['date','site','salary_min','salary_type','salary_currency_code','salary_currency_code','salary_max'], axis=1)
+    cj_df['Industry']=keywords
+    cj_df['Type of Employment']='Full-time'
+    re_col=['area','link','Job Title','Job Description','Company','Salary Range','Industry','Type of Employment']
+    cj_df.columns=re_col
+    
+    # print(cj_df.columns)
+    # cj_df.to_csv('./try_data.csv')
+    return cj_df
+
+
+
+
+
 
 def preprocess_data_inference(paths,texts_train):
     #preprocess data for inference
@@ -61,9 +120,30 @@ def get_model(paths):
     outputs = keras.layers.Dense(units=2, activation='softmax')(dense)
     model = keras.models.Model(inputs, outputs)
     return model
-paths = get_checkpoint_paths(model_path)
-model=get_model(paths)
-model.load_weights(model_weight)
+
+
+def inference(num,keywords,location):
+    df=careerjet_api(num,keywords,location)
+  
+    paths = get_checkpoint_paths(model_path)
+    X=[]
+    for i in range(df.shape[0]):
+        X.append('Job Title:'+df.loc[i,'Job Title']+',Job Description:'+df.loc[i,'Job Description'])    
+    texts_train=X
+   
+    x, token_dict=preprocess_data_inference(paths,texts_train)
+    model = get_model(paths)
+  
+    model.load_weights(model_weight)
+
+    model.summary()
+    #predict
+    #df['predict_label']=[ ]
+    ff =np.argmax(model.predict(x, verbose=True),axis=1)
+    #aa=model.predict(x)
+    print(ff)
+    df['label']=ff
+    return df
 
 
 class get_url(Resource):
@@ -72,18 +152,21 @@ class get_url(Resource):
         
         
         #get item name
-        nlp_contents=request.form.getlist('nlp_content')
-        print(len(nlp_contents),' cases received')
+        content=request.json
+        # print((content))
+        print(content)
+        num=content['num']
+        print(num)
+        keywords=content['keywords']
+        location=content['location']
         
         
-        x, token_dict=preprocess_data_inference(paths,nlp_contents)
-        res=np.argmax(model.predict(x, verbose=True),axis=1).tolist()
-        print(res)
+        
+        df=inference(num,keywords,location)
+        dic_df=df=df.values.tolist()
+        print(df)
         print('success response')
-        
-   
-        
-        return jsonify(res=res)
+        return jsonify(res=dic_df)
     
     
     
