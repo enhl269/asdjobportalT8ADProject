@@ -65,10 +65,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
        http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
         
        
-       	http.authorizeRequests().antMatchers("/api/user/applicant").permitAll();
+       	http.authorizeRequests().antMatchers("/api/user/applicant","/api/user/applicant/*").permitAll();
         http.authorizeRequests().antMatchers("/api/user/refreshtoken",
         									 "/api/user/applicant/**",
-        									 "/api/webuser/**",
+        									 //"/api/webuser/**",
         									 "/api/job/bookmark/**",
         									 "/api/job/applyjoburl/**",
         									 "/api/job/applyjobemail/**",

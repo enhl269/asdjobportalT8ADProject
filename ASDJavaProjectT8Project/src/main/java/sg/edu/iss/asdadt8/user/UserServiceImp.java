@@ -69,6 +69,7 @@ public class UserServiceImp implements UserService, UserDetailsService{
 	@Override
 	public void saveApplicant(ApplicantDTO dto) {
 		Applicant a = DTOToApplicant(dto);
+		a.setUserStatus("Approve");
 		//check the password
 		try{
 			a.setPassword(passwordEncoder.encode(dto.getPassword()));

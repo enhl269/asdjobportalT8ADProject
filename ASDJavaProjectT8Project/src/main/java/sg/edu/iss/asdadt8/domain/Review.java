@@ -68,7 +68,7 @@ public class Review {
 	}
 
 	public Review(float reviewstars, String reviewDescription, Company company,
-			LocalDate reviewDate,Job job,Applicant applicant) {
+			LocalDate reviewDate,Job job,Applicant applicant,String reviewStatus) {
 		super();
 		this.reviewstars = reviewstars;
 		this.reviewDescription = reviewDescription;
@@ -76,6 +76,7 @@ public class Review {
 		this.job=job;
 		this.applicant = applicant;
 		this.reviewDate=reviewDate;
+		this.reviewStatus = reviewStatus;
 	}
 	
 	public Review(float reviewstars, String reviewDescription, String reviewStatus, Company company,

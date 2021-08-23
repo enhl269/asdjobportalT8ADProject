@@ -1,5 +1,6 @@
 package sg.edu.iss.asdadt8.review;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 import sg.edu.iss.asdadt8.DTOs.CompaniesReviewDTO;
 import sg.edu.iss.asdadt8.DTOs.ReviewDTO;
+import sg.edu.iss.asdadt8.domain.Applicant;
 import sg.edu.iss.asdadt8.domain.Company;
 import sg.edu.iss.asdadt8.domain.Review;
 import sg.edu.iss.asdadt8.repositories.ApplicantRepository;
@@ -95,14 +97,16 @@ public class ReviewController {
     }	
 		
 	@PostMapping(path ="newreview")
-    public Review saveReviewDTO(@RequestBody ReviewDTO rdto) {
+    public Review saveReviewDTO(@RequestBody ReviewDTO rdto, Principal p) {
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate ld = LocalDate.parse(rdto.getReviewDate(),dtf);
+        String username = p.getName();
+        Applicant user = arepo.findApplicantByEmail(username).get(0);
 		
         Review review = new Review(rdto.getReviewstars(),rdto.getReviewDescription(),
     		  crepo.findByCompanyName(rdto.getCompanyName().toString()).get(0),ld,
     		 jrepo.findByJobName(rdto.getJobTitle().toString()).get(0),
-    		  arepo.findApplicantByID(rdto.getUserId()).get(0));
+    		  user, "Approved");
     return rservice.save(review);
     }
 	

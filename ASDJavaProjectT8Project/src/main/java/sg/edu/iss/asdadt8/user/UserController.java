@@ -147,7 +147,9 @@ public class UserController {
 				if(applicant.getId()==null) {
 					//then it should be a new user or they dont pass the userid
 					//if it is a new user
-					try {applicant.setId(userService.getApplicant(applicant.getUsername()).getId());}
+					try {
+						applicant.setId(userService.getApplicant(applicant.getUsername()).getId());
+						}
 					catch (NullPointerException e){}
 				    	if(applicant.getRoles()==null)
 				    		applicant.setRoles(Role.APPLICANT.toString());
