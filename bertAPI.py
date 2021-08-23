@@ -27,9 +27,6 @@ model_weight='./uncased_L-2_H-128_A-2/finetune_model_1.0000.h5'
 app = Flask(__name__)
 api = Api(app)
 
-
-
-#f — full time, p — part time, none — all work period.
 def country(location):
     area={'Singapore':"en_SG",
           'Australia':"en_AU",
@@ -60,6 +57,7 @@ def careerjet_api(num,keywords,location):
     result_json = cj.search({
                             'location'    :  location,
                             'contractperiod':'f',
+                                
                             'keywords'    :  keywords,
                             'pagesize'    :  num,
                             'affid'       : '213e213hd12344552',
@@ -71,20 +69,19 @@ def careerjet_api(num,keywords,location):
     cj_offers = result_json['jobs']
     cj_df = pd.DataFrame(cj_offers)
     print('CareerJet data downloaded succesfully')
-    cj_df=cj_df.drop(['date','site','salary_min','salary_type','salary_currency_code','salary_currency_code','salary_max'], axis=1)
+    print(cj_df.columns)
+    cj_df=cj_df.drop(['date','site'], axis=1)
     cj_df['Industry']=keywords
     cj_df['Type of Employment']='Full-time'
     re_col=['area','link','Job Title','Job Description','Company','Salary Range','Industry','Type of Employment']
+    print(cj_df.columns)
     cj_df.columns=re_col
     
-    # print(cj_df.columns)
+    print(cj_df.columns)
+    
+    print(cj_df.columns)
     # cj_df.to_csv('./try_data.csv')
     return cj_df
-
-
-
-
-
 
 def preprocess_data_inference(paths,texts_train):
     #preprocess data for inference
@@ -150,7 +147,7 @@ class get_url(Resource):
     # @app.route('/')
     def post(self):
         
-        
+        print('this part have number')
         #get item name
         content=request.json
         # print((content))
