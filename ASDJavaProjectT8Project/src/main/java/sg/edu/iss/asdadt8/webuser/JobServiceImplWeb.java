@@ -11,6 +11,14 @@ import sg.edu.iss.asdadt8.domain.BookmarkedJobs;
 import sg.edu.iss.asdadt8.domain.Job;
 import sg.edu.iss.asdadt8.domain.ViewedJobs;
 
+import java.util.Properties;
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 
 @Service
 public class JobServiceImplWeb implements JobServiceWeb{
@@ -73,6 +81,52 @@ public class JobServiceImplWeb implements JobServiceWeb{
 	
 	public String applyJobEmail(long jobid, String username) {
 		Job j = applyJob(jobid, username);
+		Applicant user_session = urepo.findApplicantByEmail(username);
+
+		if(j.getCompany().getHrEmail() != null) 
+				{ 
+					String gmail = "JL.T8.SA52@gmail.com"; //T8 ASD JOB PORTAL EMAIL
+					String gpassword = "Toon*1234"; //T8 ASD JOB PORTAL PW
+
+					String recipient1 = user_session.getEmail(); //USER EMAIL
+					String recipient2 = j.getCompany().getHrEmail(); // JOB'S COMPANY HR EMAIL
+
+						Properties prop = new Properties();
+						prop.put("mail.smtp.host", "smtp.gmail.com");
+						prop.put("mail.smtp.port", "587");
+						prop.put("mail.smtp.auth", "true");
+						prop.put("mail.smtp.starttls.enable", "true"); //TLS
+						
+						Session session = Session.getInstance(prop,
+								new javax.mail.Authenticator() {
+									protected PasswordAuthentication getPasswordAuthentication() {
+										return new PasswordAuthentication(gmail, gpassword);
+									}
+								});
+							
+						try {
+							Message message = new MimeMessage(session);
+							message.setFrom(new InternetAddress("testing@gmail.com"));
+							message.setRecipients(
+									Message.RecipientType.TO,
+									InternetAddress.parse("johnsonleow@gmail.com")   //user_session :recipient1, recipient2 
+							);
+							message.setSubject("Application of " + j.getJobTitle());
+							message.setText("Dear Hiring manager," 
+									+ "\n\n I came across a very exciting position on your job portal that I believe fits me perfectly. I am interested in applying for the position of " 
+									+ j.getJobTitle() + ". I would love to talk to you in more detail regarding this amazing opportunity at your company. It would give me great pleasure to hear back from you regarding my application. Thank you ! " 
+									+ "\n\n Regards,"
+									+ "\n ASD Job Portal On Behalf of " + user_session.getFirstName() + " " + user_session.getLastName());
+		
+							Transport.send(message);
+		
+							System.out.println("Done");
+		
+						} catch (MessagingException f) {
+							f.printStackTrace();
+						}	
+					}
+
 		//return string company HR email
 		return j.getCompany().getHrEmail();
 	}
