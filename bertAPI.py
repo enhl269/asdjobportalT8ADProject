@@ -27,42 +27,42 @@ model_weight='./uncased_L-2_H-128_A-2/finetune_model_1.0000.h5'
 app = Flask(__name__)
 api = Api(app)
 
-def country(location):
-    area={'Singapore':"en_SG",
-          'Australia':"en_AU",
-          'UAE':"en_AE",
-          'Bangladesh':"en_BD",
-          'Canada':"en_CA",
-          'Ireland':"en_IE",
-          'India':"en_IN",
-          'Kuwait':"en_KW",
-          'Malaysia':"en_MY",
-          'New Zealand':"en_NZ",
-          'Oman':"en_OM",
-          'Philippines':"en_PH",
-          'Pakistan':"en_PK",
-          'Qatar':"en_QA",
-          'UK':"en_GB",
-          'USA':"en_US",
-          'South Africa':"en_ZA",
-          'Saudi Arabia':"en_SA",
-          'Vietnam':"en_VN" 
-          }
-    c_country=area[location]
-    return c_country
-def careerjet_api(num,keywords,location):
+# def country(location):
+#     area={'Singapore':"en_SG",
+#           'Australia':"en_AU",
+#           'UAE':"en_AE",
+#           'Bangladesh':"en_BD",
+#           'Canada':"en_CA",
+#           'Ireland':"en_IE",
+#           'India':"en_IN",
+#           'Kuwait':"en_KW",
+#           'Malaysia':"en_MY",
+#           'New Zealand':"en_NZ",
+#           'Oman':"en_OM",
+#           'Philippines':"en_PH",
+#           'Pakistan':"en_PK",
+#           'Qatar':"en_QA",
+#           'UK':"en_GB",
+#           'USA':"en_US",
+#           'South Africa':"en_ZA",
+#           'Saudi Arabia':"en_SA",
+#           'Vietnam':"en_VN" 
+#           }
+#     c_country=area[location]
+#     return c_country
+def careerjet_api(num,keywords):
     
-    cj  =  CareerjetAPIClient(country(location));
+    cj  =  CareerjetAPIClient("en_SG");
 
     result_json = cj.search({
-                            'location'    :  location,
+                            'location'    :  'Singapore',
                             'contractperiod':'f',
                                 
                             'keywords'    :  keywords,
                             'pagesize'    :  num,
                             'affid'       : '213e213hd12344552',
                             'user_ip'     : '11.22.33.44',
-                            'url'         : 'http://www.example.com/jobsearch?q=python&l='+location,
+                            'url'         : 'http://www.example.com/jobsearch?q=python&l=Singapore',
                             'user_agent'  : 'Mozilla/5.0 (X11; Linux x86_64; rv:31.0) Gecko/20100101 Firefox/31.0'
                           });
     
@@ -70,10 +70,11 @@ def careerjet_api(num,keywords,location):
     cj_df = pd.DataFrame(cj_offers)
     print('CareerJet data downloaded succesfully')
     print(cj_df.columns)
-    cj_df=cj_df.drop(['date','site'], axis=1)
-    cj_df['Industry']=keywords
-    cj_df['Type of Employment']='Full-time'
-    re_col=['area','link','Job Title','Job Description','Company','Salary Range','Industry','Type of Employment']
+    cj_df=cj_df.drop(['date','site','salary','locations','company', 'salary_min', 'salary_type',
+       'salary_currency_code', 'salary_max',], axis=1)
+    cj_df['jobIndustry']=keywords
+  
+    re_col=['jobPositionURL','jobTitle','jobDescription','jobIndustry']
     print(cj_df.columns)
     cj_df.columns=re_col
     
@@ -119,13 +120,13 @@ def get_model(paths):
     return model
 
 
-def inference(num,keywords,location):
-    df=careerjet_api(num,keywords,location)
+def inference(num,keywords):
+    df=careerjet_api(num,keywords)
   
     paths = get_checkpoint_paths(model_path)
     X=[]
     for i in range(df.shape[0]):
-        X.append('Job Title:'+df.loc[i,'Job Title']+',Job Description:'+df.loc[i,'Job Description'])    
+        X.append('Job Title:'+df.loc[i,'jobTitle']+',Job Description:'+df.loc[i,'jobDescription'])    
     texts_train=X
    
     x, token_dict=preprocess_data_inference(paths,texts_train)
@@ -139,7 +140,8 @@ def inference(num,keywords,location):
     ff =np.argmax(model.predict(x, verbose=True),axis=1)
     #aa=model.predict(x)
     print(ff)
-    df['label']=ff
+    df['autismLevel']=ff
+    print(df)
     return df
 
 
@@ -155,16 +157,18 @@ class get_url(Resource):
         num=content['num']
         print(num)
         keywords=content['keywords']
-        location=content['location']
+     
         
         
         
-        df=inference(num,keywords,location)
-        dic_df=df=df.values.tolist()
-        print(df)
+        res=inference(num,keywords)
+        
+        # dic_df=df.values.tolist()
+        
         print('success response')
-        return jsonify(res=dic_df)
-    
+        return jsonify(res.to_dict('records'))
+
+
     
     
 api.add_resource(get_url, '/')
