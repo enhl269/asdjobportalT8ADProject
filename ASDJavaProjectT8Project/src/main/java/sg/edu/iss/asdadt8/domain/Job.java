@@ -1,38 +1,48 @@
 package sg.edu.iss.asdadt8.domain;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+
 @Entity
-public class Job {
+@IdClass(JobPrimaryKey.class)
+public class Job implements Serializable{
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+
+	@Column(name = "id", columnDefinition = "bigint(20) not null UNIQUE key auto_increment")
 	private long id;
 	
+	@Id	
 	private String jobTitle;
-	
+	@Id
 	private String jobIndustry;
-	
+
 	private String jobqualification;
 	
+	@Id
 	private String jobDescription;
 	
 	private int autismLevel;
 	
 	private float jobStarRating;
 	
+	@Column(columnDefinition="LONGTEXT")
 	private String jobPositionURL;
 	
 	@ElementCollection(targetClass=String.class)
@@ -147,6 +157,17 @@ public class Job {
 		this.bookmarkedJobs = bookmarkedJobs;
 		this.reviews = reviews;
 	}
+	
+	public Job(String jobTitle, String jobIndustry, String jobDescription, int autismLevel,
+			String jobPositionURL) {
+		super();
+		this.jobTitle = jobTitle;
+		this.jobIndustry = jobIndustry;
+		
+		this.jobDescription = jobDescription;
+		this.autismLevel = autismLevel;
+		this.jobPositionURL = jobPositionURL;
+	}
 
 	public long getId() {
 		return id;
@@ -250,5 +271,43 @@ public class Job {
 	public void setJobqualification(String jobqualification) {
 		this.jobqualification = jobqualification;
 	}
-	
+
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(autismLevel, 
+							jobDescription, 
+							jobIndustry, 
+							jobPositionURL, 
+							jobTitle, 
+							jobqualification);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Job other = (Job) obj;
+		return autismLevel == other.autismLevel
+				&& Objects.equals(jobDescription, other.jobDescription)
+				&& Objects.equals(jobIndustry, other.jobIndustry)
+				&& Objects.equals(jobPositionURL, other.jobPositionURL)
+				&& Objects.equals(jobTitle, other.jobTitle)
+				&& Objects.equals(jobqualification, other.jobqualification);
+	}
+
+
+	@Override
+	public String toString() {
+		return "Job [id=" + id + ", jobTitle=" + jobTitle + ", jobIndustry=" + jobIndustry + ", jobqualification="
+				+ jobqualification + ", jobDescription=" + jobDescription + ", autismLevel=" + autismLevel
+				+ ", jobPositionURL=" + jobPositionURL + "]";
+	}
+
 }
+
+

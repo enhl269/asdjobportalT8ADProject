@@ -1,6 +1,13 @@
 package sg.edu.iss.asdadt8.client;
 
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Random;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -8,22 +15,43 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+import sg.edu.iss.asdadt8.domain.Job;
+import sg.edu.iss.asdadt8.repositories.JobRepository;
+
 public class Client {
 	
-	private static final String url = "http://www.baidu.com";
+	private static final String url = "http://47.241.209.188:5000/";
 	
-	public static String sendGetRequest() {
+	@Autowired
+	JobRepository jrepo;
+
+	public List<Job> sendPostRequest(){  
+		String keyword = RandomEnum.random(KeyWord.class).toString();
+        System.out.println("request for " + keyword);
 		RestTemplate client = new RestTemplate();
-		HttpHeaders headers = new HttpHeaders();
-		HttpMethod method = HttpMethod.GET;
-		headers.setContentType(MediaType.APPLICATION_JSON);
-		HttpEntity<String> requestEntity 
-			= new HttpEntity<String>(headers);
-		ResponseEntity<String> response 
-			= client.exchange(url, method,requestEntity,String.class);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpMethod post = HttpMethod.POST;
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("num",10);
+        map.put("keywords",keyword);
+        HttpEntity<HashMap<String, Object>> requestEntity = new HttpEntity<>(map, headers);
+        ResponseEntity<List<JobDTO>> response = client.exchange(url, post, requestEntity, new ParameterizedTypeReference<List<JobDTO>>() {
+        });
+        List<JobDTO> new_job = new ArrayList<>();
+        new_job=response.getBody();
+        List<Job> joblist = new ArrayList<>();
+        for (JobDTO str: new_job) {
+        	String jd = str.getJobDescription().substring(0,100) + "...";
+        	str.setJobDescription(jd);
+        	joblist.add(new Job(str.getJobTitle(),
+        						str.getJobIndustry(), 
+        						str.getJobDescription(),
+        						str.getAutismLevel(),
+        						str.getJobPositionURL()));
+        }
 		System.out.println("create a request to "+url + ", " + response.getStatusCode());
-		return response.getBody();
+	    return joblist;
 	}
-
-
+	
 }
