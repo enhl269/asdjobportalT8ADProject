@@ -16,7 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import sg.edu.iss.asdadt8.domain.Applicant;
 import sg.edu.iss.asdadt8.domain.Review;
 
-@CrossOrigin(origins= "http://localhost:3000")
+//@CrossOrigin(origins= "http://localhost:3000")
+@CrossOrigin
 @RestController
 @RequestMapping("/api/webadmin")
 public class WebAdminController {

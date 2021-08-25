@@ -29,7 +29,8 @@ import sg.edu.iss.asdadt8.repositories.CompanyRepository;
 import sg.edu.iss.asdadt8.repositories.JobRepository;
 import sg.edu.iss.asdadt8.repositories.ReviewRepository;
 
-@CrossOrigin(origins= "http://localhost:3000")
+//@CrossOrigin(origins= "http://localhost:3000")
+@CrossOrigin
 @RestController
 @RequestMapping("/api/review")
 public class ReviewController {
