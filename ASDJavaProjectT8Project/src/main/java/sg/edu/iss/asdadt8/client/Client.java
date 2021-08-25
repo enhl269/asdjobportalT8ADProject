@@ -3,6 +3,7 @@ package sg.edu.iss.asdadt8.client;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
@@ -30,6 +31,7 @@ public class Client {
 	@Autowired
 	CompanyRepository crepo;
 
+	
 	Company companyDefault; // job;
 
 	public Client() {
@@ -38,7 +40,6 @@ public class Client {
 	}
 
 	public List<Job> sendPostRequest() {
-		companyDefault = crepo.getById(1l);
 		String keyword = RandomEnum.random(KeyWord.class).toString();
 		System.out.println("request for " + keyword);
 		RestTemplate client = new RestTemplate();
@@ -56,6 +57,7 @@ public class Client {
 		new_job = response.getBody();
 		List<Job> joblist = new ArrayList<>();
 		for (JobDTO str : new_job) {
+			companyDefault = crepo.findById(new Random().nextInt((int) (crepo.count()-2))+1);
 			String jd;
 			if(str.getJobDescription().length()>100)
 				jd = str.getJobDescription().substring(0, 100) + "...";
