@@ -68,6 +68,11 @@ public class WebAdminController {
 		return rservice.findApprovedReviews();
     }
 	
+	@GetMapping("list/reviews/reported")
+	public List<Review> findReportedReviews() {
+		return rservice.findReportedReviews();
+    }
+	
 	@GetMapping("list/reviews/{reviewid}/{reviewstatus}")
 	public ResponseEntity<HttpStatus> updateReview(@PathVariable("reviewid") Long id, @PathVariable("reviewstatus") String status) {
 	    

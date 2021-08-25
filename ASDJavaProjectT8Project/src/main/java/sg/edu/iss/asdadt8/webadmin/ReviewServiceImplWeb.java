@@ -30,6 +30,11 @@ public class ReviewServiceImplWeb implements ReviewServiceWeb{
 	}
 	
 	@Override
+	public List<Review> findReportedReviews(){
+		return rrepo.findReportedReviews();
+	}
+	
+	@Override
 	public void updateReviewStatus(Long id, String status){
 		rrepo.saveStatus(id, status);
 	}

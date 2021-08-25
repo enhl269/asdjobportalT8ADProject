@@ -36,12 +36,11 @@ public class RequestTimer {
 		super();
 		this.jrepo = jrepo;
 	}
-
+	
 	@Scheduled(cron = "* * */12 * * ?") // every 12hour
     public void request() {
         System.out.println("it is time request job data" + LocalDateTime.now());
-        save(client);
-        
+       save(client);   
 	}
 	
 	public void save(Client client) {

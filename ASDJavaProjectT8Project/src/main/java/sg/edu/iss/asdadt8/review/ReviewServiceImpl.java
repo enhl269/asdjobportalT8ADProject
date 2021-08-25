@@ -77,24 +77,16 @@ public class ReviewServiceImpl implements ReviewService {
 				companiesReview.add(new CompaniesReviewDTO(c.getName().toString(),averageRating,
 						r.getReviewDescription(),r.getApplicant().toString(),r.getReviewstars(),r.getJob().getJobTitle()));
 			}
-			
-			
 		}
-		
-		
 		return companiesReview;
-		
 	}
-	
-
 	
 	@Override
 	public void updateReviewStatus(Long id, String status){
 		if(status.equals("Blocked")) {
 			checkApplicant(id,"Blocked");
 		}
-		rrepo.saveStatus(id, status);
- 		
+		rrepo.saveStatus(id, status);	
 	}
 	
 	public void checkApplicant(Long id, String status) {
@@ -106,6 +98,10 @@ public class ReviewServiceImpl implements ReviewService {
 			arepo.updateUserStatus(applicant.getId(),"Blocked");
 		}
 		
+	}
+	@Override
+	public List<Review> findApprovedReviews(){
+		return rrepo.findApprovedReviews();
 	}
 	
 

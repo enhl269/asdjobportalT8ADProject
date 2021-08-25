@@ -17,6 +17,9 @@ public interface ReviewRepositoryWeb extends JpaRepository<Review,Long>{
 	@Query("SELECT r FROM Review r WHERE r.reviewStatus ='Approved'")
 	List<Review> findApprovedReviews();
 	
+	@Query("SELECT r FROM Review r WHERE r.reviewStatus ='Reported'")
+	List<Review> findReportedReviews();
+	
 	@Modifying
 	@Transactional
 	@Query("update Review r set r.reviewStatus =:status where r.id=:id")

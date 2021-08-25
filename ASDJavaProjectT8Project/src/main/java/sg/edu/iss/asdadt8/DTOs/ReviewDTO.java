@@ -12,7 +12,7 @@ public class ReviewDTO {
 	//private float reviewstarsjob;
 	private String reviewDescription;
 	//private String reviewStatus;
-	//private long reviewid;
+	private long reviewid;
 	
 	//@DateTimeFormat (pattern="yyyy-MM-dd")
 	private String reviewDate;
@@ -34,7 +34,7 @@ public class ReviewDTO {
 
 	public ReviewDTO(float reviewstars,String companyName,long userId,
 			String reviewDescription, 
-			String jobTitle, String reviewDate, String applicantName) {
+			String jobTitle, String reviewDate, String applicantName, long reviewid) {
 		super();
 		//this.id = id;
 		this.reviewstars = reviewstars;
@@ -42,7 +42,7 @@ public class ReviewDTO {
 		//this.reviewstarsjob = reviewstarsjob;
 		this.reviewDescription = reviewDescription;
 		//this.reviewStatus = reviewStatus;
-		//this.reviewid=reviewid;
+		this.reviewid=reviewid;
 		this.reviewDate = reviewDate;
 		//this.companyId = companyId;
 		this.companyName = companyName;
@@ -116,6 +116,11 @@ public class ReviewDTO {
 	  
 	  public void setApplicantName(String applicantName) { this.applicantName =
 	  applicantName; }
+	  
+	  public long getReviewId() { return reviewid; }
+		 
+		  
+	public void setReviewId(long reviewid) { this.reviewid = reviewid; }
 	
 	
 
