@@ -136,5 +136,19 @@ public class ReviewController {
 		return rdto;
 		
 	}
+	
+	@GetMapping("list/reviews/{reviewid}/{reviewstatus}")
+	public ResponseEntity<HttpStatus> updateReview(@PathVariable("reviewid") Long id, @PathVariable("reviewstatus") String status) {
+	    
+		try {
+			rservice.updateReviewStatus(id, status);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		  } catch (Exception e) { 
+			  //return ResponseEntity.notFound().build(); 
+			  return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+			  } 
+		//return new ResponseEntity<String>("PUT Response", HttpStatus.OK);
+		
+	}
 
 }

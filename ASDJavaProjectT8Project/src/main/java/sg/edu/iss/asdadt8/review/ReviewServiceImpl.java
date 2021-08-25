@@ -85,6 +85,18 @@ public class ReviewServiceImpl implements ReviewService {
 		
 	}
 	
+	@Override
+	public void updateReviewStatus(Long id, String status){
+		rrepo.saveStatus(id, status);
+		if(status=="Blocked") {
+			checkApplicant();
+		}
+	}
+	
+	private void checkApplicant() {
+		
+	}
+	
 
 
 	
