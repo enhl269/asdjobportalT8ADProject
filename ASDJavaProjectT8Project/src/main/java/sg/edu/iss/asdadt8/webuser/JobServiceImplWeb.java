@@ -115,6 +115,13 @@ public class JobServiceImplWeb implements JobServiceWeb{
 							message.setText("Dear Hiring manager," 
 									+ "\n\n I came across a very exciting position on your job portal that I believe fits me perfectly. I am interested in applying for the position of " 
 									+ j.getJobTitle() + ". I would love to talk to you in more detail regarding this amazing opportunity at your company. It would give me great pleasure to hear back from you regarding my application. Thank you ! " 
+									+ "\n\n =========Applicant Information========="
+									+ "\n Name: " + user_session.getFirstName() + " " + user_session.getLastName()
+									+ "\n Gender: " + user_session.getGender()
+									+ "\n Email: " + user_session.getEmail()
+									+ "\n Contact No: " + user_session.getContactNumber()
+									+ "\n Resume URL: " + user_session.getResumeURl()
+									+ "\n Introduction: " + user_session.getSelfIntroduction()
 									+ "\n\n Regards,"
 									+ "\n ASD Job Portal On Behalf of " + user_session.getFirstName() + " " + user_session.getLastName());
 		
