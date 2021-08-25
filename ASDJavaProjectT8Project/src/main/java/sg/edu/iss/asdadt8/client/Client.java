@@ -56,7 +56,11 @@ public class Client {
 		new_job = response.getBody();
 		List<Job> joblist = new ArrayList<>();
 		for (JobDTO str : new_job) {
-			String jd = str.getJobDescription().substring(0, 100) + "...";
+			String jd;
+			if(str.getJobDescription().length()>100)
+				jd = str.getJobDescription().substring(0, 100) + "...";
+			else 
+				jd = str.getJobDescription();
 			str.setJobDescription(jd);
 			joblist.add(new Job(str.getJobTitle(), str.getJobIndustry(), str.getJobDescription(), str.getAutismLevel(),
 					str.getJobPositionURL(), companyDefault));

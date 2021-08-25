@@ -12,7 +12,6 @@ public enum KeyWord {
 	nurse,
 	conditioner,
 	lawyer,
-	plumber,
 	secretary,
 	vet,
 	machinist,
