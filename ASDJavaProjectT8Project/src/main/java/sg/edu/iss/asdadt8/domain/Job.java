@@ -13,63 +13,60 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-
 @Entity
-@IdClass(JobPrimaryKey.class)
-public class Job implements Serializable{
-	
+public class Job {
 
-	@Column(name = "id", columnDefinition = "bigint(20) not null UNIQUE key auto_increment")
+	@Id 	
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	@Id	
 	private String jobTitle;
-	@Id
+	
 	private String jobIndustry;
 
 	private String jobqualification;
-	
-	@Id
+
 	private String jobDescription;
-	
+
 	private int autismLevel;
-	
+
 	private float jobStarRating;
-	
-	@Column(columnDefinition="LONGTEXT")
+
+	@Column(columnDefinition = "LONGTEXT")
 	private String jobPositionURL;
-	
-	@ElementCollection(targetClass=String.class)
+
+	@ElementCollection(targetClass = String.class)
 	private List<String> tags;
-	
-	@ManyToOne 
+
+	@ManyToOne
 	@JsonBackReference
 	private Company company;
-	
-	@OneToMany(mappedBy="job", cascade = CascadeType.ALL)
+
+	@OneToMany(mappedBy = "job", cascade = CascadeType.ALL)
 	@JsonManagedReference
 	private List<ViewedJobs> viewedJobs = new ArrayList<>();
-	
-	@OneToMany(mappedBy="job", cascade = CascadeType.ALL)
-	@JsonManagedReference
+
+
+	@OneToMany(mappedBy = "job", cascade = CascadeType.ALL)
+	@JsonManagedReference 
 	private List<BookmarkedJobs> bookmarkedJobs = new ArrayList<>();
-	
-	@OneToMany (mappedBy="job", cascade = CascadeType.ALL)
+
+	@OneToMany(mappedBy = "job", cascade = CascadeType.ALL)
 	@JsonManagedReference
-	private List<Review> reviews= new ArrayList<>();
+	private List<Review> reviews = new ArrayList<>();
 
 	public Job() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
-	
 
 	public Job(long id, String jobTitle, String jobIndustry, String jobqualification, String jobDescription,
 			int autismLevel, float jobStarRating, String jobPositionURL, List<String> tags, Company company,
@@ -86,14 +83,13 @@ public class Job implements Serializable{
 		this.tags = tags;
 		this.company = company;
 		this.viewedJobs = viewedJobs;
-		this.bookmarkedJobs = bookmarkedJobs;
+		this.bookmarkedJobs = bookmarkedJobs; 
 		this.reviews = reviews;
 	}
 
-
-
-	public Job(long id, String jobTitle,String jobIndustry, String jobDescription, int autismLevel, float jobStarRating, String jobPositionURL,
-			List<String> tags, Company company, List<ViewedJobs> viewedJobs, List<BookmarkedJobs> bookmarkedJobs,List<Review> reviews) {
+	public Job(long id, String jobTitle, String jobIndustry, String jobDescription, int autismLevel,
+			float jobStarRating, String jobPositionURL, List<String> tags, Company company, List<ViewedJobs> viewedJobs,
+			List<BookmarkedJobs> bookmarkedJobs, List<Review> reviews) {
 		super();
 		this.id = id;
 		this.jobTitle = jobTitle;
@@ -108,10 +104,9 @@ public class Job implements Serializable{
 		this.bookmarkedJobs = bookmarkedJobs;
 		this.reviews = reviews;
 	}
-	
 
-	public Job(String jobTitle,String jobIndustry,String jobqualification,String jobDescription, int autismLevel, float jobStarRating, String jobPositionURL, List<String> tags,
-			Company company, List<Review> reviews) {
+	public Job(String jobTitle, String jobIndustry, String jobqualification, String jobDescription, int autismLevel,
+			float jobStarRating, String jobPositionURL, List<String> tags, Company company, List<Review> reviews) {
 		super();
 		this.jobTitle = jobTitle;
 		this.jobIndustry = jobIndustry;
@@ -125,8 +120,9 @@ public class Job implements Serializable{
 		this.reviews = reviews;
 	}
 
-	public Job(String jobTitle,String jobIndustry,String jobDescription, int autismLevel, float jobStarRating, String jobPositionURL, List<String> tags,
-			Company company, List<ViewedJobs> viewedJobs, List<BookmarkedJobs> bookmarkedJobs,List<Review> reviews) {
+	public Job(String jobTitle, String jobIndustry, String jobDescription, int autismLevel, float jobStarRating,
+			String jobPositionURL, List<String> tags, Company company, List<ViewedJobs> viewedJobs,
+			List<BookmarkedJobs> bookmarkedJobs, List<Review> reviews) {
 		super();
 		this.jobTitle = jobTitle;
 		this.jobIndustry = jobIndustry;
@@ -140,9 +136,10 @@ public class Job implements Serializable{
 		this.bookmarkedJobs = bookmarkedJobs;
 		this.reviews = reviews;
 	}
-	
-	public Job(String jobTitle,String jobIndustry,String jobqualification, String jobDescription, int autismLevel, float jobStarRating, String jobPositionURL, List<String> tags,
-			Company company, List<ViewedJobs> viewedJobs, List<BookmarkedJobs> bookmarkedJobs,List<Review> reviews) {
+
+	public Job(String jobTitle, String jobIndustry, String jobqualification, String jobDescription, int autismLevel,
+			float jobStarRating, String jobPositionURL, List<String> tags, Company company, List<ViewedJobs> viewedJobs,
+			List<BookmarkedJobs> bookmarkedJobs, List<Review> reviews) {
 		super();
 		this.jobTitle = jobTitle;
 		this.jobIndustry = jobIndustry;
@@ -157,13 +154,13 @@ public class Job implements Serializable{
 		this.bookmarkedJobs = bookmarkedJobs;
 		this.reviews = reviews;
 	}
-	
-	public Job(String jobTitle, String jobIndustry, String jobDescription, int autismLevel,
-			String jobPositionURL) {
+
+	public Job(String jobTitle, String jobIndustry, String jobDescription, int autismLevel, String jobPositionURL,
+			Company company) {
 		super();
 		this.jobTitle = jobTitle;
 		this.jobIndustry = jobIndustry;
-		
+		this.company = company;
 		this.jobDescription = jobDescription;
 		this.autismLevel = autismLevel;
 		this.jobPositionURL = jobPositionURL;
@@ -176,7 +173,7 @@ public class Job implements Serializable{
 	public void setId(long id) {
 		this.id = id;
 	}
-	
+
 	public String getJobTitle() {
 		return jobTitle;
 	}
@@ -184,7 +181,7 @@ public class Job implements Serializable{
 	public void setJobTitle(String jobTitle) {
 		this.jobTitle = jobTitle;
 	}
-	
+
 	public String getJobIndustry() {
 		return jobIndustry;
 	}
@@ -249,13 +246,13 @@ public class Job implements Serializable{
 		this.viewedJobs = viewedJobs;
 	}
 
-	public List<BookmarkedJobs> getBookmarkedJobs() {
-		return bookmarkedJobs;
-	}
 
-	public void setBookmarkedJobs(List<BookmarkedJobs> bookmarkedJobs) {
-		this.bookmarkedJobs = bookmarkedJobs;
-	}
+	 public List<BookmarkedJobs> getBookmarkedJobs() { return bookmarkedJobs; }
+	 
+	 public void setBookmarkedJobs(List<BookmarkedJobs> bookmarkedJobs) {
+	 this.bookmarkedJobs = bookmarkedJobs; }
+
+
 	public List<Review> getReview() {
 		return reviews;
 	}
@@ -272,15 +269,9 @@ public class Job implements Serializable{
 		this.jobqualification = jobqualification;
 	}
 
-
 	@Override
 	public int hashCode() {
-		return Objects.hash(autismLevel, 
-							jobDescription, 
-							jobIndustry, 
-							jobPositionURL, 
-							jobTitle, 
-							jobqualification);
+		return Objects.hash(autismLevel, jobDescription, jobIndustry, jobPositionURL, jobTitle, jobqualification);
 	}
 
 	@Override
@@ -292,14 +283,11 @@ public class Job implements Serializable{
 		if (getClass() != obj.getClass())
 			return false;
 		Job other = (Job) obj;
-		return autismLevel == other.autismLevel
-				&& Objects.equals(jobDescription, other.jobDescription)
+		return autismLevel == other.autismLevel && Objects.equals(jobDescription, other.jobDescription)
 				&& Objects.equals(jobIndustry, other.jobIndustry)
-				&& Objects.equals(jobPositionURL, other.jobPositionURL)
-				&& Objects.equals(jobTitle, other.jobTitle)
+				&& Objects.equals(jobPositionURL, other.jobPositionURL) && Objects.equals(jobTitle, other.jobTitle)
 				&& Objects.equals(jobqualification, other.jobqualification);
 	}
-
 
 	@Override
 	public String toString() {
@@ -309,5 +297,3 @@ public class Job implements Serializable{
 	}
 
 }
-
-

@@ -6,6 +6,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import sg.edu.iss.asdadt8.domain.Job;
+import sg.edu.iss.asdadt8.repositories.CompanyRepository;
 import sg.edu.iss.asdadt8.repositories.JobRepository;
 
 import java.time.*;
@@ -20,6 +21,11 @@ public class RequestTimer {
 	@Autowired
 	JobRepository jrepo;
 	
+	@Autowired
+	JobCheckService js;
+	
+	@Autowired
+	Client client;
 
 	public RequestTimer() {
 	}
@@ -31,20 +37,16 @@ public class RequestTimer {
 		this.jrepo = jrepo;
 	}
 
-	//@Scheduled(cron = "0 0 23 * * ? ") //everyday
-	//@Scheduled(cron = "* */60 * * * ?") // every 1 hour
-	@Scheduled(cron = "* */30 * * * ?") // every 30 minutes
+	@Scheduled(cron = "* * */12 * * ?") // every 12hour
     public void request() {
         System.out.println("it is time request job data" + LocalDateTime.now());
-        Client client = new Client();
         save(client);
         
 	}
 	
 	public void save(Client client) {
-		try {
-		jrepo.saveAll(client.sendPostRequest());
-		} catch(Exception e){}
+		List<Job> jobs= js.checkAll(client.sendPostRequest());
+		jrepo.saveAll(jobs);
 	}
 
 }

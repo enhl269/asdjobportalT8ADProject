@@ -1,21 +1,24 @@
 package sg.edu.iss.asdadt8.client;
 
 public enum KeyWord {
-	cleaner,
 	operator,
 	worker,
-	food,
 	cashier,
-	engineer,
 	developer,
 	admin,
+	python,
 	officer,
 	maid,
 	nurse,
-	electrician,
 	conditioner,
 	lawyer,
 	plumber,
-	tutor,
-	planner
+	secretary,
+	vet,
+	machinist,
+	Security,
+	data,
+	IT,
+	art,
+	painter
 }
