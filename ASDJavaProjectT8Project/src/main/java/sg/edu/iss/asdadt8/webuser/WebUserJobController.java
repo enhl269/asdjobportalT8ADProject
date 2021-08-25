@@ -30,7 +30,7 @@ import sg.edu.iss.asdadt8.domain.BookmarkedJobs;
 import sg.edu.iss.asdadt8.domain.Job;
 import sg.edu.iss.asdadt8.domain.ViewedJobs;
 
-@CrossOrigin(origins= "http://localhost:3000")
+@CrossOrigin
 @RestController
 @RequestMapping("/api/webuser/")
 public class WebUserJobController {

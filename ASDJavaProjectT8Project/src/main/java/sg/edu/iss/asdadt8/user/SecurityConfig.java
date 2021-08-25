@@ -66,11 +66,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
         
 //       http.authorizeRequests().antMatchers("api/webuser/job/list/").anonymous();
        	http.authorizeRequests().antMatchers("/api/user/applicant",
-       										"/api/user/applicant/*","/api/webuser/**",
-       										"/api/review/job/company/**"
+       										"/api/user/applicant/*",
+//       										"/api/user/applicant/updateavatar/*",
+       										"/api/webuser/**",
+       										"/api/review/job/company/**",
+       										"/api/webuser/job/category/**"
        										).permitAll();
         http.authorizeRequests().antMatchers("/api/user/refreshtoken",
-        									 "/api/user/applicant/**",
+//        		"/api/user/applicant/updateavatar/**",							 
+//        		"/api/user/applicant/**",
 //        									 "/api/webuser/**", 
         									 "/api/job/bookmark/**",
         									 "/api/job/applyjoburl/**",
