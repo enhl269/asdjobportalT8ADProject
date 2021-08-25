@@ -3,8 +3,10 @@ package sg.edu.iss.asdadt8.repositories;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import sg.edu.iss.asdadt8.domain.Applicant;
 import sg.edu.iss.asdadt8.domain.Review;
@@ -34,5 +36,14 @@ public interface ApplicantRepository extends JpaRepository<Applicant,Long>{
 	List<Applicant> findAllApplicant();
 	
 	Applicant findByEmail(String email);
+	
+	@Modifying
+	@Transactional
+	@Query("update Applicant a set a.userStatus =:status where a.id=:id")
+	public void updateUserStatus(long id,String status);
+	
+	@Query("SELECT r FROM Applicant a JOIN a.reviews r WHERE r.reviewStatus =:status AND a.email=:username")
+	public List<Review> findReviewByApplicantEmail(String status, String username);
+	
 
 }

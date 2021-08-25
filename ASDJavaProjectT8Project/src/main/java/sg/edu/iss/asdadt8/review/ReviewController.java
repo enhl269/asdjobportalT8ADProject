@@ -29,7 +29,8 @@ import sg.edu.iss.asdadt8.repositories.CompanyRepository;
 import sg.edu.iss.asdadt8.repositories.JobRepository;
 import sg.edu.iss.asdadt8.repositories.ReviewRepository;
 
-@CrossOrigin(origins= "http://localhost:3000")
+//@CrossOrigin(origins= "http://localhost:3000")
+@CrossOrigin
 @RestController
 @RequestMapping("/api/review")
 public class ReviewController {
@@ -133,6 +134,35 @@ public class ReviewController {
 			  rdto.get(i).setApplicantName(r.get(i).getApplicant().getFirstName().toString() + " " + r.get(i).getApplicant().getLastName().toString());
 		}
 		return rdto;
+		
+	}
+	
+//	@GetMapping("list/reviews/{reviewid}/{reviewstatus}/{applicantId}")
+//	public ResponseEntity<HttpStatus> updateReview(@PathVariable("reviewid") Long id, @PathVariable("reviewstatus") String status
+//			,@PathVariable("applicantId") String username) {
+//	    
+//		try {
+//			rservice.updateReviewStatus(id, status,username);
+//			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//		  } catch (Exception e) { 
+//			  //return ResponseEntity.notFound().build(); 
+//			  return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+//			  } 
+//		//return new ResponseEntity<String>("PUT Response", HttpStatus.OK);
+//		
+//	}
+	
+	@GetMapping("list/reviews/{reviewid}/{reviewstatus}")
+	public ResponseEntity<HttpStatus> updateReview(@PathVariable("reviewid") Long id, @PathVariable("reviewstatus") String status) {
+	    
+		try {
+			rservice.updateReviewStatus(id, status);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		  } catch (Exception e) { 
+			  //return ResponseEntity.notFound().build(); 
+			  return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+			  } 
+		//return new ResponseEntity<String>("PUT Response", HttpStatus.OK);
 		
 	}
 
