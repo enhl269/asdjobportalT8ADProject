@@ -77,11 +77,8 @@ def careerjet_api(num,keywords):
     re_col=['jobPositionURL','jobTitle','jobDescription','jobIndustry']
     print(cj_df.columns)
     cj_df.columns=re_col
-    
     print(cj_df.columns)
-    
-    print(cj_df.columns)
-    # cj_df.to_csv('./try_data.csv')
+    cj_df.to_csv('./keywords_data.csv')
     return cj_df
 
 def preprocess_data_inference(paths,texts_train):
@@ -157,10 +154,6 @@ class get_url(Resource):
         num=content['num']
         print(num)
         keywords=content['keywords']
-     
-        
-        
-        
         res=inference(num,keywords)
         
         # dic_df=df.values.tolist()

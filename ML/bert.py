@@ -74,7 +74,7 @@ def preprocess_data_finetune(paths,texts_train,label_train):
 
 def main():
 # -----------------------------------------1.preprocess NLP data-----------------------------------------------
-    df=pd.read_csv('./dataset/data.csv')
+    df=pd.read_csv('./dataset/test_crawl.csv')
     # df=df.head(2)
     # print(df)
 
@@ -142,7 +142,7 @@ def fine_tune(train_x,train_y,paths,token_dict):
 
 
 def inference():
-    df=pd.read_csv('./try_data.csv',encoding="utf8")
+    df=pd.read_csv('./dataset/crawl_data.csv',encoding="utf8")
     # df=df.head(5)
     model_path = './uncased_L-2_H-128_A-2'
     paths = get_checkpoint_paths(model_path)
@@ -165,10 +165,10 @@ def inference():
     print(ff)
     df['label']=ff
     
-    df.to_csv('./dataset/test.csv')
+    df.to_csv('./dataset/test_crawl.csv')
 
     
 
 if __name__ == "__main__":
-     #main()
-     inference()
+     main()
+     # inference()
