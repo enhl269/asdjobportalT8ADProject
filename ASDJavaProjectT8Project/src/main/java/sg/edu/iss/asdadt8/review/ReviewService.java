@@ -19,6 +19,7 @@ public interface ReviewService {
 
 	List<CompaniesReviewDTO> showByCompanyReview(String companyName);
 
+
 	void updateReviewStatus(Long id, String status);
 
 }

@@ -26,6 +26,7 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Base64Utils;
 import org.springframework.util.ClassUtils;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -64,6 +65,7 @@ import java.net.http.HttpRequest;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/user")
 public class UserController {

@@ -137,6 +137,21 @@ public class ReviewController {
 		
 	}
 	
+//	@GetMapping("list/reviews/{reviewid}/{reviewstatus}/{applicantId}")
+//	public ResponseEntity<HttpStatus> updateReview(@PathVariable("reviewid") Long id, @PathVariable("reviewstatus") String status
+//			,@PathVariable("applicantId") String username) {
+//	    
+//		try {
+//			rservice.updateReviewStatus(id, status,username);
+//			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//		  } catch (Exception e) { 
+//			  //return ResponseEntity.notFound().build(); 
+//			  return new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED);
+//			  } 
+//		//return new ResponseEntity<String>("PUT Response", HttpStatus.OK);
+//		
+//	}
+	
 	@GetMapping("list/reviews/{reviewid}/{reviewstatus}")
 	public ResponseEntity<HttpStatus> updateReview(@PathVariable("reviewid") Long id, @PathVariable("reviewstatus") String status) {
 	    

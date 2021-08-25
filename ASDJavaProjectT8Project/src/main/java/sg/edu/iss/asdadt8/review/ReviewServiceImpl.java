@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import sg.edu.iss.asdadt8.DTOs.CompaniesReviewDTO;
+import sg.edu.iss.asdadt8.domain.Applicant;
 import sg.edu.iss.asdadt8.domain.Company;
 import sg.edu.iss.asdadt8.domain.Review;
 import sg.edu.iss.asdadt8.repositories.ApplicantRepository;
@@ -85,15 +86,25 @@ public class ReviewServiceImpl implements ReviewService {
 		
 	}
 	
+
+	
 	@Override
 	public void updateReviewStatus(Long id, String status){
-		rrepo.saveStatus(id, status);
-		if(status=="Blocked") {
-			checkApplicant();
+		if(status.equals("Blocked")) {
+			checkApplicant(id,"Blocked");
 		}
+		rrepo.saveStatus(id, status);
+ 		
 	}
 	
-	private void checkApplicant() {
+	public void checkApplicant(Long id, String status) {
+		
+		Applicant applicant = rrepo.findApplicantByReviewId(id, status);
+		
+		List<Review> reviews = arepo.findReviewByApplicantEmail(status, applicant.getEmail());
+		if(reviews.size()>=3) {
+			arepo.updateUserStatus(applicant.getId(),"Blocked");
+		}
 		
 	}
 	

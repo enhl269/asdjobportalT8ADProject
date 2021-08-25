@@ -9,6 +9,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
+import sg.edu.iss.asdadt8.domain.Applicant;
 import sg.edu.iss.asdadt8.domain.Review;
 
 
@@ -27,4 +28,9 @@ public interface ReviewRepository extends JpaRepository<Review,Long>{
 	@Transactional
 	@Query("update Review r set r.reviewStatus =:status where r.id=:id")
 	public void saveStatus(long id,String status);
+	
+	@Query("SELECT a FROM Review r JOIN r.applicant a WHERE r.reviewStatus =:status AND a.id=:id")
+	public Applicant findApplicantByReviewId(long id, String status);
+	
+	
 }
