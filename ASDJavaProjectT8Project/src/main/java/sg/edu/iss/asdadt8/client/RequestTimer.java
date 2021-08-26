@@ -116,7 +116,7 @@ public class RequestTimer {
 	}
 	
 	private Applicant randomApplicant() {
-		int random = (int)(new Random().nextInt(9-1)+1);
+		int random = (int)(new Random().nextInt((int)arepo.count()-2)+1);
 		Applicant a = arepo.findOneApplicantByID((long)random);
 		return a;
 	}
