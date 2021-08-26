@@ -14,6 +14,8 @@ import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import sg.edu.iss.asdadt8.DTOs.CompaniesReviewDTO;
 import sg.edu.iss.asdadt8.DTOs.ReviewDTO;
@@ -164,12 +166,14 @@ public class ReviewServiceImpl implements ReviewService {
 	}
 	
 	private Boolean ValidateReview(String desc){
-		String[] parts = desc.split(" "); 
 		
-		for(String part: parts) {
 			for(BadKeyWords a: BadKeyWords.values()) {
-				if (part.equals(a.toString())) {
-					return true;}}}
+				Pattern pattern = Pattern.compile(a.toString(), Pattern.CASE_INSENSITIVE);
+			    Matcher matcher = pattern.matcher(desc);
+			    boolean matchFound = matcher.find();
+				if (matchFound) {
+					return true;
+				}}
 		return false;
 	}
 	
@@ -187,10 +191,7 @@ public class ReviewServiceImpl implements ReviewService {
 			Session session = Session.getInstance(prop,
 					new javax.mail.Authenticator() {
 						protected PasswordAuthentication getPasswordAuthentication() {
-							return new PasswordAuthentication(gmail, gpassword);
-						}
-					});
-				
+							return new PasswordAuthentication(gmail, gpassword);}});				
 			try {
 				Message message = new MimeMessage(session);
 				message.setFrom(new InternetAddress("testing@gmail.com"));
@@ -203,12 +204,9 @@ public class ReviewServiceImpl implements ReviewService {
 						+ "\n A Review has been blocked. Please login to update the status if need be."
 						+ "\n\n Thank you,"
 						+ "\n This message is system generated. Please do not reply");
-
 				Transport.send(message);
 				System.out.println("Done");
-
 			} catch (MessagingException f) {
 				f.printStackTrace();
-			}	
-		}
+			}}
 }
