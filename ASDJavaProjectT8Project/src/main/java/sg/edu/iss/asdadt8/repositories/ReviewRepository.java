@@ -33,4 +33,8 @@ public interface ReviewRepository extends JpaRepository<Review,Long>{
 	public Applicant findApplicantByReviewId(long id, String status);
 	
 	
+	@Query("SELECT r FROM Review r WHERE r.reviewStatus ='Approved'")
+	List<Review> findApprovedReviews();
+	
+	
 }

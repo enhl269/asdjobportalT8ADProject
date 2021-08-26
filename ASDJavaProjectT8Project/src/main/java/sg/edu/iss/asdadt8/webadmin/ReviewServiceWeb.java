@@ -12,6 +12,8 @@ public interface ReviewServiceWeb {
 	
 	List<Review> findBlockedReviews();
 	
+	List<Review> findReportedReviews();
+	
 	void updateReviewStatus(Long id, String status);
 
 }

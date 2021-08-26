@@ -31,6 +31,8 @@ public interface JobRepository extends JpaRepository<Job,Long>{
 	
 	@Query("SELECT distinct j.jobIndustry,count(*) FROM Job j group by j.jobIndustry")
 	List<String>categorizeJobs();
-
+	
+	@Query("SELECT j.company FROM Job j WHERE j.id =:id")
+	public Company findCompanyByJobId(Long id);
 	
 }
