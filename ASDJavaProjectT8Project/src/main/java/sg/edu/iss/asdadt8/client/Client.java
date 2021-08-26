@@ -59,11 +59,17 @@ public class Client {
 		for (JobDTO str : new_job) {
 			companyDefault = crepo.findById(new Random().nextInt((int) (crepo.count()-2))+1);
 			String jd;
+			String jt;
 			if(str.getJobDescription().length()>100)
 				jd = str.getJobDescription().substring(0, 100) + "...";
 			else 
 				jd = str.getJobDescription();
 			str.setJobDescription(jd);
+			if(str.getJobTitle().length()>100)
+				jt = str.getJobTitle().substring(0,100)+"...";
+			else
+				jt = str.getJobTitle();
+			str.setJobTitle(jt);
 			joblist.add(new Job(str.getJobTitle(), str.getJobIndustry(), str.getJobDescription(), str.getAutismLevel(),
 					str.getJobPositionURL(), companyDefault));
 		}

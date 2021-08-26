@@ -75,7 +75,7 @@ public class WebAdminController {
 	
 	@GetMapping("list/reviews/{reviewid}/{reviewstatus}")
 	public ResponseEntity<HttpStatus> updateReview(@PathVariable("reviewid") Long id, @PathVariable("reviewstatus") String status) {
-	    
+	    //do here
 		try {
 			rservice.updateReviewStatus(id, status);
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
