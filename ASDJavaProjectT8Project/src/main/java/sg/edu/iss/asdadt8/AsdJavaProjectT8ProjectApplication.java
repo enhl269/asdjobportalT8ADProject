@@ -104,6 +104,9 @@ public class AsdJavaProjectT8ProjectApplication {
 				u4.setLastName("Leow");
 				u4.setContactNumber("96081872");
 				u4.setRoles(Role.APPLICANT.toString());
+				u4.setGender("Male");
+				u4.setResumeURl("");
+				u4.setSelfIntroduction("1 year experience as Kitchen helper with Value Hotel");
 				u4.setUserStatus("Approve");
 				
 				Applicant u5 = new Applicant();
