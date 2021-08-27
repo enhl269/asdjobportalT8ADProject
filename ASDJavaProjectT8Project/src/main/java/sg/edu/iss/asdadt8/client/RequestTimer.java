@@ -26,6 +26,7 @@ import javax.transaction.Transactional;
 @Configuration 
 @EnableScheduling
 public class RequestTimer {
+	private static final long INITIAL_DELAY_TIME = 60 * 60 * 1000L;
 	
 	@Autowired
 	JobRepository jrepo;
@@ -68,7 +69,6 @@ public class RequestTimer {
 		this.jrepo = jrepo;
 	}
 	
-	@Scheduled(cron = "* * */12 * * ?") // every 12hour
     public void request() {
         System.out.println("it is time request job data" + LocalDateTime.now());
        save(client);   

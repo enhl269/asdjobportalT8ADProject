@@ -47,7 +47,7 @@ public class Job {
 	@ElementCollection(targetClass = String.class)
 	private List<String> tags;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JsonBackReference
 	private Company company;
 

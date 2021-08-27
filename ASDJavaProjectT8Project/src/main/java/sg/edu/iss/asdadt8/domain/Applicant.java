@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -36,7 +37,7 @@ public class Applicant extends User {
 	@JsonManagedReference
 	private List<ViewedJobs> viewedJobs = new ArrayList<>();
 	
-	@ManyToMany(mappedBy="applicants", cascade = CascadeType.ALL)
+	@ManyToMany(mappedBy="applicants", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JsonManagedReference
 	private List<SocialGroup> socialGroups = new ArrayList<>();
 	

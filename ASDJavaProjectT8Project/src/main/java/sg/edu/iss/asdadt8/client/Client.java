@@ -51,13 +51,13 @@ public class Client {
 		map.put("keywords", keyword);
 		HttpEntity<HashMap<String, Object>> requestEntity = new HttpEntity<>(map, headers);
 		ResponseEntity<List<JobDTO>> response = client.exchange(url, post, requestEntity,
-				new ParameterizedTypeReference<List<JobDTO>>() {
-				});
+				new ParameterizedTypeReference<List<JobDTO>>() {}
+		);
 		List<JobDTO> new_job = new ArrayList<>();
 		new_job = response.getBody();
 		List<Job> joblist = new ArrayList<>();
 		for (JobDTO str : new_job) {
-			companyDefault = crepo.findById(new Random().nextInt((int) (crepo.count()-2))+1);
+			companyDefault = crepo.findById(new Random().nextInt((int) (crepo.count()-1))+1);
 			String jd;
 			String jt;
 			if(str.getJobDescription().length()>100)
