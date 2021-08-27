@@ -36,6 +36,9 @@ public interface ApplicantWebRepository extends JpaRepository<Applicant,Long>{
 	public void updateUserStatus(long id,String status);
 	
 	Applicant findByEmail(String email);
+
+	@Query("SELECT a FROM Applicant a WHERE a.userStatus = 'Reported'")
+	public List<Applicant> findApplicantByReportStatus();
 	
 	
 

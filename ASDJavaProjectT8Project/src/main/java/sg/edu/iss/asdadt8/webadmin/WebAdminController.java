@@ -43,6 +43,11 @@ public class WebAdminController {
 		return uservice.findAllApplicantByBlockStatus();
 	}
 	
+	@GetMapping("list/applicant/reported")
+	public List<Applicant> allSuspiciousApplicant(){
+		return uservice.findAllApplicantByReportedStatus();
+	}
+	
 	@GetMapping("/list/applicant/{id}/{status}")
 	public ResponseEntity<HttpStatus> updateApplicantStatus(@PathVariable("id") Long id, @PathVariable("status") String status){
 		try {

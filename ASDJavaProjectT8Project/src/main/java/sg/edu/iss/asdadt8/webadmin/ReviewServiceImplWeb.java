@@ -61,7 +61,7 @@ public class ReviewServiceImplWeb implements ReviewServiceWeb{
 		
 		List<Review> reviews = arepo.findReviewByApplicantEmail(status, applicant.getEmail());
 		if(reviews.size()>=3) {
-			arepo.updateUserStatus(applicant.getId(),"Blocked");
+			arepo.updateUserStatus(applicant.getId(),"Reported");
 			notifyApplicantBlockEmail(applicant.getEmail());
 		}
 		

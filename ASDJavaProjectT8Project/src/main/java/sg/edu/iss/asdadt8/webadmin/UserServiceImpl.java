@@ -29,6 +29,11 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	@Override
+	public List<Applicant> findAllApplicantByReportedStatus(){
+		return arepo.findApplicantByReportStatus();
+	}
+	
+	@Override
 	public void updateApplicantStatus(Long id, String status){
 		Applicant applicant = arepo.findApplicantByID(id);
 		applicant.setUserStatus(status);

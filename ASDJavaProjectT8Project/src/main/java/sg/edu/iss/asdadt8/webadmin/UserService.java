@@ -14,4 +14,6 @@ public interface UserService {
 
 	void updateApplicantStatus(Long id, String status);
 
+	List<Applicant> findAllApplicantByReportedStatus();
+
 }
