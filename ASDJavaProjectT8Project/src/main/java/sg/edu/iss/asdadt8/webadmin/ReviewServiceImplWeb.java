@@ -48,10 +48,11 @@ public class ReviewServiceImplWeb implements ReviewServiceWeb{
 	
 	@Override
 	public void updateReviewStatus(Long id, String status){
+		rrepo.saveStatus(id, status);
 		if(status.equals("Blocked")) {
 			checkApplicant(id,"Blocked");
 		}
-		rrepo.saveStatus(id, status);	
+		
 	}
 	
 	
@@ -59,11 +60,16 @@ public class ReviewServiceImplWeb implements ReviewServiceWeb{
 		
 		Applicant applicant = rrepo.findApplicantByReviewId(id, status);
 		
+		try {
 		List<Review> reviews = arepo.findReviewByApplicantEmail(status, applicant.getEmail());
 		if(reviews.size()>=3) {
 			arepo.updateUserStatus(applicant.getId(),"Reported");
 			notifyApplicantBlockEmail(applicant.getEmail());
 		}
+		}catch(Exception e) {
+			
+		}
+
 		
 	}
 
@@ -102,7 +108,7 @@ public class ReviewServiceImplWeb implements ReviewServiceWeb{
 							message.setSubject("Notification of Member Being Blocked");
 							message.setText("Dear Admin," 
 									+ "\n Name: " + user_session.getFirstName() + " " + user_session.getLastName()
-									+ "\n Has being blocked due to more than 4 blocked reviews being reported."
+									+ "\n Has being placed in suspicious list due to more than 4 blocked reviews being reported."
 									+ "\n For your action to review member status."
 									+ "\n Member Contact No: " + user_session.getContactNumber()
 									+ "\n Member Email Address: " + user_session.getEmail()
