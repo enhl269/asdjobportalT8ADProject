@@ -202,19 +202,19 @@ public class JobServiceImpl implements JobService {
 	}
 	
 	public List<BookmarkedJobsDTO> findBookmarkByUserID(long applicant_id){
-		List<BookmarkedJobs> bookmarkedjobs_list = jobAdminRepo.findBookmarkByUserID(applicant_id);
-		
-		//BookmarkedJobsDTO bookmarkedjobs_temp = new BookmarkedJobsDTO();
-		List<BookmarkedJobsDTO> bookmarkedjobs_transfer = new ArrayList<>();
-		
-		for (BookmarkedJobs a: bookmarkedjobs_list) {
-			//long id, String jobtitle, String companyname, LocalDate bookmarkDate
-			bookmarkedjobs_transfer.add(new BookmarkedJobsDTO(a.getId(), a.getJob().getJobTitle(), 
-					a.getJob().getCompany().getName(), a.getBookmarkDate().toString()));
-		}
-			
-		return bookmarkedjobs_transfer;
-	}
+	    List<BookmarkedJobs> bookmarkedjobs_list = jobAdminRepo.findBookmarkByUserID(applicant_id);
+	    
+	    //BookmarkedJobsDTO bookmarkedjobs_temp = new BookmarkedJobsDTO();
+	    List<BookmarkedJobsDTO> bookmarkedjobs_transfer = new ArrayList<>();
+	    
+	    for (BookmarkedJobs a: bookmarkedjobs_list) {
+	      //long id, String jobtitle, String companyname, LocalDate bookmarkDate
+	      bookmarkedjobs_transfer.add(new BookmarkedJobsDTO(a.getId(), a.getJob().getJobTitle(), 
+	          a.getJob().getCompany().getName(), a.getBookmarkDate().toString(),a.getJob().getId()));
+	    }
+	      
+	    return bookmarkedjobs_transfer;
+	  }
 	
 	public List<ViewedJobsDTO> findViewedJobsByUserID(long applicant_id){
 		List<ViewedJobs> viewedjobs_list = jobAdminRepo.findViewedJobsByUserID(applicant_id);
